@@ -24,11 +24,6 @@
 # WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
 # OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-# Changes from Qualcomm Innovation Center are provided under the following license:
-#
-# Copyright (c) 2022 Qualcomm Innovation Center, Inc. All rights reserved.
-# SPDX-License-Identifier: BSD-3-Clause-Clear
 
 attribute vendor_hal_hbtp;
 attribute vendor_hal_hbtp_client;
@@ -89,6 +84,10 @@ attribute vendor_hal_perf_server;
 attribute vendor_hal_qesdhal;
 attribute vendor_hal_qesdhal_client;
 attribute vendor_hal_qesdhal_server;
+
+attribute vendor_agmservice;
+attribute vendor_agmservice_client;
+attribute vendor_agmservice_server;
 
 attribute vendor_hal_limits;
 attribute vendor_hal_limits_client;
