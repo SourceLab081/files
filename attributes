@@ -90,15 +90,6 @@ attribute vendor_hal_qesdhal;
 attribute vendor_hal_qesdhal_client;
 attribute vendor_hal_qesdhal_server;
 
-
-attribute vendor_hal_wigig_npt;
-attribute vendor_hal_wigig_npt_client;
-attribute vendor_hal_wigig_npt_server;
-
-attribute vendor_hal_fstman;
-attribute vendor_hal_fstman_client;
-attribute vendor_hal_fstman_server;
-
 attribute vendor_hal_limits;
 attribute vendor_hal_limits_client;
 attribute vendor_hal_limits_server;
