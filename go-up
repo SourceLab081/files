@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# this script originnaly got from https://github.com/GustavoMends/go-up/blob/master/go-up 
+MINPARAMS=1
+GOSERVER="https://store1.gofile.io"
+
+# Colors
+BLD=$(tput bold)
+RST=$(tput sgr0)
+RED=$RST$(tput setaf 1)
+GRN=$RST$(tput setaf 2)
+BLD_GRN=$RST$BLD$(tput setaf 2)
+
+for FILE in "$@"; do
+
+  if [ ! -f "$FILE" ]; then
+    echo "${RED} \"$FILE\" not found!"
+    continue
+  fi
+
+  FILENAME="${FILE##*/}"
+
+  echo "${BLD_GRN}Uploading $FILENAME ... "
+  RESPONSE=$(curl -# -F "name=$FILENAME" -F "file=@$FILE" $GOSERVER/contents/uploadfile)
+
+  UPLOAD_STATUS=$(echo "$RESPONSE" | grep -Po '(?<="status":")[^"]*')
+
+  if [ "$UPLOAD_STATUS" = 'ok' ]; then
+    GOLINK=$(echo $RESPONSE | grep -Po '(?<="downloadPage":")[^"]*')
+    GOMD5=$(echo $RESPONSE | grep -Po '(?<="md5":")[^"]*')
+    echo "${BLD_GRN}Download: ${GRN}$GOLINK"
+    echo "${BLD_GRN}MD5: ${GRN}$GOMD5"
+  else
+    echo "${RED}Upload failed!"
+  fi
+  echo ""
+done
+
+echo "" # Move cursor down when script finishes
