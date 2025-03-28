@@ -14,4 +14,5 @@ export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast or lunch" 
 lunch komodo_fog-ap4a-userdebug
 echo "Build the code" 
+make installclean
 mka komodo -j14
