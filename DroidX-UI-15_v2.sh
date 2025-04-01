@@ -6,7 +6,6 @@ repo init --depth=1 -u https://github.com/DroidX-UI/manifest.git -b 15_v2 --git-
 rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b 15-DroidX-UI .repo/local_manifests 
 echo "repo sync" 
 /opt/crave/resync.sh 
-rm -rf  system/qcom/softap/sdk
 echo "envsetup.sh" 
 source build/envsetup.sh 
 #export SELINUX_IGNORE_NEVERALLOWS=true
