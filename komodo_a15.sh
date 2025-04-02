@@ -9,8 +9,8 @@ echo "repo sync"
 rm -rf hardware/xiaomi/aidl/sensors
 echo "envsetup.sh" 
 source build/envsetup.sh 
-export SELINUX_IGNORE_NEVERALLOWS=true
-export ALLOW_MISSING_DEPENDENCIES=true
+#export SELINUX_IGNORE_NEVERALLOWS=true
+#export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast or lunch" 
 lunch komodo_fog-ap4a-userdebug
 echo "Build the code" 
