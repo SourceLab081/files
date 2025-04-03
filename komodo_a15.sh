@@ -7,7 +7,7 @@ rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local
 echo "repo sync" 
 /opt/crave/resync.sh 
 . fix_chromium.sh
-rm -rf hardware/xiaomi/aidl/sensors
+#rm -rf hardware/xiaomi/aidl/sensors
 echo "envsetup.sh" 
 source build/envsetup.sh 
 #export SELINUX_IGNORE_NEVERALLOWS=true
