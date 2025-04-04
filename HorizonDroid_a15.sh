@@ -7,7 +7,7 @@ rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local
 echo "repo sync" 
 /opt/crave/resync.sh 
 echo "add sign key"
-export subject='/C=ID/ST=DKI Jakarta/L=Jakarta/O=Android/OU=Android/CN=rom/emailAddress=craveio0explore@gmail.com'
+export subject='/C=ID/ST="DKI Jakarta"/L=Jakarta/O=Android/OU=Android/CN=rom/emailAddress=craveio0explore@gmail.com'
 for x in releasekey platform shared media networkstack verity otakey testkey sdk_sandbox bluetooth nfc; do \
     yes "" | ./development/tools/make_key vendor/horizon/signing/keys/$x "$subject"; \
 done
