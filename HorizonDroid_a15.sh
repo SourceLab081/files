@@ -16,4 +16,5 @@ source build/envsetup.sh
 echo "breakfast or lunch" 
 lunch horizon_fog-bp1a-userdebug
 echo "Build the code" 
+make installclean
 m horizon
