@@ -6,14 +6,18 @@ repo init --depth 1 -u https://github.com/Komodo-OS/manifest -b 15 --git-lfs
 rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b 15-Komodo .repo/local_manifests 
 echo "repo sync" 
 /opt/crave/resync.sh 
-. fix_chromium.sh
-#rm -rf hardware/xiaomi/aidl/sensors
+# signing key
+mkdir -p vendor/extra
+cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+cd ../..
+# not using new hardware/xiaomi/aidl/sensors 
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.3/sens.zip
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.3/sensors.sh
+. sensors.sh
 echo "envsetup.sh" 
 source build/envsetup.sh 
-#export SELINUX_IGNORE_NEVERALLOWS=true
-#export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast or lunch" 
 lunch komodo_fog-ap4a-userdebug
 echo "Build the code" 
 #make installclean
-mka komodo -j14
+mka komodo 
