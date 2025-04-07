@@ -11,5 +11,5 @@ source build/envsetup.sh
 echo "breakfast or lunch" 
 lunch komodo_fog-ap4a-userdebug
 echo "Build the code" 
-#make installclean
+make installclean
 mka komodo 
