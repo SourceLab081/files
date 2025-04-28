@@ -2,7 +2,7 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
-echo 'repo init --depth 1 -u https://github.com/CipherOS/android_manifest.git -b fifteen --git-lfs
+repo init --depth 1 -u https://github.com/CipherOS/android_manifest.git -b fifteen --git-lfs
 rm -rf .repo/local_manifests && git clone  https://gitlab.com/sourceslab062/local_manifests --depth 1 -b 15-CipherOS .repo/local_manifests 
 echo "repo sync" 
 /opt/crave/resync.sh 
