@@ -29,4 +29,4 @@ breakfast fog
 echo "Start the build" 
 mka target-files-package otatools
 #croot
-#brunch fog
+brunch fog
