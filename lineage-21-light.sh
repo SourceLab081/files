@@ -19,9 +19,11 @@ export BUILD_HOSTNAME=foss
     #yes "" | ~/.android-certs/make_key ~/.android-certs/$apex "$subject"; \
  #   openssl pkcs8 -in ~/.android-certs/$apex.pk8 -inform DER -nocrypt -out ~/.android-certs/$apex.pem; \
 #done
+set -x
+bash lineage_build_unified/buildbot_unified.sh treble 64VN 64VS 64GN
+set +x
 echo "envsetup.sh" 
 source build/envsetup.sh 
-#bash lineage_build_unified/buildbot_unified.sh treble 64VN 64VS 64GN
 #export SELINUX_IGNORE_NEVERALLOWS=true
 #export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast or lunch" 
