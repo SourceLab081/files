@@ -1,27 +1,27 @@
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
-repo init --depth 1 -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
-rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b lineage-21-light .repo/local_manifests 
-echo "repo sync" 
-/opt/crave/resync.sh 
-#signing keys
-export subject='/C=ID/ST="DKI Jakarta"/L=Jakarta/O=Android/OU=Android/CN=Android/emailAddress=craveio0explore@gmail.com'
-mkdir ~/.android-certs
-for cert in bluetooth cyngn-app media networkstack nfc platform releasekey sdk_sandbox shared testcert testkey verity; do \
-    yes "" | ./development/tools/make_key  ~/.android-certs/$cert "$subject"; \
-done
-#signing apex keys
-cp ./development/tools/make_key ~/.android-certs/
-sed -i 's|2048|4096|g' ~/.android-certs/make_key
-for apex in com.android.adbd com.android.adservices com.android.adservices.api com.android.appsearch com.android.appsearch.apk com.android.art com.android.bluetooth com.android.btservices com.android.cellbroadcast com.android.compos com.android.configinfrastructure com.android.connectivity.resources com.android.conscrypt com.android.devicelock com.android.extservices com.android.graphics.pdf com.android.hardware.authsecret com.android.hardware.biometrics.face.virtual com.android.hardware.biometrics.fingerprint.virtual com.android.hardware.boot com.android.hardware.cas com.android.hardware.neuralnetworks com.android.hardware.rebootescrow com.android.hardware.wifi com.android.healthfitness com.android.hotspot2.osulogin com.android.i18n com.android.ipsec com.android.media com.android.media.swcodec com.android.mediaprovider com.android.nearby.halfsheet com.android.networkstack.tethering com.android.neuralnetworks com.android.nfcservices com.android.ondevicepersonalization com.android.os.statsd com.android.permission com.android.profiling com.android.resolv com.android.rkpd com.android.runtime com.android.safetycenter.resources com.android.scheduling com.android.sdkext com.android.support.apexer com.android.telephony com.android.telephonymodules com.android.tethering com.android.tzdata com.android.uwb com.android.uwb.resources com.android.virt com.android.vndk.current com.android.vndk.current.on_vendor com.android.wifi com.android.wifi.dialog com.android.wifi.resources com.google.pixel.camera.hal com.google.pixel.vibrator.hal com.qorvo.uwb; do \
-    export subject='/C=ID/ST="DKI Jakarta"/L=Jakarta/O=Android/OU=Android/CN='$apex'/emailAddress=android@android.com'; \
-    yes "" | ~/.android-certs/make_key ~/.android-certs/$apex "$subject"; \
-    openssl pkcs8 -in ~/.android-certs/$apex.pk8 -inform DER -nocrypt -out ~/.android-certs/$apex.pem; \
-done
+#repo init --depth 1 -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
+#rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b lineage-21-light .repo/local_manifests 
+#echo "repo sync" 
+#/opt/crave/resync.sh 
+##signing keys
+#export subject='/C=ID/ST="DKI Jakarta"/L=Jakarta/O=Android/OU=Android/CN=Android/emailAddress=craveio0explore@gmail.com'
+#mkdir ~/.android-certs
+#for cert in bluetooth cyngn-app media networkstack nfc platform releasekey sdk_sandbox shared testcert testkey verity; do \
+#    yes "" | ./development/tools/make_key  ~/.android-certs/$cert "$subject"; \
+#done
+##signing apex keys
+#cp ./development/tools/make_key ~/.android-certs/
+#sed -i 's|2048|4096|g' ~/.android-certs/make_key
+#for apex in com.android.adbd com.android.adservices com.android.adservices.api com.android.appsearch com.android.appsearch.apk com.android.art com.android.bluetooth com.android.btservices com.android.cellbroadcast com.android.compos com.android.configinfrastructure com.android.connectivity.resources com.android.conscrypt com.android.devicelock com.android.extservices com.android.graphics.pdf com.android.hardware.authsecret com.android.hardware.biometrics.face.virtual com.android.hardware.biometrics.fingerprint.virtual com.android.hardware.boot com.android.hardware.cas com.android.hardware.neuralnetworks com.android.hardware.rebootescrow com.android.hardware.wifi com.android.healthfitness com.android.hotspot2.osulogin com.android.i18n com.android.ipsec com.android.media com.android.media.swcodec com.android.mediaprovider com.android.nearby.halfsheet com.android.networkstack.tethering com.android.neuralnetworks com.android.nfcservices com.android.ondevicepersonalization com.android.os.statsd com.android.permission com.android.profiling com.android.resolv com.android.rkpd com.android.runtime com.android.safetycenter.resources com.android.scheduling com.android.sdkext com.android.support.apexer com.android.telephony com.android.telephonymodules com.android.tethering com.android.tzdata com.android.uwb com.android.uwb.resources com.android.virt com.android.vndk.current com.android.vndk.current.on_vendor com.android.wifi com.android.wifi.dialog com.android.wifi.resources com.google.pixel.camera.hal com.google.pixel.vibrator.hal com.qorvo.uwb; do \
+#    export subject='/C=ID/ST="DKI Jakarta"/L=Jakarta/O=Android/OU=Android/CN='$apex'/emailAddress=android@android.com'; \
+    #yes "" | ~/.android-certs/make_key ~/.android-certs/$apex "$subject"; \
+ #   openssl pkcs8 -in ~/.android-certs/$apex.pk8 -inform DER -nocrypt -out ~/.android-certs/$apex.pem; \
+#done
 echo "envsetup.sh" 
 source build/envsetup.sh 
-bash lineage_build_unified/buildbot_unified.sh treble 64VN 64VS 64GN
+#bash lineage_build_unified/buildbot_unified.sh treble 64VN 64VS 64GN
 #export SELINUX_IGNORE_NEVERALLOWS=true
 #export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast or lunch" 
