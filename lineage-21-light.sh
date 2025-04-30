@@ -28,5 +28,5 @@ echo "breakfast or lunch"
 breakfast fog
 echo "Start the build" 
 mka target-files-package otatools
-#croot
+make installclean
 brunch fog
