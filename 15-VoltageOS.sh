@@ -13,6 +13,6 @@ cd ../..
 echo "envsetup.sh" 
 source build/envsetup.sh 
 export SELINUX_IGNORE_NEVERALLOWS=true
-#export ALLOW_MISSING_DEPENDENCIES=true
+export ALLOW_MISSING_DEPENDENCIES=true
 echo "breakfast and build" 
 brunch fog
