@@ -6,6 +6,10 @@ repo init --depth 1 -u https://github.com/AICP/platform_manifest.git -b v15.0 --
 rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b 15-aicp .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
+# signing key
+mkdir -p vendor/extra
+cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+cd ../..
 echo "envsetup.sh"
 . build/envsetup.sh
 #echo "breakfast/lunch"
