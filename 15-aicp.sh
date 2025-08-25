@@ -12,6 +12,8 @@ cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/downloa
 cd ../..
 echo "envsetup.sh"
 . build/envsetup.sh
+export ALLOW_MISSING_DEPENDENCIES=true 
+export SELINUX_IGNORE_NEVERALLOWS=true
 #echo "breakfast/lunch"
 #breakfast fog eng
 #lunch aicp_fog-eng
