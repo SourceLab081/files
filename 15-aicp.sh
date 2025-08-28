@@ -7,9 +7,9 @@ rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local
 echo "repo sync"
 /opt/crave/resync.sh
 # signing key
-mkdir -p vendor/extra
-cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-cd ../..
+#mkdir -p vendor/extra
+#cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+#cd ../..
 cp bckp/config.xml vendor/aicp/overlay/common/packages/apps/SimpleDeviceConfig/res/values/
 echo "envsetup.sh"
 . build/envsetup.sh
