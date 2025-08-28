@@ -19,4 +19,4 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #breakfast fog eng
 #lunch aicp_fog-eng
 echo "Breakfast + Build the code"
-brunch fog eng
+brunch fog userdebug
