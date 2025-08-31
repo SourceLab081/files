@@ -1,11 +1,11 @@
 xport TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
-echo "start date = `date`"
-repo init --depth 1 -u https://github.com/The-Clover-Project/manifest.git -b 16 --git-lfs
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-theCloverProject .repo/local_manifests
-echo "repo sync"
-/opt/crave/resync.sh
+#echo "start date = `date`"
+#repo init --depth 1 -u https://github.com/The-Clover-Project/manifest.git -b 16 --git-lfs
+#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-theCloverProject .repo/local_manifests
+#echo "repo sync"
+#/opt/crave/resync.sh
 # signing key
 #mkdir -p vendor/extra
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
