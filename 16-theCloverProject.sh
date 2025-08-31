@@ -7,15 +7,18 @@ rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_
 echo "repo sync"
 /opt/crave/resync.sh
 # signing key
-mkdir -p vendor/extra
-cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-cd ../..
+#mkdir -p vendor/extra
+#cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+#cd ../..
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
-#echo "breakfast/lunch"
+echo "breakfast/lunch"
+lunch clover_fog-bp2a-userdebug
 #breakfast fog eng
 #lunch aicp_fog-eng
-echo "Breakfast + Build the code"
-brunch fog userdebug
+#echo "Breakfast + Build the code"
+#brunch fog userdebug
+echo "build the code"
+mka clover -j$(nproc --all)
