@@ -10,7 +10,10 @@ echo "repo sync"
 mkdir -p vendor/extra
 cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 cd ../..
-#. script_sch.sh
+
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+. script_sch2.sh
+
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
