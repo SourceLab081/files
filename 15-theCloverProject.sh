@@ -7,12 +7,12 @@ rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_
 echo "repo sync"
 /opt/crave/resync.sh
 # signing key
-mkdir -p vendor/extra
-cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-cd ../..
+#mkdir -p vendor/extra
+#cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+#cd ../..
 
-wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
-. script_sch2.sh
+#wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+#. script_sch2.sh
 
 echo "envsetup.sh"
 . build/envsetup.sh
