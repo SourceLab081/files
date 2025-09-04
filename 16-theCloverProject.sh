@@ -11,6 +11,7 @@ echo "repo sync"
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
 . script_sch.sh
+rm -rf out/target/product/fog/system/etc/vintf
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
@@ -22,4 +23,5 @@ lunch clover_fog-bp2a-userdebug
 #echo "Breakfast + Build the code"
 #brunch fog userdebug
 echo "build the code"
+make installclean
 mka clover -j$(nproc --all)
