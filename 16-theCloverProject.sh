@@ -7,9 +7,14 @@ rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_
 echo "repo sync"
 /opt/crave/resync.sh
 # signing key
-#mkdir -p vendor/extra
-#cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-#cd ../..
+if [ ! -d vendor/extra ]; then
+   mkdir -p vendor/extra
+   cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+   cd ../..
+fi    
+if [ ! -f script_sch.sh ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch.sh
+fi
 . script_sch.sh
 rm -rf out/target/product/fog/system/etc/vintf
 echo "envsetup.sh"
