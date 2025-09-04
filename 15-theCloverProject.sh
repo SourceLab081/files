@@ -13,7 +13,7 @@ echo "repo sync"
 
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 #. script_sch2.sh
-
+mv out/target/product/fog/system/etc/vintf bckp/
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
