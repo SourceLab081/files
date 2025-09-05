@@ -16,7 +16,7 @@ if [ ! -f script_sch.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch.sh
 fi
 . script_sch.sh
-rm -rf out/target/product/fog/system/etc/vintf
+#rm -rf out/target/product/fog/system/etc/vintf
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
