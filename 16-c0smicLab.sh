@@ -13,10 +13,10 @@ if [ ! -d vendor/extra ]; then
    cd ../..
 fi  
 
-#if [ ! -f script_sch.sh ]; then
-#   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch.sh
-#fi
-#. script_sch.sh
+if [ ! -f script_sch3.sh ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch3.sh
+fi
+. script_sch3.sh
 #rm -rf out/target/product/fog/system/etc/vintf
 echo "envsetup.sh"
 . build/envsetup.sh
