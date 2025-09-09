@@ -1,7 +1,7 @@
 xport TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
-#echo "start date = `date`"
+rm -rf device/xiaomi/fog
 repo init --depth 1 -u https://github.com/c0smic-Lab/manifest.git -b 16 --git-lfs
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-c0smicLab .repo/local_manifests
 echo "repo sync"
