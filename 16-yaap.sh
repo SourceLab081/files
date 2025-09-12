@@ -31,7 +31,7 @@ echo "envsetup.sh"
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
-lunch yaap_fog-userdebug
+lunch yaap_fog-bp2a-userdebug
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
 #lunch aicp_fog-eng
