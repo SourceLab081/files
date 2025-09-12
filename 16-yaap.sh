@@ -14,10 +14,10 @@ if [ ! -d vendor/extra ]; then
    cd ../..
 fi  
 
-if [ ! -f script_sch4.sh ]; then
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch4.sh
+if [ ! -f script_sch2.sh ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
-. script_sch4.sh
+. script_sch2.sh
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
 # https://github.com/LineageOS/android_device_qcom_sepolicy_vndr/blob/lineage-22.2-legacy-um/generic/vendor/common/init_shell.te
