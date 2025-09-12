@@ -1,6 +1,7 @@
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
+export TARGET_BOARD_PLATFORM=bengal
 
 # rm -rf device/xiaomi/fog
 repo init --depth 1 -u https://github.com/yaap/manifest.git -b sixteen --git-lfs
