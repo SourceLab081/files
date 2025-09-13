@@ -19,6 +19,9 @@ if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
 . script_sch2.sh
+
+#fixed Dex2oat failed to compile a boot image 
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/Android.bp && mv Android.bp art/build/
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
 # https://github.com/LineageOS/android_device_qcom_sepolicy_vndr/blob/lineage-22.2-legacy-um/generic/vendor/common/init_shell.te
