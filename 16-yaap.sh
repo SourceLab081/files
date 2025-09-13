@@ -21,7 +21,7 @@ cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef
 #   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 #fi
 #. script_sch2.sh
-rm -rf kernel/xiaomi/fog
+
 #fixed Dex2oat failed to compile a boot image 
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/Android_.bp && mv Android_.bp art/build/Android.bp
 # rm -rf out/target/product/fog/system/etc/vintf
