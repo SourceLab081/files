@@ -15,6 +15,8 @@ if [ ! -d vendor/extra ]; then
    cd ../..
 fi  
 
+# disable fsgen
+cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef378fe8eae9803749e331a09/raw/fsgen.patch >> fsgen.patch && git am fsgen.patch && rm fsgen.patch && cd ../../
 #if [ ! -f script_sch2.sh ]; then
 #   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 #fi
