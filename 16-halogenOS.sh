@@ -62,4 +62,13 @@ lunch aosp_fog-bp2a-userdebug
 echo "build the code"
 make installclean
 m bacon 
+status=$?
+if [ $status -ne 0 ]; then
+    echo "Build gagal dengan kode $status"
+    if [ ! -f go-up ]; then
+        wget https://github.com/SourceLab081/files/raw/refs/heads/main/go-up
+    fi
+    # upload log
+    . go-up out/error.log 
+fi
 #mka clover -j$(nproc --all)
