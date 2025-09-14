@@ -19,6 +19,7 @@ if [ ! -f script_sch3.sh ]; then
 fi
 . script_sch3.sh
 echo "This is for testing only"
+cat /etc/apt/sources.list
 sudo apt --yes install libimagequant0 libraqm0
 sudo apt --yes install python3-pil
 file0="http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb"
