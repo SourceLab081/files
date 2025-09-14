@@ -18,6 +18,11 @@ fi
 # disable fsgen
 cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef378fe8eae9803749e331a09/raw/fsgen.patch >> fsgen.patch && git am fsgen.patch && rm fsgen.patch && cd ../../
 
+# remove other power
+rm -f vendor/qcom/opensource/power/power.xml
+rm -f out/target/product/fog//vendor/etc/vintf/manifest/power.xml
+rm -f /tmp/src/android/out/soong/.temp/target_filesb4_jkj_q/VENDOR/etc/vintf/manifest/power.xml
+
 # fixed redundant variable
 if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
