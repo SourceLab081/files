@@ -60,6 +60,6 @@ lunch aosp_fog-bp2a-userdebug
 #echo "Breakfast + Build the code"
 #brunch fog userdebug
 echo "build the code"
-
+make installclean
 m bacon 
 #mka clover -j$(nproc --all)
