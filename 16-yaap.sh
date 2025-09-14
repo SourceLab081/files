@@ -52,7 +52,7 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
 lunch yaap_fog-bp2a-userdebug
 #lunch aosp_fog-bp2a-userdebug
-#breakfast fog eng
+make installclean
 #lunch aicp_fog-eng
 #echo "Breakfast + Build the code"
 #brunch fog userdebug
