@@ -19,11 +19,23 @@ if [ ! -f script_sch3.sh ]; then
 fi
 . script_sch3.sh
 echo "This is for testing only"
+file0="http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb"
+file1="http://ftp.debian.org/debian/pool/main/libi/libimagequant/libimagequant0_2.18.0-1+b2_amd64.deb"
+file2="http://ftp.debian.org/debian/pool/main/r/raqm/libraqm0_0.10.2-1_amd64.deb"
 curDir=`pwd`
 set -x
-cd /var/cache/apt/archives/ && sudo wget http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb && sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb || cd $curDir
+cd /var/cache/apt/archives/
+sudo wget $file1
+sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
+sudo wget $file2
+sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
+if [ ! -f python3-pil_11.1.0-5+b1_amd64.deb ]; then
+   sudo wget $file0
+fi
+sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
 cd $curDir
-sudo apt --yes install python3-pil 
+#sudo apt --fix-broken install
+#sudo apt --yes install python3-pil 
 set +x
 cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
