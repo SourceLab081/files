@@ -17,10 +17,12 @@ fi
 
 # disable fsgen
 cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef378fe8eae9803749e331a09/raw/fsgen.patch >> fsgen.patch && git am fsgen.patch && rm fsgen.patch && cd ../../
-#if [ ! -f script_sch2.sh ]; then
-#   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
-#fi
-#. script_sch2.sh
+
+# fixed redundant variable
+if [ ! -f script_sch2.sh ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+fi
+. script_sch2.sh
 
 #fixed Dex2oat failed to compile a boot image 
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/Android_.bp && mv Android_.bp art/build/Android.bp
