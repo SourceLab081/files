@@ -21,7 +21,7 @@ fi
 echo "This is for testing only"
 curDir=`pwd`
 set -x
-cd /var/cache/apt/archives/ && wget http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb && sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb || cd $curDir
+cd /var/cache/apt/archives/ && sudo wget http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb && sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb || cd $curDir
 cd $curDir
 sudo apt --yes install python3-pil 
 set +x
