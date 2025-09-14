@@ -19,13 +19,14 @@ if [ ! -f script_sch3.sh ]; then
 fi
 . script_sch3.sh
 echo "This is for testing only"
-set -x
 curDir=`pwd`
+set -x
 cd /var/cache/apt/archives/ && wget http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb && sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb || cd $curDir
 cd $curDir
 sudo apt --yes install python3-pil 
 set +x
-# rm -rf out/target/product/fog/system/etc/vintf
+cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+
 # fix for error Problems processing genfscon rules
 # https://github.com/LineageOS/android_device_qcom_sepolicy_vndr/blob/lineage-22.2-legacy-um/generic/vendor/common/init_shell.te
 fldr="device/qcom/sepolicy_vndr/legacy-um/generic/vendor/common/"
