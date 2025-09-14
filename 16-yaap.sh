@@ -19,7 +19,10 @@ fi
 cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef378fe8eae9803749e331a09/raw/fsgen.patch >> fsgen.patch && git am fsgen.patch && rm fsgen.patch && cd ../../
 
 # remove other power
-rm -f vendor/qcom/opensource/power/power.xml
+#rm -f vendor/qcom/opensource/power/power.xml
+curDir=`pwd`
+cd vendor/qcom/opensource/power/ && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/power.xml
+cd $curDir
 rm -f out/target/product/fog//vendor/etc/vintf/manifest/power.xml
 rm -f /tmp/src/android/out/soong/.temp/target_filesb4_jkj_q/VENDOR/etc/vintf/manifest/power.xml
 
