@@ -42,11 +42,10 @@ sudo wget $file0
 sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
 sudo wget $file5
 sudo dpkg -i ibgfortran5_14.2.0-19_amd64.deb
-sudo wget $file6
-sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
-
 sudo wget $file4
 sudo dpkg -i libblas3_3.12.1-6_amd64.deb
+sudo wget $file6
+sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
 sudo wget $file3
 sudo dpkg -i python3-numpy_2.2.4+ds-1_amd64.deb
 cd $curDir
