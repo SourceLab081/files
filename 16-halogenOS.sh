@@ -29,6 +29,8 @@ file1="http://ftp.debian.org/debian/pool/main/libi/libimagequant/libimagequant0_
 file2="http://ftp.debian.org/debian/pool/main/r/raqm/libraqm0_0.10.2-1_amd64.deb"
 file3="http://ftp.debian.org/debian/pool/main/n/numpy/python3-numpy_2.2.4+ds-1_amd64.deb"
 file4="http://ftp.debian.org/debian/pool/main/l/lapack/libblas3_3.12.1-6_amd64.deb"
+file5="http://ftp.debian.org/debian/pool/main/g/gcc-14/libgfortran5_14.2.0-19_amd64.deb"
+file6="http://ftp.debian.org/debian/pool/main/l/lapack/liblapack3_3.12.1-6_amd64.deb"
 cd /var/cache/apt/archives/
 sudo wget $file1
 sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
@@ -38,8 +40,13 @@ sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
 sudo wget $file0
 #fi
 sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
+sudo wget $file5
+sudo dpkg -i ibgfortran5_14.2.0-19_amd64.deb
+sudo wget $file6
+sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
+
 sudo wget $file4
-sudo dpkg -i libblas3_3.12.1-6_amd64.deb"
+sudo dpkg -i libblas3_3.12.1-6_amd64.deb
 sudo wget $file3
 sudo dpkg -i python3-numpy_2.2.4+ds-1_amd64.deb
 cd $curDir
