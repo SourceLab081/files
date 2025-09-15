@@ -41,7 +41,7 @@ sudo wget $file0
 #fi
 sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
 sudo wget $file5
-sudo dpkg -i ibgfortran5_14.2.0-19_amd64.deb
+sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
 sudo wget $file4
 sudo dpkg -i libblas3_3.12.1-6_amd64.deb
 sudo wget $file6
