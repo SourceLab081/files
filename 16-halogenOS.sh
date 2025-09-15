@@ -19,6 +19,8 @@ if [ ! -f script_sch3.sh ]; then
 fi
 . script_sch3.sh
 echo "This is for testing only"
+curDir=`pwd`
+set -x
 cat /etc/apt/sources.list
 sudo apt --yes install libimagequant0 libraqm0
 sudo apt --yes install python3-pil python3-numpy
@@ -26,16 +28,14 @@ file0="http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_a
 file1="http://ftp.debian.org/debian/pool/main/libi/libimagequant/libimagequant0_2.18.0-1+b2_amd64.deb"
 file2="http://ftp.debian.org/debian/pool/main/r/raqm/libraqm0_0.10.2-1_amd64.deb"
 file3="http://ftp.debian.org/debian/pool/main/n/numpy/python3-numpy_2.2.4+ds-1_amd64.deb"
-curDir=`pwd`
-set -x
 cd /var/cache/apt/archives/
 sudo wget $file1
 sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
 sudo wget $file2
 sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
-if [ ! -f python3-pil_11.1.0-5+b1_amd64.deb ]; then
-   sudo wget $file0
-fi
+#if [ ! -f python3-pil_11.1.0-5+b1_amd64.deb ]; then
+sudo wget $file0
+#fi
 sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
 sudo wget $file3
 sudo dpkg -i python3-numpy_2.2.4+ds-1_amd64.deb
