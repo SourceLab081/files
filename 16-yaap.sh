@@ -57,5 +57,6 @@ make installclean
 #echo "Breakfast + Build the code"
 #brunch fog userdebug
 echo "build the code"
-m yaap
+export WITH_GMS=tru
+TARGET_BUILD_GAPPS=true m yaap
 #mka clover -j$(nproc --all)
