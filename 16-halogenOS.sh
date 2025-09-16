@@ -35,6 +35,9 @@ sudo apt --yes install python3-pil python3-numpy
 dpkg -s "python3-pil" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "Package python3-pil is installed!"
+    echo "test if deps is not installed"
+    sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
+    sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
 else
     echo "Package python3-pil is NOT installed!"
     sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
@@ -45,6 +48,9 @@ fi
 dpkg -s "python3-numpy" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "Package python3-numpy is installed!"
+    sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
+    sudo dpkg -i libblas3_3.12.1-6_amd64.deb
+    sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
 else
     echo "Package python3-numpy is NOT installed!"
     sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
