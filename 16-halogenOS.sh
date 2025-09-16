@@ -22,8 +22,6 @@ echo "This is for testing only"
 curDir=`pwd`
 set -x
 cat /etc/apt/sources.list
-sudo apt --yes install libimagequant0 libraqm0
-sudo apt --yes install python3-pil python3-numpy
 file0="http://ftp.debian.org/debian/pool/main/p/pillow/python3-pil_11.1.0-5+b1_amd64.deb"
 file1="http://ftp.debian.org/debian/pool/main/libi/libimagequant/libimagequant0_2.18.0-1+b2_amd64.deb"
 file2="http://ftp.debian.org/debian/pool/main/r/raqm/libraqm0_0.10.2-1_amd64.deb"
@@ -32,22 +30,29 @@ file4="http://ftp.debian.org/debian/pool/main/l/lapack/libblas3_3.12.1-6_amd64.d
 file5="http://ftp.debian.org/debian/pool/main/g/gcc-14/libgfortran5_14.2.0-19_amd64.deb"
 file6="http://ftp.debian.org/debian/pool/main/l/lapack/liblapack3_3.12.1-6_amd64.deb"
 cd /var/cache/apt/archives/
-sudo wget $file1
-sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
-sudo wget $file2
-sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
-#if [ ! -f python3-pil_11.1.0-5+b1_amd64.deb ]; then
-sudo wget $file0
-#fi
-sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
-sudo wget $file5
-sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
-sudo wget $file4
-sudo dpkg -i libblas3_3.12.1-6_amd64.deb
-sudo wget $file6
-sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
-sudo wget $file3
-sudo dpkg -i python3-numpy_2.2.4+ds-1_amd64.deb
+sudo wget $file0 $file1 $file2 $file3 $file4 $file5 $file6  
+sudo apt --yes install python3-pil python3-numpy
+dpkg -s "python3-pil" &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "Package python3-pil is installed!"
+else
+    echo "Package python3-pil is NOT installed!"
+    sudo dpkg -i libimagequant0_2.18.0-1+b2_amd64.deb
+    sudo dpkg -i libraqm0_0.10.2-1_amd64.deb
+    sudo dpkg -i python3-pil_11.1.0-5+b1_amd64.deb
+fi
+
+dpkg -s "python3-numpy" &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "Package python3-numpy is installed!"
+else
+    echo "Package python3-numpy is installed!"
+    sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
+    sudo dpkg -i libblas3_3.12.1-6_amd64.deb
+    sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
+    sudo dpkg -i python3-numpy_2.2.4+ds-1_amd64.deb
+fi
+
 cd $curDir
 #sudo apt --fix-broken install
 #sudo apt --yes install python3-pil 
