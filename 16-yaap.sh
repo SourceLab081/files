@@ -47,6 +47,7 @@ wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/Android_.b
 
 echo "envsetup.sh"
 . build/envsetup.sh
+export YAAP_BUILDTYPE=COMMUNITY
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
