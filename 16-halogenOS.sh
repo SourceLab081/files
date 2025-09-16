@@ -46,7 +46,7 @@ dpkg -s "python3-numpy" &> /dev/null
 if [ $? -eq 0 ]; then
     echo "Package python3-numpy is installed!"
 else
-    echo "Package python3-numpy is installed!"
+    echo "Package python3-numpy is NOT installed!"
     sudo dpkg -i libgfortran5_14.2.0-19_amd64.deb
     sudo dpkg -i libblas3_3.12.1-6_amd64.deb
     sudo dpkg -i liblapack3_3.12.1-6_amd64.deb
