@@ -3,7 +3,7 @@ export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 
 # rm -rf device/xiaomi/fog
-repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16 --git-lfs --git-lfs
+repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16 --git-lfs 
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
