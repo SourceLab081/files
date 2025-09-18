@@ -20,7 +20,7 @@ fi
 . script_sch2.sh
 
 curDir=`pwd`
-cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+# cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
@@ -40,7 +40,7 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #breakfast fog eng
 #lunch aicp_fog-eng
 echo "Breakfast + Build the code"
-brunch fog userdebug
+brunch fog
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
