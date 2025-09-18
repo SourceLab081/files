@@ -19,7 +19,7 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
-cd $curDir
+curDir=`pwd`
 cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 # rm -rf out/target/product/fog/system/etc/vintf
