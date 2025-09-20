@@ -51,12 +51,12 @@ echo "envsetup.sh"
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
-lunch yaap_fog-bp2a-userdebug
+lunch yaap_fog-bp2a-eng
 #lunch aosp_fog-bp2a-userdebug
 make installclean
 #lunch aicp_fog-eng
 #echo "Breakfast + Build the code"
 #brunch fog userdebug
 echo "build the code"
-m yaap
+TARGET_BUILD_GAPPS=true m yaap
 #mka clover -j$(nproc --all)
