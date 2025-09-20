@@ -3,7 +3,7 @@ export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 export TARGET_BOARD_PLATFORM=bengal
 
-# rm -rf device/xiaomi/fog
+rm -rf device/xiaomi/fog
 repo init --depth 1 -u https://github.com/yaap/manifest.git -b sixteen --git-lfs
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-yaap .repo/local_manifests
 echo "repo sync"
