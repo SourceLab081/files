@@ -2,7 +2,7 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 
-rm -rf device/xiaomi/fog
+#rm -rf device/xiaomi/fog
 repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16 --git-lfs 
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
 echo "repo sync"
@@ -22,6 +22,8 @@ if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
 . script_sch2.sh
+
+
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
 # cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
