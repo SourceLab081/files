@@ -22,7 +22,7 @@ if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
 . script_sch2.sh
-#wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
 # cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 # rm -rf out/target/product/fog/system/etc/vintf
