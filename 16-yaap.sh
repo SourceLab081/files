@@ -21,11 +21,11 @@ cd build/soong && curl https://gist.githubusercontent.com/bagaskara815/2f26516ef
 # remove other power
 #rm -f vendor/qcom/opensource/power/power.xml
 curDir=`pwd`
-cd vendor/qcom/opensource/power/ && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/power.xml
-cd $curDir
-rm -f out/target/product/fog//vendor/etc/vintf/manifest/power.xml
-#rm -f /tmp/src/android/out/soong/.temp/target_filesb4_jkj_q/VENDOR/etc/vintf/manifest/power.xml
-rm -f /tmp/src/android/out/soong/.temp/target_files69gkeh3f/VENDOR/etc/vintf/manifest/power.xml
+# cd vendor/qcom/opensource/power/ && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/power.xml
+# cd $curDir
+# rm -f out/target/product/fog//vendor/etc/vintf/manifest/power.xml
+# #rm -f /tmp/src/android/out/soong/.temp/target_filesb4_jkj_q/VENDOR/etc/vintf/manifest/power.xml
+# rm -f /tmp/src/android/out/soong/.temp/target_files69gkeh3f/VENDOR/etc/vintf/manifest/power.xml
 
 # fixed redundant variable
 if [ ! -f script_sch2.sh ]; then
@@ -57,7 +57,7 @@ lunch yaap_fog-bp2a-eng
 make installclean
 #lunch aicp_fog-eng
 #echo "Breakfast + Build the code"
-#brunch fog userdebug
+#TARGET_BUILD_GAPPS=true
 echo "build the code"
-TARGET_BUILD_GAPPS=true m yaap
+m yaap 
 #mka clover -j$(nproc --all)
