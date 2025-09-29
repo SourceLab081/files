@@ -23,13 +23,6 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
-if [ -f out/target/product/fog/build_thumbprint.txt ]; then
-   export headS="Redmi/VoltageOS_fog/fog:"
-   export tailS=`cat out/target/product/fog/build_thumbprint.txt`
-   echo "$headS$tailS" > out/target/product/fog/build_fingerprint.txt 
-else
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
-fi
 
 cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
@@ -50,8 +43,15 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
 make installclean
-echo "Breakfast + Build the code"
-brunch fog eng
+if [ -f out/target/product/fog/build_thumbprint.txt ]; then
+   export headS="Redmi/VoltageOS_fog/fog:"
+   export tailS=`cat out/target/product/fog/build_thumbprint.txt`
+   echo "$headS$tailS" > out/target/product/fog/build_fingerprint.txt 
+else
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
+fi
+
+brunch fog user
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
