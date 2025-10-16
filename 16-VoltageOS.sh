@@ -51,7 +51,7 @@ else
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
 fi
 
-brunch fog user
+brunch fog eng
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
