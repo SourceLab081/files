@@ -10,7 +10,7 @@ echo "repo sync"
 #mkdir -p vendor/extra
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
-export SAILFISH_BUILD=1
+#export SAILFISH_BUILD=1
 echo "envsetup.sh"
 . build/envsetup.sh
 export ALLOW_MISSING_DEPENDENCIES=true 
@@ -18,4 +18,4 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
 breakfast fog userdebug
 echo "start build..."
-make -j$(nproc --all) hybris-hal droidmedia libbiometry_fp_api
+make -j$(nproc --all) hybris-hal droidmedia libui_compat_layer libsfplugin_ccodec
