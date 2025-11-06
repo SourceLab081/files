@@ -11,9 +11,9 @@ echo "repo sync"
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
 #export SAILFISH_BUILD=1
-unset TARGET_FORCE_PREBUILT_KERNEL
 echo "envsetup.sh"
 . build/envsetup.sh
+unset TARGET_FORCE_PREBUILT_KERNEL
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
