@@ -10,6 +10,7 @@ echo "repo sync"
 #mkdir -p vendor/extra
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
+rm external/chromium-webview/Android.mk 
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/chromium.zip;unzip chromium.zip -d external/chromium-webview/;rm chromium.zip 
 export SAILFISH_BUILD=1
 export VENDOR="xiaomi"
