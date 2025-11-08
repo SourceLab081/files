@@ -2,7 +2,7 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
-repo init --depth 1 -u hhttps://github.com/mer-hybris/android.git  -b hybris-18.1 --git-lfs --no-clone-bundle
+repo init --depth 1 -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1 --git-lfs 
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
