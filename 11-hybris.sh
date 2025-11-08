@@ -20,8 +20,8 @@ cd external/chromium-webview;rm Android.mk;ln -s patches/os_pickup.mk Android.mk
 echo "apply patch"
 . hybris-patches/apply-patches.sh  --mb
 cd $ANDROID_ROOT
-#. fog-patches/fog_patches.sh
-#cd $curDir
+. fog-patches/fog_patches.sh
+cd $curDir
 
 echo "envsetup.sh"
 . build/envsetup.sh
