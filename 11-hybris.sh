@@ -10,7 +10,7 @@ echo "repo sync"
 #mkdir -p vendor/extra
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
-wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/patches.zip;mkdir -p external/chromium-webview/patches;unzip patches.zip -d  external/chromium-webview/patches;rm pathes.zip 
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/chromium.zip;unzip chromium.zip -d external/chromium-webview/;rm chromium.zip 
 export SAILFISH_BUILD=1
 export VENDOR="xiaomi"
 export DEVICE="fog"
@@ -21,8 +21,8 @@ export ANDROID_ROOT=`pwd`
 echo "apply patch"
 #. hybris-patches/apply-patches.sh  --mb
 #cd $ANDROID_ROOT
-. fog-patches/fog_patches.sh
-cd $curDir
+#. fog-patches/fog_patches.sh
+#cd $curDir
 
 echo "envsetup.sh"
 . build/envsetup.sh
