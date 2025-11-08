@@ -11,6 +11,9 @@ echo "repo sync"
 #cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
 #cd ../..
 export SAILFISH_BUILD=1
+export VENDOR="xiaomi"
+export DEVICE="fog"
+export PORT_ARCH="aarch64"
 curDir=`pwd`
 export ANDROID_ROOT=`pwd`
 cd external/chromium-webview;rm Android.mk;ln -s patches/os_pickup.mk Android.mk;cd $curDir;
@@ -26,7 +29,7 @@ unset TARGET_FORCE_PREBUILT_KERNEL
 export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 echo "breakfast/lunch"
-breakfast fog userdebug
+breakfast $DEVICE
 echo "start the build..."
 make -j$(nproc --all) hybris-hal droidmedia 
 # libui_compat_layer libsfplugin_ccodec
