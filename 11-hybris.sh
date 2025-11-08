@@ -18,10 +18,10 @@ curDir=`pwd`
 export ANDROID_ROOT=`pwd`
 cd external/chromium-webview;rm Android.mk;ln -s patches/os_pickup.mk Android.mk;cd $curDir;
 echo "apply patch"
-. hybris-patches/apply-patches.sh  --mb
+. hybris-patches/apply-patches.sh  
 cd $ANDROID_ROOT
-. fog-patches/fog_patches.sh
-cd $curDir
+#. fog-patches/fog_patches.sh
+#cd $curDir
 
 echo "envsetup.sh"
 . build/envsetup.sh
