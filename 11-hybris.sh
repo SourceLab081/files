@@ -20,9 +20,15 @@ export ANDROID_ROOT=`pwd`
 #cd external/chromium-webview;rm Android.mk;ln -s patches/os_pickup.mk Android.mk;cd $curDir;
 # echo "apply patch"
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/chromium.zip;unzip -o chromium.zip -d external/chromium-webview/;rm chromium.zip 
-wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/droid-hal-device.inc;mv droid-hal-device.inc rpm/dhd/
 . hybris-patches/apply-patches.sh  --mb
 cd $ANDROID_ROOT
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/droid-hal-device.inc;mv droid-hal-device.inc rpm/dhd/
+$FILE="/usr/lib/x86_64-linux-gnu/libncurses.so.5"
+if [ ! -f "$FILE" ]; then
+  echo "File '$FILE' does not exist."
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 
+fi
 #. fog-patches/fog_patches.sh
 #cd $curDir
 
