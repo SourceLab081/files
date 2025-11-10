@@ -26,8 +26,8 @@ wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/droid-hal-
 FILE="/usr/lib/x86_64-linux-gnu/libncurses.so.5"
 if [ ! -f "$FILE" ]; then
   echo "File '$FILE' does not exist."
-  sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
-  sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6.5 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6.5 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 
 fi
 #. fog-patches/fog_patches.sh
 #cd $curDir
