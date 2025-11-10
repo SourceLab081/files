@@ -23,7 +23,7 @@ export ANDROID_ROOT=`pwd`
 . hybris-patches/apply-patches.sh  --mb
 cd $ANDROID_ROOT
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/droid-hal-device.inc;mv droid-hal-device.inc rpm/dhd/
-$FILE="/usr/lib/x86_64-linux-gnu/libncurses.so.5"
+FILE="/usr/lib/x86_64-linux-gnu/libncurses.so.5"
 if [ ! -f "$FILE" ]; then
   echo "File '$FILE' does not exist."
   sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
