@@ -1,6 +1,7 @@
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
+rm -rf hybris-patches
 echo "start date = `date`"
 repo init --depth 1 -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1 
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests
