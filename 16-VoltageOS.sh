@@ -43,13 +43,6 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
 make installclean
-if [ -f out/target/product/fog/build_thumbprint.txt ]; then
-   export headS="Redmi/VoltageOS_fog/fog:"
-   export tailS=`cat out/target/product/fog/build_thumbprint.txt`
-   echo "$headS$tailS" > out/target/product/fog/build_fingerprint.txt 
-else
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/build_fingerprint.txt && mv build_fingerprint.txt out/target/product/fog/
-fi
 
 brunch fog eng
 #echo "build the code"
