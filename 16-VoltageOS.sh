@@ -9,14 +9,9 @@ echo "repo sync"
 /opt/crave/resync.sh
 # signing key
 curDir=`pwd`
-#cd vendor/voltage-priv/keys
-#./keys.sh
-#cd $curDir
-#if [ ! -d vendor/extra ]; then
-#   mkdir -p vendor/extra
-#   cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-#   cd ../..
-#fi  
+cd vendor/voltage-priv/keys
+./keys.sh
+cd $curDir
 
 if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
