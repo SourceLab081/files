@@ -3,7 +3,8 @@ export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 rm -rf hybris-patches
 echo "start date = `date`"
-repo init --depth 1 -u https://github.com/mer-hybris/android.git -b hybris-20.0 
+repo init --depth 1 -u https://github.com/SourceLab081/hybris_sfos.git -b hybris-20.0  
+# originally -> https://github.com/mer-hybris/android.git
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-20.0 .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
