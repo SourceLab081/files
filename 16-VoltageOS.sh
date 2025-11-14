@@ -3,10 +3,10 @@ export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 
 #rm -rf device/xiaomi/fog
-#repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16 --git-lfs 
-#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
-#echo "repo sync"
-#/opt/crave/resync.sh
+repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16 --git-lfs 
+rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
+echo "repo sync"
+/opt/crave/resync.sh
 # signing key
 curDir=`pwd`
 #cd vendor/voltage-priv/keys
@@ -24,7 +24,7 @@ fi
 . script_sch2.sh
 
 
-cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+#cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
