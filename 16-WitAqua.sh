@@ -18,6 +18,14 @@ if [ ! -d vendor/extra ]; then
    cd ../..
 fi
 
+curDir=`pwd`
+if [ ! -f external/chromium-webview/prebuilt/prebuilt.zip ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/prebuilt.zip
+   mv prebuilt.zip external/chromium-webview/prebuilt/
+fi
+cd external/chromium-webview/prebuilt/;unzip prebuilt.zip -o .;cd $curDir
+
+
 if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
