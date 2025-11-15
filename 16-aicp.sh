@@ -20,6 +20,13 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
+curDir=`pwd`
+if [ ! -f external/chromium-webview/prebuilt/prebuilt.zip ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/prebuilt.zip
+   mv prebuilt.zip external/chromium-webview/prebuilt/
+fi
+cd external/chromium-webview/prebuilt/;unzip -o prebuilt.zip;cd $curDir
+
 cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 echo "envsetup.sh"
