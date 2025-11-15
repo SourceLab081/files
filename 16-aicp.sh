@@ -7,7 +7,8 @@ repo init --depth 1 -u https://github.com/AICP/platform_manifest.git -b w16.0 --
 rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 16-aicp .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
-
+#wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
+ #. resync.sh
 # signing key
 if [ ! -d vendor/extra ]; then
    mkdir -p vendor/extra
