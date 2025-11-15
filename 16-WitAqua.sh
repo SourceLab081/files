@@ -3,10 +3,13 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
-repo init --depth 1 -u repo init -u https://github.com/WitAqua/manifest.git -b 16.0 --git-lfs 
-rm -rf .repo/local_manifests && git clone https://gitlab.com/sourceslab062/local_manifests --depth 1 -b 16-WitAqua .repo/local_manifests
+repo init --depth 1 -u https://github.com/WitAqua/manifest.git -b 16.0 --git-lfs 
+rm -rf .repo/local_manifests && git clone https://github.com/sourceslab062/local_manifests --depth 1 -b 16-WitAqua .repo/local_manifests
 echo "repo sync"
-/opt/crave/resync.sh
+#repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags 
+wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
+ . resync.sh
+#/opt/crave/resync.sh
 
 # signing key
 if [ ! -d vendor/extra ]; then
