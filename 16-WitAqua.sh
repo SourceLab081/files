@@ -22,11 +22,14 @@ fi
 
 curDir=`pwd`
 if [ ! -f external/chromium-webview/prebuilt/arm64/webview.apk ]; then
+   echo "Go to process to unzip the file"
    if [ ! -f external/chromium-webview/prebuilt/prebuilt.zip ]; then
        wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/prebuilt.zip
        mv prebuilt.zip external/chromium-webview/prebuilt/
    fi
    cd external/chromium-webview/prebuilt/;unzip -o prebuilt.zip;cd $curDir
+else
+   echo "webview.apk file is exist"  
 fi
 
 if [ ! -f script_sch2.sh ]; then
