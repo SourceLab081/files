@@ -5,6 +5,7 @@ export BUILD_HOSTNAME=foss
 echo "start date = `date`"
 
 #rm -rf kernel/xiaomi/fog
+rm -rf vendor/extra
 repo init --depth 1 -u https://github.com/WitAqua/manifest.git -b 16.0 --git-lfs 
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-WitAqua .repo/local_manifests
 echo "repo sync"
@@ -14,11 +15,11 @@ echo "repo sync"
 /opt/crave/resync.sh
 
 # signing key
-if [ ! -d vendor/extra ]; then
-   mkdir -p vendor/extra
-   cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
-   cd ../..
-fi
+#if [ ! -d vendor/extra ]; then
+ #  mkdir -p vendor/extra
+ #  cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+ #  cd ../..
+#fi
 
 curDir=`pwd`
 if [ ! -f external/chromium-webview/prebuilt/arm64/webview.apk ]; then
