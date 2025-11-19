@@ -4,7 +4,7 @@ export BUILD_HOSTNAME=foss
 
 #rm -rf device/xiaomi/fog
 repo init --depth 1 -u https://github.com/Project-Mica/manifest -b 16-qpr1 --git-lfs 
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-Project-Mica .repo/local_manifests
+rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-MicaOS .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
 
@@ -36,4 +36,3 @@ make installclean
 echo "build the code"
 m mica-release 
 
-mka clover -j$(nproc --all)v
