@@ -76,9 +76,9 @@ source ~/.hadk.env
 sudo cp sdk_ub.sh $UBUNTU_CHROOT
 sudo chroot  $UBUNTU_CHROOT /usr/sbin/useradd -m -u 1000 admin;cat /etc/issue;
 sudo chroot $UBUNTU_CHROOT /bin/bash -c "chage -M 999999 $(id -nu 1000)"
-mount -t proc none $UBUNTU_CHROOT/proc;
-mount --rbind /sys $UBUNTU_CHROOT/sys;
-mount --rbind /dev $UBUNTU_CHROOT/dev;
+sudo mount -t proc none $UBUNTU_CHROOT/proc;
+sudo mount --rbind /sys $UBUNTU_CHROOT/sys;
+sudo mount --rbind /dev $UBUNTU_CHROOT/dev;
 sudo chroot  $UBUNTU_CHROOT /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_ub.sh
 #. proot.sh $UBUNTU_CHROOT sdk_ub.sh
 cd $ANDROID_ROOT
@@ -141,9 +141,9 @@ sudo cp sdk_p.sh $dir
 echo "test chroot first"
 sudo chroot  $dir /usr/sbin/useradd -m -u 1000 admin;
 sudo chroot $UBUNTU_CHROOT /bin/bash -c "chage -M 999999 $(id -nu 1000)"
-mount -t proc none $dir/proc
-mount --rbind /sys $dir/sys
-mount --rbind /dev $dir/dev
+sudo mount -t proc none $dir/proc
+sudo mount --rbind /sys $dir/sys
+sudo mount --rbind /dev $dir/dev
 sudo chroot  $dir /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_p.sh
 #. proot.sh  $dir sdk_p.sh 
 
