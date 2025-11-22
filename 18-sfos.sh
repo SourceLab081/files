@@ -63,7 +63,7 @@ mb2 --version
 rpm --version
 pwd
 su admin -c "sdk-assistant -y create SailfishOS-latest https://releases.sailfishos.org/sdk/targets/Sailfish_OS-latest-Sailfish_SDK_Tooling-i486.tar.7z"
-su admin -C "sdk-assistant -y create $VENDOR-$DEVICE-$PORT_ARCH https://releases.sailfishos.org/sdk/targets/Sailfish_OS-latest-Sailfish_SDK_Target-aarch64.tar.7z"
+su admin -c "sdk-assistant -y create $VENDOR-$DEVICE-$PORT_ARCH https://releases.sailfishos.org/sdk/targets/Sailfish_OS-latest-Sailfish_SDK_Target-aarch64.tar.7z"
 EOF
 
 cat << 'EOF' > sdk_ub.sh
@@ -77,12 +77,14 @@ apt install cpio bc bison build-essential ccache curl flex g++-multilib gcc-mult
 curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
 mv repo /usr/bin/
 chmod a+x /usr/bin/repo
-su admin -c "git config --global user.email "tester@localhost""
-su admin -c "git config --global user.name "Tester""
-su admin -c "git config --global color.ui true"
-su admin -c "git config --global http.postBuffer 524288000  # Tingkatkan buffer menjadi 500 MB"
-su admin -c "git config --global http.lowSpeedLimit 0       # Nonaktifkan batas kecepatan minimum"
-su admin -c "git config --global http.lowSpeedTime 999999   # Tingkatkan waktu low speed"
+su admin
+git config --global user.email "tester@localhost"
+git config --global user.name "Tester"
+git config --global color.ui true
+git config --global http.postBuffer 524288000  # Tingkatkan buffer menjadi 500 MB
+git config --global http.lowSpeedLimit 0       # Nonaktifkan batas kecepatan minimum
+git config --global http.lowSpeedTime 999999   # Tingkatkan waktu low speed
+exit
 
 mkdir -p $ANDROID_ROOT
 chown -R admin $ANDROID_ROOT
