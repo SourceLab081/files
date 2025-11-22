@@ -72,33 +72,33 @@ chage -M 999999 $(id -nu 1000)
 source ~/.hadk.env
 rm /etc/resolv.conf
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
-apt-get update
-apt install cpio bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev openjdk-8-jdk python-is-python3 -yq
 curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
 mv repo /usr/bin/
 chmod a+x /usr/bin/repo
-su admin
-git config --global user.email "tester@localhost"
-git config --global user.name "Tester"
-git config --global color.ui true
-git config --global http.postBuffer 524288000  # Tingkatkan buffer menjadi 500 MB
-git config --global http.lowSpeedLimit 0       # Nonaktifkan batas kecepatan minimum
-git config --global http.lowSpeedTime 999999   # Tingkatkan waktu low speed
-exit
 
+su admin -c "git config --global user.email "tester@localhost""
+su admin -c "git config --global user.name "Tester""
+su admin -c "git config --global color.ui true"
 mkdir -p $ANDROID_ROOT
 chown -R admin $ANDROID_ROOT
-su admin
 cd $ANDROID_ROOT
-repo init -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests
-repo sync --fetch-submodules -j$(nproc --all)
-./hybris-patches/apply-patches.sh --mb
-source build/envsetup.sh
+
+su admin -c "repo init -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1"
+su admin -c "rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests"
+# repo sync --fetch-submodules -j$(nproc --all)
+su admin -c "wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh"
+su admin -c ". resync.sh"
+su admin -c "./hybris-patches/apply-patches.sh --mb"
+
+apt-get update
+apt install cpio bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev openjdk-8-jdk python-is-python3 -yq
+
+su admin -c "source build/envsetup.sh"
 #export USE_CCACHE=1
-breakfast $DEVICE
-make -j$(nproc --all) hybris-hal droidmedia
+su admin -c "breakfast $DEVICE"
+su admin -c "make -j$(nproc --all) hybris-hal droidmedia"
 #cd $ANDROID_ROOT
+su admin
 rpm/dhd/helpers/build_packages.sh --droid-hal
 rpm/dhd/helpers/build_packages.sh --configs
 rpm/dhd/helpers/build_packages.sh --mw
@@ -125,7 +125,7 @@ echo "export PLATFORM_SDK_ROOT=$PLATFORM_SDK_ROOT" >> ~/.bashrc
 #echo 'alias sfossdk=$PLATFORM_SDK_ROOT/sdks/sfossdk/sdk-chroot' >> ~/.bashrc; exec bash
 echo 'alias sfossdk=$curDir/proot.sh' >> ~/.bashrc; 
 echo 'PS1="PlatformSDK $PS1"' >> ~/.mersdk.profile
-echo '[ -d /etc/bash_completion.d ] && for i in /etc/bash_completion.d/*;do . $i;done' >> ~/.mersdk.profile
+echo '[ -d /etc/bash_completion.d ] && for i in /etc/bash_completion.d/*;do . $i;done' >> ~/..profile
 export dir=$PLATFORM_SDK_ROOT/sdks/sfossdk
 sudo cp sdk_p.sh $dir
 sudo cp ~/.hadk.env  $dir/root/
