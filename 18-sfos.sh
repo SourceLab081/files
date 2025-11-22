@@ -86,7 +86,8 @@ apt install git git-lfs cpio ccache curl gnupg gperf imagemagick lib32ncurses5-d
 mkdir -p $ANDROID_ROOT
 chown -R admin $ANDROID_ROOT
 cd $ANDROID_ROOT
-
+export REPO_DISABLE_EVENT_LOG=1
+su admin -c "export REPO_DISABLE_EVENT_LOG=1"
 su admin -c "repo init -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1"
 su admin -c "rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests"
 su admin -c "repo sync --fetch-submodules -j$(nproc --all)"
