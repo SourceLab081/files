@@ -72,7 +72,9 @@ chage -M 999999 $(id -nu 1000)
 source ~/.hadk.env
 rm /etc/resolv.conf
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
-curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
+#curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
+curl https://storage.googleapis.com/git-repo-downloads/repo-1 -o repo
+chmod +x repo
 mv repo /usr/bin/
 chmod a+x /usr/bin/repo
 
