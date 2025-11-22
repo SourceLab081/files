@@ -50,7 +50,10 @@ hadk
 EOF
 
 cat << 'EOF' > sdk_p.sh
-#/usr/sbin/useradd -m -u 1000 admin
+/usr/sbin/useradd -m -u 1000 admin
+rm /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
+
 #su admin
 zypper ref
 zypper in android-tools-hadk kmod createrepo_c nano
@@ -80,6 +83,8 @@ export DEVICE="fog"
 export PORT_ARCH="aarch64"
 EOF
 source ~/.hadk.env
+rm /etc/resolv.conf
+echo "nameserver 8.8.8.8" > /etc/resolv.conf
 apt-get update
 apt install cpio bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev openjdk-8-jdk python-is-python3 -yq
 curl http://commondatastorage.googleapis.com/git-repo-downloads/repo > repo
@@ -121,7 +126,10 @@ EOF
 
 mkdir sailfishos
 export PLATFORM_SDK_ROOT=$curDir/sailfishos
-curl -k -O https://releases.sailfishos.org/sdk/installers/latest/Jolla-latest-SailfishOS_Platform_SDK_Chroot-i486.tar.bz2
+if [ ! -f Jolla-latest-SailfishOS_Platform_SDK_Chroot-i486.tar.bz2 ]; then
+   curl -k -O https://releases.sailfishos.org/sdk/installers/latest/Jolla-latest-SailfishOS_Platform_SDK_Chroot-i486.tar.bz2
+fi
+
 sudo mkdir -p $PLATFORM_SDK_ROOT/sdks/sfossdk
 sudo tar --numeric-owner -p -xjf Jolla-latest-SailfishOS_Platform_SDK_Chroot-i486.tar.bz2 -C $PLATFORM_SDK_ROOT/sdks/sfossdk
 echo "export PLATFORM_SDK_ROOT=$PLATFORM_SDK_ROOT" >> ~/.bashrc
@@ -131,19 +139,21 @@ echo 'PS1="PlatformSDK $PS1"' >> ~/.mersdk.profile
 echo '[ -d /etc/bash_completion.d ] && for i in /etc/bash_completion.d/*;do . $i;done' >> ~/.mersdk.profile
 export dir=$PLATFORM_SDK_ROOT/sdks/sfossdk
 sudo cp sdk_p.sh $dir
-echo "test chroot first"
-sudo chroot  $dir /usr/sbin/useradd -m -u 1000 admin;
+#echo "test chroot first"
+#sudo chroot  $dir /usr/sbin/useradd -m -u 1000 admin;
 #sudo chroot $UBUNTU_CHROOT /bin/bash -c "chage -M 999999 $(id -nu 1000)"
 #sudo mount -t proc none $dir/proc
 #sudo mount --rbind /sys $dir/sys
 #sudo mount --rbind /dev $dir/dev
 sudo chroot  $dir /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_p.sh
 TARBALL=ubuntu-focal-20210531-android-rootfs.tar.bz2
-curl -O https://releases.sailfishos.org/ubu/$TARBALL
+if [ ! -f $TARBALL ]; then
+   curl -O https://releases.sailfishos.org/ubu/$TARBALL
+fi
 UBUNTU_CHROOT=$PLATFORM_SDK_ROOT/sdks/ubuntu
 sudo mkdir -p $UBUNTU_CHROOT
 sudo tar --numeric-owner -xjf $TARBALL -C $UBUNTU_CHROOT
-sudo cp sdk_ub.sh $UBUNTU_CHROOT
+sudo cp sdk_ub.sh $UBUNTU_CHROOT/
 sudo chroot  $UBUNTU_CHROOT /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_ub.sh
 #. proot.sh  $dir sdk_p.sh 
 
