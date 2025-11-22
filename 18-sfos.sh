@@ -134,6 +134,13 @@ echo '[ -d /etc/bash_completion.d ] && for i in /etc/bash_completion.d/*;do . $i
 export dir=$PLATFORM_SDK_ROOT/sdks/sfossdk
 sudo cp sdk_p.sh $dir
 sudo cp ~/.hadk.env  $dir/root/
+sudo cp -a /dev/p* $dir/dev/
+sudo cp -a /dev/null $dir/dev/
+sudo cp -a /dev/full $dir/dev/
+sudo cp -a /dev/random $dir/dev/
+sudo cp -a /dev/urandom $dir/dev/
+sudo cp -a /dev/zero $dir/dev/
+sudo cp -a /dev/tty $dir/dev/
 #echo "test chroot first"
 #sudo chroot  $dir /usr/sbin/useradd -m -u 1000 admin;
 #sudo chroot $UBUNTU_CHROOT /bin/bash -c "chage -M 999999 $(id -nu 1000)"
@@ -150,6 +157,14 @@ sudo mkdir -p $UBUNTU_CHROOT
 sudo tar --numeric-owner -xjf $TARBALL -C $UBUNTU_CHROOT
 sudo cp ~/.hadk.env  $UBUNTU_CHROOT/root/
 sudo cp sdk_ub.sh $UBUNTU_CHROOT/
+sudo cp -a /dev/p* $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/null $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/full $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/random $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/urandom $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/zero $UBUNTU_CHROOT/dev/
+sudo cp -a /dev/tty $UBUNTU_CHROOT/dev/
+
 sudo chroot  $UBUNTU_CHROOT /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_ub.sh
 #. proot.sh  $dir sdk_p.sh 
 
