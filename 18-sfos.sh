@@ -89,9 +89,9 @@ cd $ANDROID_ROOT
 
 su admin -c "repo init -u https://github.com/SailfishOS-msmnile/manifest.git -b hybris-18.1"
 su admin -c "rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b hybris-18.1 .repo/local_manifests"
-# repo sync --fetch-submodules -j$(nproc --all)
-su admin -c "wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh"
-su admin -c ". resync.sh"
+su admin -c "repo sync --fetch-submodules -j$(nproc --all)"
+#su admin -c "wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh"
+#su admin -c ". resync.sh"
 su admin -c "./hybris-patches/apply-patches.sh --mb"
 
 su admin -c "source build/envsetup.sh"
