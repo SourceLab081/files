@@ -57,12 +57,6 @@ echo "nameserver 8.8.8.8" > /etc/resolv.conf
 #su admin
 zypper ref
 zypper in android-tools-hadk kmod createrepo_c nano
-cat << 'EOF' > ~/.hadk.env
-export ANDROID_ROOT="hadk"
-export VENDOR="xiaomi"
-export DEVICE="fog"
-export PORT_ARCH="aarch64"
-EOF
 source ~/.hadk.env
 echo "Menjalankan script HADK..."
 mb2 --version
@@ -75,13 +69,6 @@ EOF
 cat << 'EOF' > sdk_ub.sh
 /usr/sbin/useradd -m -u 1000 admin
 chage -M 999999 $(id -nu 1000)
-
-cat << 'EOF' > ~/.hadk.env
-export ANDROID_ROOT="hadk"
-export VENDOR="xiaomi"
-export DEVICE="fog"
-export PORT_ARCH="aarch64"
-EOF
 source ~/.hadk.env
 rm /etc/resolv.conf
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
@@ -139,6 +126,7 @@ echo 'PS1="PlatformSDK $PS1"' >> ~/.mersdk.profile
 echo '[ -d /etc/bash_completion.d ] && for i in /etc/bash_completion.d/*;do . $i;done' >> ~/.mersdk.profile
 export dir=$PLATFORM_SDK_ROOT/sdks/sfossdk
 sudo cp sdk_p.sh $dir
+sudo cp ~/.hadk.env  $dir/root/
 #echo "test chroot first"
 #sudo chroot  $dir /usr/sbin/useradd -m -u 1000 admin;
 #sudo chroot $UBUNTU_CHROOT /bin/bash -c "chage -M 999999 $(id -nu 1000)"
@@ -153,6 +141,7 @@ fi
 UBUNTU_CHROOT=$PLATFORM_SDK_ROOT/sdks/ubuntu
 sudo mkdir -p $UBUNTU_CHROOT
 sudo tar --numeric-owner -xjf $TARBALL -C $UBUNTU_CHROOT
+sudo cp ~/.hadk.env  $UBUNTU_CHROOT/root/
 sudo cp sdk_ub.sh $UBUNTU_CHROOT/
 sudo chroot  $UBUNTU_CHROOT /usr/bin/env -i PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/bin /bin/bash sdk_ub.sh
 #. proot.sh  $dir sdk_p.sh 
