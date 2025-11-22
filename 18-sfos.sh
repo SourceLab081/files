@@ -81,7 +81,7 @@ su admin -c "git config --global user.name "Tester""
 su admin -c "git config --global color.ui true"
 
 apt-get update
-apt install git git-lfs -yq
+apt install git git-lfs cpio ccache curl gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync squashfs-tools xsltproc zlib1g-dev openjdk-8-jdk  -yq
 
 mkdir -p $ANDROID_ROOT
 chown -R admin $ANDROID_ROOT
@@ -93,10 +93,6 @@ su admin -c "rm -rf .repo/local_manifests && git clone https://github.com/Source
 su admin -c "wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh"
 su admin -c ". resync.sh"
 su admin -c "./hybris-patches/apply-patches.sh --mb"
-
-# apt-get update
-#apt install cpio bc bison build-essential ccache curl flex g++-multilib gcc-multilib git gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev openjdk-8-jdk python-is-python3 -yq
-apt install cpio ccache curl gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev lib32z1-dev liblz4-tool libncurses5-dev libncurses5 libsdl1.2-dev libssl-dev libwxgtk3.0-gtk3-dev libxml2 libxml2-utils lzop pngcrush rsync squashfs-tools xsltproc zlib1g-dev openjdk-8-jdk  -yq
 
 su admin -c "source build/envsetup.sh"
 #export USE_CCACHE=1
