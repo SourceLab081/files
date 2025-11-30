@@ -1,6 +1,8 @@
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
+export non_hybris=yes
+echo "start date = `date`" > date.txt
 repo init --depth 1 -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-20.0 .repo/local_manifests 
 echo "repo sync" 
@@ -15,3 +17,4 @@ source build/envsetup.sh
 echo "Start the build" 
 make installclean
 brunch fog eng
+echo "end date = `date`" >> date.txt
