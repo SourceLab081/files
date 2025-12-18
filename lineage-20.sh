@@ -4,11 +4,15 @@ export BUILD_HOSTNAME=foss
 export non_hybris=yes
 echo "start date = `date`" > date.txt
 repo init --depth 1 -u https://github.com/LineageOS/android.git -b lineage-20.0 --git-lfs
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-20.0 .repo/local_manifests 
+rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-20 .repo/local_manifests 
 echo "repo sync" 
+/opt/crave/resync.sh
 #/opt/crave/resync.sh 
-wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
-. resync.sh
+# wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
+# . resync.sh
+curDir=`pwd`
+cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+
 echo "envsetup.sh" 
 source build/envsetup.sh 
 #export SELINUX_IGNORE_NEVERALLOWS=true
