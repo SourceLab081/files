@@ -54,8 +54,8 @@ dtb="out/arch/arm64/boot/dtb.img"
 dtbo="out/arch/arm64/boot/dtbo.img"
 
 if [ -f "$kernel" ]; then
-	cp $kernel $dtb $dtbo ../$AK3_DIR
-	cd ../$AK3_DIR && zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
+	cp $kernel $dtb $dtbo $AK3_DIR
+	cd $AK3_DIR && zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
 	cd $curDir
 	echo -e "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
          ./telegramUploader.sh  folds/$ZIPNAME 
