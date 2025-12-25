@@ -23,12 +23,16 @@ export PATH="$TC_DIR/bin:$PATH"
 
 mkdir -p $(pwd)/folds
 
-git clone $kernel_src .
+set -x
+git clone $kernel_src kernel
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
 git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR"
 git clone --depth=1 -b master https://github.com/CHRISL7/AnyKernel3 "AK3_DIR";
+set +x
 
-mkdir -p out
+mkdir -p kernel/out
+
+cd kernel
 
 export ARCH=arm64
 export LLVM=1
@@ -50,8 +54,8 @@ dtb="out/arch/arm64/boot/dtb.img"
 dtbo="out/arch/arm64/boot/dtbo.img"
 
 if [ -f "$kernel" ]; then
-	cp $kernel $dtb $dtbo $AK3_DIR
-	cd $AK3_DIR && zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
+	cp $kernel $dtb $dtbo ../$AK3_DIR
+	cd ../$AK3_DIR && zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
 	cd $curDir
 	echo -e "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
          ./telegramUploader.sh  folds/$ZIPNAME 
