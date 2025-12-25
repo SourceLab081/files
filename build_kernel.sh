@@ -37,6 +37,13 @@ export ARCH=arm64
 export LLVM=1
 export LLVM_IAS=1
 
+if [ "$KSU_NEXT" = "yes" ]; then
+    wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
+	. patch_ksu.sh
+	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
+	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
+fi
+
 make O=out $DEFCONFIG
 make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
