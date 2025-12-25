@@ -42,11 +42,7 @@ make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) \
-    O=out \
-    Image.gz dtb.img dtbo.img \
-    < /dev/null \
-    2> >(tee log.txt >&2) || ./telegramUploader.sh log.txt;exit $?	 
+make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) ||  ./telegramUploader.sh log.txt
 
 kernel="out/arch/arm64/boot/Image.gz"
 dtb="out/arch/arm64/boot/dtb.img"
