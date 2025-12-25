@@ -1,8 +1,8 @@
 #!/bin/bash
 #
-# Compile script for vauxite Kernel and others
+# Compile script for vauxite Kernel or others
 # Copyright (C) 2020-2021 Adithya R.
-# modified by @teleg3_7
+# modified by @teleg3_7 for use in circleci or others
 
 sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cpio flex cpio libncurses5-dev bison libssl-dev libelf-dev curl zip unzip
 
@@ -41,6 +41,7 @@ if [ "$KSU_NEXT" = "yes" ]; then
 	. patch_ksu.sh
 	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
 	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
+	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
 fi
 
 make O=out $DEFCONFIG
