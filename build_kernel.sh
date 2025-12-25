@@ -18,8 +18,8 @@ DEFCONFIG=$config
 curDir=`pwd`
 
 export PATH="$TC_DIR/bin:$PATH"
-export KBUILD_BUILD_USER=nobody
-export KBUILD_BUILD_HOST=android-build
+#export KBUILD_BUILD_USER=nobody
+#export KBUILD_BUILD_HOST=android-build
 
 mkdir -p $(pwd)/folds
 
