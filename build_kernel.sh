@@ -23,7 +23,6 @@ export PATH="$TC_DIR/bin:$PATH"
 
 mkdir -p $(pwd)/folds
 
-set -x
 git clone $kernel_src kernel
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
 git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR"
@@ -64,6 +63,4 @@ if [ -f "$kernel" ]; then
          ./telegramUploader.sh  folds/$ZIPNAME 
 else
 	echo  "\nCompilation failed!"
-	#exit 1
 fi
-set +x
