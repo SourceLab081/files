@@ -27,7 +27,7 @@ set -x
 git clone $kernel_src kernel
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
 git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR"
-git clone --depth=1 -b master https://github.com/CHRISL7/AnyKernel3 "AK3_DIR";
+git clone --depth=1 -b master https://github.com/CHRISL7/AnyKernel3 "$AK3_DIR";
 set +x
 
 mkdir -p kernel/out
