@@ -64,8 +64,10 @@ if [ -f "$kernel" ]; then
     echo "upload to github"
 	wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 	. uploadToGithub.sh folds/$ZIPNAME
+	. uploadToGithub.sh kernel/out/.config 
 	echo "upload to telegram"
-	./telegramUploader.sh  folds/$ZIPNAME 
+	./telegramUploader.sh  folds/$ZIPNAME
+	./telegramUploader.sh  kernel/out/.config
 else
 	echo  "\nCompilation failed!"
 fi
