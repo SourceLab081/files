@@ -61,7 +61,11 @@ if [ -f "$kernel" ]; then
 	cd $AK3_DIR && zip -r9 "../$ZIPNAME" * -x .git README.md *placeholder
 	cd $curDir
 	echo  "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
-         ./telegramUploader.sh  folds/$ZIPNAME 
+    echo "upload to github"
+	wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
+	. uploadToGithub.sh folds/$ZIPNAME
+	echo "upload to telegram"
+	./telegramUploader.sh  folds/$ZIPNAME 
 else
 	echo  "\nCompilation failed!"
 fi
