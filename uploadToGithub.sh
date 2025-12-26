@@ -12,4 +12,4 @@ tag='v0.2.2'
     -r uploadz \
     -t $tag \
     -n $1 \
-    -f $1' 
+    -f $1
