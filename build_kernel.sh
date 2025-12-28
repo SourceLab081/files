@@ -41,7 +41,9 @@ if [ "$KSU_NEXT" = "yes" ]; then
     set -x
     wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
 	. patch_ksu.sh
+	ls -al arch/arm64/configs/$DEFCONFIG
 	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
+	s -al arch/arm64/configs/$DEFCONFIG
 	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
 	set +x
@@ -52,7 +54,9 @@ make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
 if [ "$KSU_NEXT" = "yes" ]; then
     set -x
+	ls -al out/.config
 	echo "CONFIG_KSU=y" >> out/.config
+	ls -al out/.config
 	set +x
 fi
 
@@ -61,6 +65,8 @@ wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 echo -e "\nStarting compilation...\n"
 
 make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) || . uploadToGithub.sh log.txt; ./telegramUploader.sh log.txt
+
+ls -al out/.config
 
 kernel="out/arch/arm64/boot/Image.gz"
 dtb="out/arch/arm64/boot/dtb.img"
