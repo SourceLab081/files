@@ -48,9 +48,11 @@ fi
 make O=out $DEFCONFIG
 make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
+wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
+
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) ||  ./telegramUploader.sh log.txt
+make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) || . uploadToGithub.sh log.txt; ./telegramUploader.sh log.txt
 
 kernel="out/arch/arm64/boot/Image.gz"
 dtb="out/arch/arm64/boot/dtb.img"
@@ -63,7 +65,6 @@ if [ -f "$kernel" ]; then
 	cd $curDir
 	echo  "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
     echo "upload to github"
-	wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 	. uploadToGithub.sh folds/$ZIPNAME
 	. uploadToGithub.sh kernel/out/.config 
 	echo "upload to telegram"
