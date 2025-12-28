@@ -52,7 +52,7 @@ wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) || . uploadToGithub.sh log.txt; ./telegramUploader.sh log.txt
+make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) || . uploadToGithub.sh log.txt; ../telegramUploader.sh log.txt
 
 ls -al out/.config
 
