@@ -67,8 +67,8 @@ if [ -f "$kernel" ]; then
 	cd $curDir
 	echo  "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
     echo "upload to github"
-	. uploadToGithub.sh folds/$ZIPNAME
-	. uploadToGithub.sh kernel/out/.config 
+	. kernel/uploadToGithub.sh folds/$ZIPNAME
+	. kernel/uploadToGithub.sh kernel/out/.config 
 	echo "upload to telegram"
 	./telegramUploader.sh  folds/$ZIPNAME
 	./telegramUploader.sh  kernel/out/.config
