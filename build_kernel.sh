@@ -50,6 +50,12 @@ fi
 make O=out $DEFCONFIG
 make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
+if [ "$KSU_NEXT" = "yes" ]; then
+    set -x
+	echo "CONFIG_KSU=y" >> out/.config
+	set +x
+fi
+
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
 echo -e "\nStarting compilation...\n"
