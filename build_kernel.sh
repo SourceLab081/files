@@ -38,27 +38,15 @@ export LLVM=1
 export LLVM_IAS=1
 
 if [ "$KSU_NEXT" = "yes" ]; then
-    set -x
     wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
 	. patch_ksu.sh
-	ls -al arch/arm64/configs/$DEFCONFIG
 	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
-	s -al arch/arm64/configs/$DEFCONFIG
 	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
-	set +x
 fi
 
 make O=out $DEFCONFIG
 make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
-
-if [ "$KSU_NEXT" = "yes" ]; then
-    set -x
-	ls -al out/.config
-	echo "CONFIG_KSU=y" >> out/.config
-	ls -al out/.config
-	set +x
-fi
 
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
