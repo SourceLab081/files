@@ -7,8 +7,8 @@
 sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cpio flex cpio libncurses5-dev bison libssl-dev libelf-dev curl zip unzip
 
 kernel_src="--depth=1 -b fog-new https://github.com/SourceLab081/greenforce"
-config="vendor/fog-hybris_defconfig"
-variant="hybris_gf"
+config="vendor/fog-perf_defconfig"
+variant="greenforce"
 
 SECONDS=0 # builtin bash timer
 ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.zip"
