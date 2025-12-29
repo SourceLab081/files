@@ -13,6 +13,9 @@ sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cp
 
 SECONDS=0 # builtin bash timer
 ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.zip"
+LOGTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_log.txt"
+CONFTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_config.txt"
+
 TC_DIR="$(pwd)/folds/clang-r450784e"
 AK3_DIR="$(pwd)/folds/AnyKernel3"
 DEFCONFIG=$config
@@ -43,6 +46,8 @@ if [ "$KSU_NEXT" = "yes" ]; then
 	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
 	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
+	LOGTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT_log.txt"
+    CONFTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_config.txt"
 fi
 
 make O=out $DEFCONFIG
@@ -52,7 +57,7 @@ wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee log.txt >&2) || . uploadToGithub.sh log.txt; ../telegramUploader.sh log.txt
+make -j$(nproc --all) O=out  Image.gz dtb.img dtbo.img 2> >(tee $LOGTXT >&2) || . uploadToGithub.sh log.txt; ../telegramUploader.sh $LOGTXT
 
 ls -al out/.config
 
@@ -67,11 +72,12 @@ if [ -f "$kernel" ]; then
 	cd $curDir
 	echo  "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
     echo "upload to github"
+	cp  kernel/out/.config $CONFTXT
 	. kernel/uploadToGithub.sh folds/$ZIPNAME
-	. kernel/uploadToGithub.sh kernel/out/.config 
+	. kernel/uploadToGithub.sh $CONFTXT 
 	echo "upload to telegram"
 	./telegramUploader.sh  folds/$ZIPNAME
-	./telegramUploader.sh  kernel/out/.config
+	./telegramUploader.sh  $CONFTXT
 else
 	echo  "\nCompilation failed!"
 fi
