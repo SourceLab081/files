@@ -45,7 +45,8 @@ if [ "$KSU_NEXT" = "yes" ]; then
 	. patch_ksu.sh
 	echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
 	#rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
-	curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s stable
+	#curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s stable
+	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
 	LOGTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT_log.txt"
     CONFTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_config.txt"
