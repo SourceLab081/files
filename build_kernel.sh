@@ -13,8 +13,8 @@ sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cp
 
 SECONDS=0 # builtin bash timer
 ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.zip"
-LOGTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_log.txt"
-CONFTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_config.txt"
+LOGTXT="Log-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.txt"
+CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.txt"
 
 TC_DIR="$(pwd)/folds/clang-r450784e"
 AK3_DIR="$(pwd)/folds/AnyKernel3"
@@ -50,8 +50,8 @@ if [ "$KSU_NEXT" = "yes" ]; then
 	#wget https://github.com/SourceLab081/files/raw/refs/heads/main/fix_ksuNext.sh
     #. fix_ksuNext.sh
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.zip"
-	LOGTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT_log.txt"
-    CONFTXT="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog_config.txt"
+	LOGTXT="Log_Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.txt"
+    CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.txt"
 fi
 
 make O=out $DEFCONFIG
