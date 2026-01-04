@@ -78,7 +78,7 @@ if [ -f "$kernel" ]; then
     echo "upload to github"
 	cp  kernel/out/.config $CONFTXT
 	. kernel/uploadToGithub.sh folds/$ZIPNAME
-	. kernel/uploadToGithub.sh $CONFTXT 
+	# . kernel/uploadToGithub.sh $CONFTXT 
 	echo "upload to telegram"
 	./telegramUploader.sh  folds/$ZIPNAME
 	./telegramUploader.sh  $CONFTXT
