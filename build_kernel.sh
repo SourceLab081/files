@@ -4,7 +4,7 @@
 # Copyright (C) 2020-2021 Adithya R.
 # modified by @teleg3_7 for use in circleci or others
 
-sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cpio flex cpio libncurses5-dev bison libssl-dev libelf-dev curl zip unzip
+sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cpio flex cpio libncurses5-dev bison libssl-dev libelf-dev curl zip unzip wget
 
 # These variables are set outside the file so that there is no need to change this file.
 # kernel_src="--depth=1 -b fog-new https://github.com/SourceLab081/greenforce"
@@ -16,25 +16,50 @@ ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.zip"
 LOGTXT="Log-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.txt"
 CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog.txt"
 
-TC_DIR="$(pwd)/folds/clang-r450784e"
 AK3_DIR="$(pwd)/folds/AnyKernel3"
 DEFCONFIG=$config
 curDir=`pwd`
 
-export PATH="$TC_DIR/bin:$PATH"
 #export KBUILD_BUILD_USER=nobody
 #export KBUILD_BUILD_HOST=android-build
 
 mkdir -p $(pwd)/folds
 
-git clone $kernel_src kernel
+git clone $kernel_src kernel_src
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
-git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR"
 git clone --depth=1 -b master https://github.com/SourceLab081/AnyKernel3 "$AK3_DIR";
+if [ "$eva" = "yes" ]; then
+    cd $(pwd)/folds
+    wget https://github.com/mvaisakh/gcc-build/releases/download/04012026/eva-gcc-arm-04012026.xz
+    wget https://github.com/mvaisakh/gcc-build/releases/download/04012026/eva-gcc-arm64-04012026.xz    
+	tar -xf eva-gcc-arm-04012026.xz
+	tar -xf eva-gcc-arm64-04012026.xz
+	export PATH="$(pwd)/folds/gcc-arm64/bin:$(pwd)/folds/gcc-arm/bin:$PATH"
+	export SUBARCH="arm64" \
+                CROSS_COMPILE="aarch64-elf-" \
+  #CROSS_COMPILE_ARM32="arm-eabi-" \
+  CC="aarch64-elf-gcc" \
+  AR="aarch64-elf-ar" \
+  AS="aarch64-elf-as" \
+  NM="aarch64-elf-nm" \
+  LD="aarch64-elf-ld" \
+  STRIP="aarch64-elf-strip" \
+  OBJCOPY="aarch64-elf-objcopy" \
+  OBJDUMP="aarch64-elf-objdump" \
+  OBJSIZE="aarch64-elf-size" \
+  READELF="aarch64-elf-readelf" \
+  HOSTCC="aarch64-elf-gcc" \
+  HOSTCXX="aarch64-elf-g++" \
+  HOSTAR="aarch64-elf-ar"
+	cd $curDir
+else
+    TC_DIR="$(pwd)/folds/clang-r450784e"
+    git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
+    export PATH="$TC_DIR/bin:$PATH"
+fi
+mkdir -p kernel_src/out
 
-mkdir -p kernel/out
-
-cd kernel
+cd kernel_src
 
 export ARCH=arm64
 export LLVM=1
@@ -76,8 +101,8 @@ if [ -f "$kernel" ]; then
 	cd $curDir
 	echo  "\nCompleted in $((SECONDS / 60)) minute(s) and $((SECONDS % 60)) second(s) !"
     echo "upload to github"
-	cp  kernel/out/.config $CONFTXT
-	. kernel/uploadToGithub.sh folds/$ZIPNAME
+	cp  kernel_src/out/.config $CONFTXT
+	. kernel_src/uploadToGithub.sh folds/$ZIPNAME
 	# . kernel/uploadToGithub.sh $CONFTXT 
 	echo "upload to telegram"
 	./telegramUploader.sh  folds/$ZIPNAME
