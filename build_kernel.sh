@@ -3,9 +3,6 @@
 # Compile script for vauxite Kernel or others
 # Copyright (C) 2020-2021 Adithya R.
 # modified by @teleg3_7 for use in circleci or others
-
-sudo apt update && sudo apt install -y libc++-dev build-essential git bc kmod cpio flex cpio libncurses5-dev bison libssl-dev libelf-dev curl zip unzip wget
-
 # These variables are set outside the file so that there is no need to change this file.
 # kernel_src="--depth=1 -b fog-new https://github.com/SourceLab081/greenforce"
 # config="vendor/fog-perf_defconfig"
@@ -29,12 +26,12 @@ git clone $kernel_src kernel_src
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
 git clone --depth=1 -b master https://github.com/SourceLab081/AnyKernel3 "$AK3_DIR";
 if [ "$eva" = "yes" ]; then
-    cd $(pwd)/folds
+    cd $curDir/folds
     wget https://github.com/mvaisakh/gcc-build/releases/download/04012026/eva-gcc-arm-04012026.xz
     wget https://github.com/mvaisakh/gcc-build/releases/download/04012026/eva-gcc-arm64-04012026.xz    
 	tar -xf eva-gcc-arm-04012026.xz
 	tar -xf eva-gcc-arm64-04012026.xz
-	export PATH="$(pwd)/folds/gcc-arm64/bin:$(pwd)/folds/gcc-arm/bin:$PATH"
+	export PATH="$curDir/folds/gcc-arm64/bin:$curDir/folds/gcc-arm/bin:$PATH"
 	export SUBARCH="arm64" \
                 CROSS_COMPILE="aarch64-elf-" \
   #CROSS_COMPILE_ARM32="arm-eabi-" \
@@ -51,7 +48,8 @@ if [ "$eva" = "yes" ]; then
   HOSTCC="aarch64-elf-gcc" \
   HOSTCXX="aarch64-elf-g++" \
   HOSTAR="aarch64-elf-ar"
-	cd $curDir
+  pwd;ls -la .
+  cd $curDir
 else
     TC_DIR="$(pwd)/folds/clang-r450784e"
     git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
