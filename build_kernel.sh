@@ -60,8 +60,8 @@ mkdir -p kernel_src/out
 cd kernel_src
 
 export ARCH=arm64
-export LLVM=1
-export LLVM_IAS=1
+#export LLVM=1
+#export LLVM_IAS=1
 
 if [ "$KSU_NEXT" = "yes" ]; then
     #wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
