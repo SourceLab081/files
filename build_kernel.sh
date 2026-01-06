@@ -54,14 +54,14 @@ else
     TC_DIR="$(pwd)/folds/clang-r450784e"
     git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
     export PATH="$TC_DIR/bin:$PATH"
+	export LLVM=1
+    export LLVM_IAS=1
 fi
 mkdir -p kernel_src/out
 
 cd kernel_src
 
 export ARCH=arm64
-#export LLVM=1
-#export LLVM_IAS=1
 
 if [ "$KSU_NEXT" = "yes" ]; then
     #wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
@@ -84,7 +84,7 @@ wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) O=out  Image.gz  dtbo.img 2> >(tee $LOGTXT >&2) || . uploadToGithub.sh $LOGTXT; ../telegramUploader.sh $LOGTXT
+make -j$(nproc --all) O=out  2> >(tee $LOGTXT >&2) || . uploadToGithub.sh $LOGTXT; ../telegramUploader.sh $LOGTXT
 
 ls -al out/.config
 
