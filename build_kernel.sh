@@ -79,7 +79,7 @@ elif [ "$protonNLos" = "yes" ]; then
   mv folds/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9-lineage-19.1 folds/los_arm
   wget -q -O aarch64.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-19.1.zip
   unzip aarch64.zip -d folds/
-  sudo mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
+  mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
 else
     TC_DIR="$(pwd)/folds/clang-r450784e"
     git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
