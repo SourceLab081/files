@@ -62,6 +62,8 @@ elif [ "$protonNLos" = "yes" ]; then
   wget -q -O aarch64.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-19.1.zip
   unzip aarch64.zip -d folds/
   mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
+  export LLVM=1
+  export LLVM_IAS=1
   export PATH="${curDir}"/folds/proton/bin:"${curDir}"/folds/los_arm64/bin:"${curDir}"/folds/los_arm/bin:${PATH}
   export SUBARCH="ARM64" \
   CROSS_COMPILE="aarch64-linux-gnu-" \
