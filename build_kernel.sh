@@ -51,6 +51,18 @@ if [ "$eva" = "yes" ]; then
   pwd;ls -la .
   cd $curDir
 elif [ "$protonNLos" = "yes" ]; then
+  
+  wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
+  unzip master.zip -d folds/
+  mv folds/proton-clang-master folds/proton
+  mv folds/proton/bin/ld folds/proton/bin/ld_bak
+  wget -q -O arm.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/archive/refs/heads/lineage-19.1.zip
+  unzip arm.zip -d folds/
+  mv folds/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9-lineage-19.1 folds/los_arm
+  wget -q -O aarch64.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-19.1.zip
+  unzip aarch64.zip -d folds/
+  mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
+  export PATH="${curDir}"/folds/proton/bin:"${curDir}"/folds/los_arm64/bin:"${curDir}"/folds/los_arm/bin:${PATH}
   export SUBARCH="ARM64" \
   CROSS_COMPILE="aarch64-linux-gnu-" \
   CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
@@ -69,17 +81,6 @@ elif [ "$protonNLos" = "yes" ]; then
   HOSTAR="aarch64-linux-gnu-ar" \
   CLANG_TRIPLE="aarch64-linux-gnu-" \
   STRIP="llvm-strip"
-  export PATH="${curDir}"folds/proton/bin:"${curDir}"/folds/los_arm64/bin:"${curDir}"/folds/los_arm/bin:${PATH}
-  wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
-  unzip master.zip -d folds/
-  mv folds/proton-clang-master folds/proton
-  mv folds/proton/bin/ld folds/proton/bin/ld_bak
-  wget -q -O arm.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/archive/refs/heads/lineage-19.1.zip
-  unzip arm.zip -d folds/
-  mv folds/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9-lineage-19.1 folds/los_arm
-  wget -q -O aarch64.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-19.1.zip
-  unzip aarch64.zip -d folds/
-  mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
 else
     TC_DIR="$(pwd)/folds/clang-r450784e"
     git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
@@ -92,7 +93,7 @@ mkdir -p kernel_src/out
 cd kernel_src
 
 export ARCH=arm64
-
+echo $PATH
 if [ "$KSU_NEXT" = "yes" ]; then
     #wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
 	#. patch_ksu.sh
