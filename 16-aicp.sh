@@ -17,9 +17,9 @@ if [ ! -d vendor/extra ]; then
    cd ../..
 fi
 
-if [ ! -f script_sch2.sh ]; then
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
-fi
+#if [ ! -f script_sch2.sh ]; then
+#   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+#fi
 . script_sch2.sh
 
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.5/280dpi && mv 280dpi vendor/aicp/charger/images/ 
