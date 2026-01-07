@@ -22,7 +22,12 @@ curDir=`pwd`
 
 mkdir -p $(pwd)/folds
 
-git clone $kernel_src kernel_src
+if [ "$fromFile" = "yes" ]; then
+   unzip $file_src -d kernel_src
+else
+    git clone $kernel_src kernel_src
+fi
+
 wget https://github.com/SourceLab081/files/raw/refs/heads/main/telegramUploader.sh && chmod +x telegramUploader.sh
 git clone --depth=1 -b master https://github.com/SourceLab081/AnyKernel3 "$AK3_DIR";
 if [ "$eva" = "yes" ]; then
