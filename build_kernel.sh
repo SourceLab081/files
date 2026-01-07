@@ -50,6 +50,35 @@ if [ "$eva" = "yes" ]; then
   HOSTAR="aarch64-elf-ar"
   pwd;ls -la .
   cd $curDir
+elif [ "$protonNLos" = "yes" ]; then
+  export SUBARCH="ARM64" \
+  CROSS_COMPILE="aarch64-linux-gnu-" \
+  CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
+  CC="clang" \
+  AR="aarch64-linux-gnu-ar" \
+  AS="aarch64-linux-gnu-as" \
+  NM="aarch64-linux-gnu-nm" \
+  LD="aarch64-linux-gnu-ld" \
+  STRIP="aarch64-linux-gnu-strip" \
+  OBJCOPY="aarch64-linux-gnu-objcopy" \
+  OBJDUMP="aarch64-linux-gnu-objdump" \
+  OBJSIZE="aarch64-linux-gnu-size" \
+  READELF="aarch64-linux-gnu-readelf" \
+  HOSTCC="clang" \
+  HOSTCXX="clang++" \
+  HOSTAR="aarch64-linux-gnu-ar" \
+  CLANG_TRIPLE="aarch64-linux-gnu-" \
+  STRIP="llvm-strip"
+  export PATH="${curDir}"folds/proton/bin:"${curDir}"/folds/los_arm64/bin:"${curDir}"/folds/los_arm/bin:${PATH}
+  wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
+  unzip master.zip -d folds/
+  mv folds/proton-clang-master folds/proton
+  wget -q -O arm.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/archive/refs/heads/lineage-19.1.zip
+  unzip arm.zip -d folds/
+  mv folds/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9-lineage-19.1 folds/los_arm
+  wget -q -O aarch64.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9/archive/refs/heads/lineage-19.1.zip
+  unzip aarch64.zip -d folds/
+  sudo mv folds/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9-lineage-19.1 folds/los_arm64
 else
     TC_DIR="$(pwd)/folds/clang-r450784e"
     git clone --depth=1 -b 14 https://gitlab.com/ThankYouMario/android_prebuilts_clang-standalone "$TC_DIR" 
