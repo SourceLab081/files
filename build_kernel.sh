@@ -58,7 +58,7 @@ elif [ "$protonNLos" = "yes" ]; then
   AR="aarch64-linux-gnu-ar" \
   AS="aarch64-linux-gnu-as" \
   NM="aarch64-linux-gnu-nm" \
-  LD="aarch64-linux-gnu-ld" \
+  #LD="aarch64-linux-gnu-ld" \
   STRIP="aarch64-linux-gnu-strip" \
   OBJCOPY="aarch64-linux-gnu-objcopy" \
   OBJDUMP="aarch64-linux-gnu-objdump" \
@@ -73,6 +73,7 @@ elif [ "$protonNLos" = "yes" ]; then
   wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
   unzip master.zip -d folds/
   mv folds/proton-clang-master folds/proton
+  mv folds/proton/bin/ld folds/proton/bin/ld_bak
   wget -q -O arm.zip https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9/archive/refs/heads/lineage-19.1.zip
   unzip arm.zip -d folds/
   mv folds/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9-lineage-19.1 folds/los_arm
