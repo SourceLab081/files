@@ -79,8 +79,8 @@ elif [ "$proton" = "yes" ]; then
   HOSTCC="clang"
   HOSTCXX="clang++"
   HOSTAR="aarch64-linux-gnu-ar"
-  CLANG_TRIPLE="aarch64-linux-gnu-
-elif [ "$protonNLos" = "yes" ]; then
+  CLANG_TRIPLE="aarch64-linux-gnu-"
+ elif [ "$protonNLos" = "yes" ]; then
   
   wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
   unzip master.zip -d folds/
