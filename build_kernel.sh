@@ -55,6 +55,31 @@ if [ "$eva" = "yes" ]; then
   HOSTAR="aarch64-elf-ar"
   pwd;ls -la .
   cd $curDir
+elif [ "$proton" = "yes" ]; then
+  wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
+  unzip master.zip -d folds/
+  mv folds/proton-clang-master folds/proton
+  mv folds/proton/bin/ld folds/proton/bin/ld_bak
+  export LLVM=1
+  export LLVM_IAS=1
+  export PATH="${curDir}"/folds/proton/bin:${PATH}
+  export SUBARCH="ARM64" \
+  CROSS_COMPILE="aarch64-linux-gnu-"
+  CROSS_COMPILE_ARM32="arm-linux-gnueabi-"
+  CC="clang"
+  AR="aarch64-linux-gnu-ar"
+  AS="aarch64-linux-gnu-as"
+  NM="aarch64-linux-gnu-nm"
+  #LD="aarch64-linux-gnu-ld"
+  STRIP="aarch64-linux-gnu-strip"
+  OBJCOPY="aarch64-linux-gnu-objcopy"
+  OBJDUMP="aarch64-linux-gnu-objdump"
+  OBJSIZE="aarch64-linux-gnu-size"
+  READELF="aarch64-linux-gnu-readelf"
+  HOSTCC="clang"
+  HOSTCXX="clang++"
+  HOSTAR="aarch64-linux-gnu-ar"
+  CLANG_TRIPLE="aarch64-linux-gnu-
 elif [ "$protonNLos" = "yes" ]; then
   
   wget https://github.com/kdrag0n/proton-clang/archive/refs/heads/master.zip
