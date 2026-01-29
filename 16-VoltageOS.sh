@@ -38,7 +38,7 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #lunch yaap_fog-userdebug
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
-#make installclean
+make installclean
 
 brunch fog eng
 #echo "build the code"
