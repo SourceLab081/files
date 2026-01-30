@@ -40,7 +40,7 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #breakfast fog eng
 make installclean
 
-brunch fog eng
+brunch fog user
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
