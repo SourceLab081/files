@@ -36,4 +36,4 @@ export SELINUX_IGNORE_NEVERALLOWS=true
 #lunch aicp_fog-eng
 make installclean
 echo "Breakfast + Build the code"
-brunch fog eng
+brunch fog user
