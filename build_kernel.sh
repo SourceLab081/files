@@ -126,7 +126,20 @@ cd kernel_src
 
 export ARCH=arm64
 echo $PATH
-if [ "$KSU_NEXT" = "yes" ]; then
+
+if [ "$KSUN_SUSFS" = "yes" ]; then
+    #wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
+	#. patch_ksu.sh
+	# echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
+	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs
+	#curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s stable
+	# rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
+	#wget https://github.com/SourceLab081/files/raw/refs/heads/main/fix_ksuNext.sh
+    #. fix_ksuNext.sh
+	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.zip"
+	LOGTXT="Log_Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.txt"
+    CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.txt"
+elif [ "$KSU_NEXT" = "yes" ]; then
     #wget https://github.com/SourceLab081/files/raw/refs/heads/main/patch_ksu.sh
 	#. patch_ksu.sh
 	# echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
