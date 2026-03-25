@@ -24,8 +24,9 @@ fi
 
 # wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.5/280dpi && mv 280dpi vendor/aicp/charger/images/ 
 
-#curDir=`pwd`
+curDir=`pwd`
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
 
 echo "envsetup.sh"
 . build/envsetup.sh
