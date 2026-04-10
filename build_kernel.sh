@@ -160,7 +160,7 @@ wget https://github.com/SourceLab081/files/raw/refs/heads/main/uploadToGithub.sh
 
 echo -e "\nStarting compilation...\n"
 
-make -j$(nproc --all) O=out  2> >(tee $LOGTXT >&2) || . uploadToGithub.sh $LOGTXT; ../telegramUploader.sh $LOGTXT
+make -j$(nproc --all) O=out  2> >(tee $LOGTXT >&2) || ../telegramUploader.sh $LOGTXT
 
 ls -al out/.config
 
