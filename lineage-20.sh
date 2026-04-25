@@ -15,7 +15,7 @@ sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6.5 /usr/lib/x86_64-linux-gnu/l
 # wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
 # . resync.sh
 curDir=`pwd`
-cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+# cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 
 echo "envsetup.sh" 
 source build/envsetup.sh 
