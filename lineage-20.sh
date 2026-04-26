@@ -25,4 +25,3 @@ source build/envsetup.sh
 echo "Start the build" 
 make installclean
 brunch fog user
-echo "end date = `date`" >> date.txt
