@@ -24,5 +24,5 @@ source build/envsetup.sh
 #breakfast fog eng
 echo "Start the build" 
 make installclean
-brunch fog eng
+brunch fog user
 echo "end date = `date`" >> date.txt
