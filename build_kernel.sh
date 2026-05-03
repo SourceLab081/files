@@ -132,7 +132,8 @@ if [ "$KSUN_SUSFS" = "yes" ]; then
 	#. patch_ksu.sh
 	# echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
 	#rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs
-	git pull --recurse-submodules
+	#git pull --recurse-submodules
+	git submodule update --init
 	#curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s stable
 	# rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
 	#wget https://github.com/SourceLab081/files/raw/refs/heads/main/fix_ksuNext.sh
@@ -145,7 +146,8 @@ elif [ "$KSU_NEXT" = "yes" ]; then
 	#. patch_ksu.sh
 	# echo "CONFIG_KSU=y" >> arch/arm64/configs/$DEFCONFIG
 	#rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - 
-	git pull --recurse-submodules
+	#git pull --recurse-submodules
+	git submodule update --init
 	#curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s stable
 	# rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
 	#wget https://github.com/SourceLab081/files/raw/refs/heads/main/fix_ksuNext.sh
