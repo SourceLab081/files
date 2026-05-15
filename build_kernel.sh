@@ -158,8 +158,10 @@ elif [ "$KSU_NEXT" = "yes" ]; then
 fi
 
 if [ "$halium" = "yes" ]; then
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.4/apparmor_halium.tar.xz
-   rm -rf security/apparmor/* && tar -xJf apparmor_halium.tar.xz -C security/apparmor/
+   #wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.4/apparmor_halium.tar.xz
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.4/security_halium.tar.xz
+   #rm -rf security/apparmor/* && tar -xJf apparmor_halium.tar.xz -C security/apparmor/
+   rm -rf security/* && tar -xJf security_halium.tar.xz -C security/
 fi
 
 make O=out $DEFCONFIG
