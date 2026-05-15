@@ -157,6 +157,11 @@ elif [ "$KSU_NEXT" = "yes" ]; then
     CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSU-NEXT.txt"
 fi
 
+if [ "$halium" = "yes" ]; then
+   wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.4/apparmor_halium.tar.xz
+   rm -rf security/apparmor/* && tar -xJf apparmor_halium.tar.xz -C security/apparmor/
+fi
+
 make O=out $DEFCONFIG
 make O=out olddefconfig KCONFIG_NONINTERACTIVE=y < /dev/null
 
