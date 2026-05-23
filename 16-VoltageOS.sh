@@ -19,7 +19,7 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
-
+wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
 rm -rf kernel/xiaomi/fog && git clone  -b fog-new3 --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
