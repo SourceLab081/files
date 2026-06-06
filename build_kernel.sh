@@ -138,6 +138,9 @@ if [ "$KSUN_SUSFS" = "yes" ]; then
 	# rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy
 	#wget https://github.com/SourceLab081/files/raw/refs/heads/main/fix_ksuNext.sh
     #. fix_ksuNext.sh
+	if [ "$PATCH_SUSFS" = "yes" ]; then
+	   wget https://raw.githubusercontent.com/SourceLab081/files/refs/heads/main/util.c && mv util.c KernelSU-Next/kernel/ 
+	fi   
 	ZIPNAME="Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.zip"
 	LOGTXT="Log_Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.txt"
     CONFTXT="Config-Kernel-$variant-$(date '+%Y%m%d-%H%M')-fog-KSUN_SUSFS.txt"
