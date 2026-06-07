@@ -33,9 +33,5 @@ export ALLOW_MISSING_DEPENDENCIES=true
 #echo "breakfast/lunch"
 #breakfast $DEVICE
 echo "start compiling..."
-#make installclean
+#make installclean    
 brunch fog user
-
-
-make -j$(nproc --all) hybris-hal droidmedia 
-# libui_compat_layer libsfplugin_ccodec
