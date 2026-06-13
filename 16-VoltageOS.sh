@@ -9,6 +9,7 @@ rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_
 
 echo "repo sync"
 /opt/crave/resync.sh
+
 # signing key
 curDir=`pwd`
 cd vendor/voltage-priv/keys
@@ -34,7 +35,7 @@ rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules
 
 echo "envsetup.sh"
 . build/envsetup.sh
-export ALLOW_MISSING_DEPENDENCIES=true 
+#export ALLOW_MISSING_DEPENDENCIES=true 
 export SELINUX_IGNORE_NEVERALLOWS=true
 #echo "breakfast/lunch"
 #lunch yaap_fog-userdebug
