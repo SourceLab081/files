@@ -43,7 +43,7 @@ echo "envsetup.sh"
 #breakfast fog eng
 make installclean
 
-brunch fog user
+brunch fog
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
