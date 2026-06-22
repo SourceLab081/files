@@ -4,8 +4,8 @@ export BUILD_HOSTNAME=foss
 rm -rf hybris-patches
 echo "start date = `date`"
 repo init --depth 1 -u https://github.com/LineageOS/android -b lineage-18.1 --git-lfs
-#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-18.1 .repo/local_manifests
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage .repo/local_manifests
+rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-18.1 .repo/local_manifests
+#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
 #repo sync --fetch-submodules -j$(nproc --all)
@@ -18,8 +18,8 @@ curDir=`pwd`
 FILE="/usr/lib/x86_64-linux-gnu/libncurses.so.5"
 if [ ! -f "$FILE" ]; then
   echo "File '$FILE' does not exist."
-  sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
-  sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libncurses.so.6 /usr/lib/x86_64-linux-gnu/libncurses.so.5 
+  sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5 
 fi
 
 #cd $curDir
@@ -27,7 +27,7 @@ fi
 echo "envsetup.sh"
 source build/envsetup.sh
 
-export ALLOW_MISSING_DEPENDENCIES=true 
+#export ALLOW_MISSING_DEPENDENCIES=true 
 #export SELINUX_IGNORE_NEVERALLOWS=true
 
 #echo "breakfast/lunch"
@@ -37,5 +37,5 @@ echo "start compiling..."
 brunch fog user
 
 
-make -j$(nproc --all) hybris-hal droidmedia 
+# make -j$(nproc --all) hybris-hal droidmedia 
 # libui_compat_layer libsfplugin_ccodec
