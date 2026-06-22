@@ -4,8 +4,8 @@ export BUILD_HOSTNAME=foss
 #rm -rf hybris-patches
 echo "start date = `date`"
 repo init --depth 1 -u https://github.com/LineageOS/android -b lineage-18.1 --git-lfs
-#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-18.1 .repo/local_manifests
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage .repo/local_manifests
+rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage-18.1 .repo/local_manifests
+#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b lineage .repo/local_manifests
 echo "repo sync"
 /opt/crave/resync.sh
 #repo sync --fetch-submodules -j$(nproc --all)
