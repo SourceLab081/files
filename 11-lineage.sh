@@ -27,7 +27,7 @@ fi
 echo "envsetup.sh"
 source build/envsetup.sh
 
-export ALLOW_MISSING_DEPENDENCIES=true 
+#export ALLOW_MISSING_DEPENDENCIES=true 
 #export SELINUX_IGNORE_NEVERALLOWS=true
 
 #echo "breakfast/lunch"
