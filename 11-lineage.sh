@@ -33,5 +33,5 @@ source build/envsetup.sh
 #echo "breakfast/lunch"
 #breakfast $DEVICE
 echo "start compiling..."
-#make installclean    
+make installclean    
 brunch fog user
