@@ -9,7 +9,6 @@ rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_
 
 echo "repo sync"
 /opt/crave/resync.sh
-
 # signing key
 curDir=`pwd`
 cd vendor/voltage-priv/keys
