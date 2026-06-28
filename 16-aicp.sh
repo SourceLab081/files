@@ -3,11 +3,11 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
-#rm -rf kernel/xiaomi/fog
-#repo init --depth 1 -u https://github.com/AICP/platform_manifest.git -b w16.2 --git-lfs
-#rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 16-aicp .repo/local_manifests
-#echo "repo sync"
-#/opt/crave/resync.sh
+
+repo init --depth 1 -u https://github.com/AICP/platform_manifest.git -b w16.2 --git-lfs
+rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 16-aicp .repo/local_manifests
+echo "repo sync"
+/opt/crave/resync.sh
 #wget https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
  #. resync.sh
 # signing key
@@ -27,7 +27,7 @@ fi
 curDir=`pwd`
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-#rm -rf kernel/xiaomi/fog && git clone  -b fog-new2 --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+rm -rf kernel/xiaomi/fog && git clone  -b fog-new2 --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
 echo "envsetup.sh"
 . build/envsetup.sh
