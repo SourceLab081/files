@@ -31,8 +31,8 @@ rm -rf kernel/xiaomi/fog && git clone  -b fog-new2 --depth 1 --recurse-submodule
 
 echo "envsetup.sh"
 . build/envsetup.sh
-export ALLOW_MISSING_DEPENDENCIES=true 
-export SELINUX_IGNORE_NEVERALLOWS=true
+#export ALLOW_MISSING_DEPENDENCIES=true 
+#export SELINUX_IGNORE_NEVERALLOWS=true
 #echo "breakfast/lunch"
 #breakfast fog eng
 #lunch aicp_fog-eng
