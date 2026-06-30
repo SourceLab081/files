@@ -4,28 +4,29 @@ export BUILD_HOSTNAME=foss
 
 #rm -rf device/xiaomi/fog
 
-repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16.2 --git-lfs 
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
+#repo init --depth 1 -u https://github.com/VoltageOS/manifest.git -b 16.2 --git-lfs 
+#rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
 
-echo "repo sync"
-/opt/crave/resync.sh
+#echo "repo sync"
+#/opt/crave/resync.sh
 # signing key
 curDir=`pwd`
-cd vendor/voltage-priv/keys
-./keys.sh
+#cd vendor/voltage-priv/keys
+#./keys.sh
+#cd $curDir
+
+cd frameworks;mv base base_; git clone -b 16.2 https://github.com/VoltageOS/frameworks_base_new base;cd base; git checkout ca94c181d8a23569b8157427d4740154ea529b55 
 cd $curDir
-
-
-wget https://github.com/VoltageOS/bionic/raw/0c133d2f44e0cb6244509a817fc52f7178da39d4/libc/bionic/custom_rom_hide.cpp && mv custom_rom_hide.cpp bionic/libc/bionic/
+#wget https://github.com/VoltageOS/bionic/raw/0c133d2f44e0cb6244509a817fc52f7178da39d4/libc/bionic/custom_rom_hide.cpp && mv custom_rom_hide.cpp bionic/libc/bionic/
 ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+#rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
 if [ ! -f script_sch2.sh ]; then
    wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
 fi
-. script_sch2.sh
+#. script_sch2.sh
 
 
 # rm -rf out/target/product/fog/system/etc/vintf
