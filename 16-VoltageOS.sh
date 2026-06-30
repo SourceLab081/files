@@ -4,7 +4,7 @@ export BUILD_HOSTNAME=foss
 
 #rm -rf device/xiaomi/fog
 
-repo init -u https://github.com/VoltageOS/manifest.git -b 16.2 --git-lfs
+repo init -u https://github.com/VoltageOS/manifest.git -b 16.2 --git-lfs --no-clone-bundle
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
 
 #echo "repo sync"
@@ -15,10 +15,10 @@ cd vendor/voltage-priv/keys
 ./keys.sh
 cd $curDir
 
-cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
-cd $curDir
-cd packages/apps/Settings && git checkout 6205287aa09f078fba8a9f03b6fa32d4d9c1f79e
-cd $curDir
+#cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
+#cd $curDir
+#cd packages/apps/Settings && git checkout 6205287aa09f078fba8a9f03b6fa32d4d9c1f79e
+#cd $curDir
 #wget https://github.com/VoltageOS/bionic/raw/0c133d2f44e0cb6244509a817fc52f7178da39d4/libc/bionic/custom_rom_hide.cpp && mv custom_rom_hide.cpp bionic/libc/bionic/
 ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
