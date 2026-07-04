@@ -15,6 +15,9 @@ cd vendor/voltage-priv/keys
 ./keys.sh
 cd $curDir
 
+rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
+cd $curDir
+
 #cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
 #cd $curDir
 #cd packages/apps/Settings && git checkout 6205287aa09f078fba8a9f03b6fa32d4d9c1f79e
@@ -23,7 +26,7 @@ cd $curDir
 ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
 #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-#rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
 #if [ ! -f script_sch2.sh ]; then
 #   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
