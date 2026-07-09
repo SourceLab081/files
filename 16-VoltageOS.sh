@@ -16,8 +16,8 @@ cd vendor/voltage-priv/keys
 ./keys.sh
 cd $curDir
 
-rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
-cd $curDir
+#rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
+#cd $curDir
 
 #cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
 #cd $curDir
