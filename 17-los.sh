@@ -32,7 +32,8 @@ echo "envsetup.sh"
 #export SELINUX_IGNORE_NEVERALLOWS=true
 #echo "breakfast/lunch"
 #breakfast fog eng
-#lunch aicp_fog-eng
-make installclean
-echo "Breakfast + Build the code"
-brunch fog user
+lunch fog-cp2a-user
+mka bacon
+#make installclean
+#echo "Breakfast + Build the code"
+#brunch fog user
