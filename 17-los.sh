@@ -27,6 +27,11 @@ curDir=`pwd`
 
 export JAVA_TOOL_OPTIONS="-Xmx2112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
 export JACK_SERVER_VM_ARGUMENTS="-Xmx4g"
+sudo fallocate -l 32G swapfile
+sudo chmod 600 swapfile
+sudo mkswap swapfile
+sudo swapon swapfile
+
 echo "envsetup.sh"
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
@@ -34,7 +39,8 @@ echo "envsetup.sh"
 #echo "breakfast/lunch"
 #breakfast fog eng
 lunch fog-cp2a-user
-mka bacon
+#mka bacon
+make -j14 
 #make installclean
 #echo "Breakfast + Build the code"
 #brunch fog user
