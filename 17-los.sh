@@ -25,7 +25,7 @@ curDir=`pwd`
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
 ##rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
-export JAVA_TOOL_OPTIONS="-Xmx2112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
+export JAVA_TOOL_OPTIONS="-Xmx3112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
 export JACK_SERVER_VM_ARGUMENTS="-Xmx4g"
 #sudo fallocate -l 32G swapfile
 #sudo chmod 600 swapfile
@@ -44,7 +44,7 @@ echo "envsetup.sh"
 #breakfast fog eng
 lunch fog-cp2a-user
 #mka bacon
-make -j14 
+make -j15 
 #make installclean
 #echo "Breakfast + Build the code"
 #brunch fog user
