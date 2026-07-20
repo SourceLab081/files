@@ -27,10 +27,14 @@ curDir=`pwd`
 
 export JAVA_TOOL_OPTIONS="-Xmx2112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
 export JACK_SERVER_VM_ARGUMENTS="-Xmx4g"
-sudo fallocate -l 32G swapfile
-sudo chmod 600 swapfile
-sudo mkswap swapfile
-sudo swapon swapfile
+#sudo fallocate -l 32G swapfile
+#sudo chmod 600 swapfile
+#sudo mkswap swapfile
+#sudo swapon swapfile
+sudo modprobe zram
+echo 32G | sudo tee /sys/block/zram0/disksize
+sudo mkswap /dev/zram0
+sudo swapon /dev/zram0
 
 echo "envsetup.sh"
 . build/envsetup.sh
