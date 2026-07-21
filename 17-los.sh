@@ -25,19 +25,19 @@ curDir=`pwd`
 #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
 ##rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
-#export JAVA_TOOL_OPTIONS="-Xmx2112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
+export JAVA_TOOL_OPTIONS="-Xmx2112m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+UseG1GC -Dfile.encoding=UTF-8"	
 #export JACK_SERVER_VM_ARGUMENTS="-Xmx4g"
-export JAVA_TOOL_OPTIONS="-Xmx4g -XX:+UseG1GC -Dfile.encoding=UTF-8"
-export ANDROID_RAM_INDEX=4096
+#export JAVA_TOOL_OPTIONS="-Xmx4g -XX:+UseG1GC -Dfile.encoding=UTF-8"
+#export ANDROID_RAM_INDEX=4096
 
-export DISABLE_THINLTO=true
+#export DISABLE_THINLTO=true
 
 # 3. Kendalikan Parallel Jobs khusus untuk Linker C++
-export NINJA_ARGS="-j12"
-sudo fallocate -l 32G swapfile
-sudo chmod 600 swapfile
-sudo mkswap swapfile
-sudo swapon swapfile
+#export NINJA_ARGS="-j12"
+#sudo fallocate -l 32G swapfile
+#sudo chmod 600 swapfile
+#sudo mkswap swapfile
+#sudo swapon swapfile
 #sudo modprobe zram
 #echo 32G | sudo tee /sys/block/zram0/disksize
 #sudo mkswap /dev/zram0
@@ -51,7 +51,7 @@ echo "envsetup.sh"
 #breakfast fog eng
 lunch fog-cp2a-user
 #mka bacon
-make -j12 
+make -j14 
 #make installclean
 #echo "Breakfast + Build the code"
 #brunch fog user
