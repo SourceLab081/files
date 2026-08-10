@@ -63,7 +63,7 @@ START_SECONDS=$(date +%s)
   #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
   echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
-  #rm -rf /tmp/src/android/vendor/lineage-priv ;
+  rm -rf /tmp/src/android/vendor/lineage-priv ;
   kill -9 $$
 ) &
 SLEEPID=$!
