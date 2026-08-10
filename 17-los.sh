@@ -85,7 +85,8 @@ for i in 1 2 3 4 5 6 7 8; do
     USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
     USED_MINUTES=$((USED_SECONDS / 60))
     echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+    unset GOMEMLIMIT GOMAXPROCS
+    #GOGC GODEBUG
     kill -9 $SLEEPID
     break
   fi
