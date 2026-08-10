@@ -67,7 +67,8 @@ START_SECONDS=$(date +%s)
   kill -9 $$
 ) &
 SLEEPID=$!
-export GOMEMLIMIT=52GiB GOGC=20 GODEBUG="gctrace=1" GOMAXPROCS=12
+#export GOMEMLIMIT=52GiB GOGC=20 GODEBUG="gctrace=1" GOMAXPROCS=12
+export GOMEMLIMIT=52GiB GOMAXPROCS=12
 for i in 1 2 3 4 5 6 7 8; do
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
@@ -76,7 +77,8 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    false # check_fail
+    exit 1
+    #false  ;check_fail
   fi    
   if m nothing; then
     NOW_SECONDS=$(date +%s)
@@ -90,10 +92,12 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $i -eq 8 ]]; then
     echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    false  #check_fail
+    exit 1
+    #false  ;check_fail
   fi 
 done
-unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+#unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+unset GOMEMLIMIT GOMAXPROCS
 
 make -j$(nproc --all) 
 #make installclean
