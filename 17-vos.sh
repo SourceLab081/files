@@ -42,7 +42,7 @@ fi
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/file.te && mv file.te $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
-export GOGC=20
+export PACKAGE_NAME="vos-17"
 echo "envsetup.sh"
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
@@ -52,7 +52,48 @@ echo "envsetup.sh"
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
 make installclean
-
+echo "Build $PACKAGE_NAME starting soong. "
+START_SECONDS=$(date +%s)
+(
+  sleep 3000; # 50 minutes 
+  #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
+  #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
+  echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
+  rm -rf /tmp/src/android/vendor/lineage-priv ;
+  kill -9 $$
+) &
+SLEEPID=$!
+export GOMEMLIMIT=52GiB GOGC=20 GODEBUG="gctrace=1" GOMAXPROCS=12
+#export GOMEMLIMIT=52GiB GOMAXPROCS=12
+for i in 1 2 3 4 5 6 7 8; do
+  NOW_SECONDS=$(date +%s)
+  USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
+  USED_MINUTES=$((USED_SECONDS / 60))
+  echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
+  if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
+    echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
+    kill -9 $SLEEPID
+    exit 1
+    #false  ;check_fail
+  fi    
+  if m nothing; then
+    NOW_SECONDS=$(date +%s)
+    USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
+    USED_MINUTES=$((USED_SECONDS / 60))
+    echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
+    unset GOMEMLIMIT GOMAXPROCS GOGC GODEBUG
+    kill -9 $SLEEPID
+    break
+  fi
+  if [[ $i -eq 8 ]]; then
+    echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
+    kill -9 $SLEEPID
+    exit 1
+    #false  ;check_fail
+  fi 
+done
+unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+#unset GOMEMLIMIT GOMAXPROCS
 brunch fog
 #echo "build the code"
 #m yaap
