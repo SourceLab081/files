@@ -34,6 +34,27 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
+export PACKAGE_NAME="voltage"
+
+# Better than ' || exit 1 '
+check_fail () {
+  if [ $? -ne 0 ]; then 
+    if ls out/target/product/fog/$PACKAGE_NAME*.zip; then
+      echo "Build $PACKAGE_NAME on crave.io softfailed."
+      echo "weird. build failed but OTA package exists."
+      #cleanup_self
+      echo softfail > result.txt
+      exit 1
+    else
+      echo "Build $PACKAGE_NAME on crave.io failed."
+      echo "oh no. script failed"
+      #curl -L -F document=@"out/error.log" -F caption="error log" -F chat_id="$TG_CID" -X POST https://api.telegram.org/bot$TG_TOKEN/sendDocument > /dev/null 2>&1
+      #cleanup_self
+      echo fail > result.txt
+      exit 1 
+    fi
+ fi
+}
 
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
@@ -42,7 +63,6 @@ fi
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/file.te && mv file.te $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
-export PACKAGE_NAME="vos-17"
 echo "envsetup.sh"
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
@@ -61,7 +81,7 @@ START_SECONDS=$(date +%s)
   #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
   echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
-  rm -rf /tmp/src/android/vendor/lineage-priv ;
+  #rm -rf /tmp/src/android/vendor/lineage-priv ;
   kill -9 $$
 ) &
 SLEEPID=$!
@@ -75,8 +95,8 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    exit 1
-    #false  ;check_fail
+    #exit 1
+    false ; check_fail
   fi    
   if m nothing; then
     NOW_SECONDS=$(date +%s)
@@ -90,13 +110,14 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $i -eq 8 ]]; then
     echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    exit 1
-    #false  ;check_fail
+    #exit 1
+    false ; check_fail
   fi 
 done
 unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
 #unset GOMEMLIMIT GOMAXPROCS
 mka bacon
+echo success > result.txt
 #brunch fog
 #echo "build the code"
 #m yaap
