@@ -8,8 +8,8 @@ export BUILD_HOSTNAME=foss
 repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
 rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 16-VoltageOS .repo/local_manifests
 
-#echo "repo sync"
-##/opt/crave/resync.sh
+echo "repo sync"
+/opt/crave/resync.sh
 # signing key
 export curDir=`pwd`
 cd vendor/voltage-priv/keys
