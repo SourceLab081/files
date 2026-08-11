@@ -51,6 +51,8 @@ echo "envsetup.sh"
 #lunch yaap_fog-userdebug
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
+lunch voltage_fog-cp2a-user
+
 make installclean
 echo "Build $PACKAGE_NAME starting soong. "
 START_SECONDS=$(date +%s)
@@ -94,7 +96,8 @@ for i in 1 2 3 4 5 6 7 8; do
 done
 unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
 #unset GOMEMLIMIT GOMAXPROCS
-brunch fog
+mka bacon
+#brunch fog
 #echo "build the code"
 #m yaap
 #mka clover -j$(nproc --all)
