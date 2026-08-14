@@ -37,6 +37,8 @@ fi
 . script_sch2.sh
 
 #set +v
+cat /proc/meminfo
+free -h
 export PACKAGE_NAME="voltage"
 
 # Better than ' || exit 1 '
