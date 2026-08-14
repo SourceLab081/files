@@ -122,7 +122,7 @@ done
 unset GOGC
 #unset GOMEMLIMIT GOMAXPROCS GODEBUG
 
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon  -j$(nproc --all)
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon
 set -v
 #echo success > result.txt
 #brunch fog
