@@ -80,7 +80,7 @@ make installclean
 echo "Build $PACKAGE_NAME starting soong. "
 START_SECONDS=$(date +%s)
 (
-  sleep 3000; # 50 minutes 
+  sleep 3900; 
   #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
   echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
@@ -88,14 +88,15 @@ START_SECONDS=$(date +%s)
   kill -9 $$
 ) &
 SLEEPID=$!
-export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
+#export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
 #export GOMEMLIMIT=52GiB GOMAXPROCS=12 GODEBUG="gctrace=1"
+GOGC=20
 for i in 1 2 3 4 5 6 7 8; do
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
   USED_MINUTES=$((USED_SECONDS / 60))
   echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
-  if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
+  if [[ $USED_SECONDS -ge 3600 ]]; then 
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
     #exit 1
@@ -106,8 +107,8 @@ for i in 1 2 3 4 5 6 7 8; do
     USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
     USED_MINUTES=$((USED_SECONDS / 60))
     echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset GOMEMLIMIT GOMAXPROCS GOGC 
-    #GODEBUG
+    unset  GOGC 
+    #GOMEMLIMIT GOMAXPROCS GODEBUG
     kill -9 $SLEEPID
     break
   fi
@@ -118,7 +119,7 @@ for i in 1 2 3 4 5 6 7 8; do
     false ; check_fail
   fi 
 done
-unset GOMEMLIMIT GOGC GOMAXPROCS
+unset GOGC
 #unset GOMEMLIMIT GOMAXPROCS GODEBUG
 
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon  -j$(nproc --all)
