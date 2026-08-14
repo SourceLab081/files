@@ -36,7 +36,7 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
-set +v
+#set +v
 export PACKAGE_NAME="voltage"
 
 # Better than ' || exit 1 '
@@ -123,7 +123,7 @@ unset GOGC
 #unset GOMEMLIMIT GOMAXPROCS GODEBUG
 
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon
-set -v
+#set -v
 #echo success > result.txt
 #brunch fog
 #echo "build the code"
