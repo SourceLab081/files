@@ -85,9 +85,11 @@ START_SECONDS=$(date +%s)
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
   echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
   #rm -rf /tmp/src/android/vendor/lineage-priv ;
+  touch rm_soong #if failed after 1 hour then soong files are probably corrupt. delete on next script run.
   kill -9 $$
 ) &
 SLEEPID=$!
+if ls rm_soong; then rm -rf rm_soong out/soong; fi
 #export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
 #export GOMEMLIMIT=52GiB GOMAXPROCS=12 GODEBUG="gctrace=1"
 GOGC=20 GOMEMLIMIT=52GiB
@@ -99,7 +101,7 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $USED_SECONDS -ge 3600 ]]; then 
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    #exit 1
+    touch rm_soong
     false ; check_fail
   fi    
   if m nothing; then
@@ -110,12 +112,13 @@ for i in 1 2 3 4 5 6 7 8; do
     unset  GOGC GOMEMLIMIT
     #GOMEMLIMIT GOMAXPROCS GODEBUG
     kill -9 $SLEEPID
+     rm -f rm_soong
     break
   fi
   if [[ $i -eq 8 ]]; then
     echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    #exit 1
+    touch rm_soong
     false ; check_fail
   fi 
 done
