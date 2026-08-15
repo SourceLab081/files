@@ -36,7 +36,6 @@ if [ ! -f script_sch2.sh ]; then
 fi
 . script_sch2.sh
 
-#set +v
 cat /proc/meminfo
 free -h
 export PACKAGE_NAME="voltage"
@@ -61,6 +60,8 @@ check_fail () {
  fi
 }
 
+set +v
+
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
 # https://github.com/LineageOS/android_device_qcom_sepolicy_vndr/blob/lineage-22.2-legacy-um/generic/vendor/common/init_shell.te
@@ -79,53 +80,53 @@ echo "envsetup.sh"
 lunch voltage_fog-cp2a-user
 
 make installclean
+#A17 soong oom killed workaround.
+#soong_build is incremental i.e. it continues where it was before killed.
+#'m nothing' does first stage of build only.
 echo "Build $PACKAGE_NAME starting soong. "
 START_SECONDS=$(date +%s)
-(
-  sleep 3660; 
+( #do not hog the server. set a hard time limit. 30-45 minutes minimum needed.
+  sleep 3660; #1 hour
   #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
-  echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
   #rm -rf /tmp/src/android/vendor/lineage-priv ;
-  touch rm_soong #if failed after 1 hour then soong files are probably corrupt. delete on next script run.
+  #touch rm_soong #if failed after 1 hour then soong files are probably corrupt. delete on next script run.
   kill -9 $$
 ) &
 SLEEPID=$!
-if ls rm_soong; then rm -rf rm_soong out/soong; fi
-#export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
-#export GOMEMLIMIT=52GiB GOMAXPROCS=12 GODEBUG="gctrace=1"
-export GOGC=20 GOMEMLIMIT=52GiB
-for i in 1 2 3 4 5 6 7 8; do
+#if ls rm_soong; then rm -rf rm_soong out/soong; fi
+export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
+#GODEBUG="gctrace=1" 
+#export GOGC=20 GOMEMLIMIT=52GiB #these seem like optimal values, but still not good enough to succeed on 1 try.
+for i in 1 2 3 4 5 6 7 8 9; do #maximum needed for success is 6 tries so far, minimum 2. has failed on 8 too, before 45 min time limit.
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
   USED_MINUTES=$((USED_SECONDS / 60))
   echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
-  if [[ $USED_SECONDS -ge 3600 ]]; then 
-    echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
+  if [[ $USED_SECONDS -ge 3600 ]]; then
     kill -9 $SLEEPID
-    touch rm_soong
+    echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
+    #touch rm_soong
     false ; check_fail
-  fi    
+  fi
   if m nothing; then
+    kill -9 $SLEEPID
     NOW_SECONDS=$(date +%s)
     USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
     USED_MINUTES=$((USED_SECONDS / 60))
     echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset  GOGC GOMEMLIMIT
-    #GOMEMLIMIT GOMAXPROCS GODEBUG
-    kill -9 $SLEEPID
-     rm -f rm_soong
+    unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+    #rm -f rm_soong
     break
   fi
-  if [[ $i -eq 8 ]]; then
-    echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
+  if [[ $i -eq 9 ]]; then
     kill -9 $SLEEPID
-    touch rm_soong
+    echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
+    #touch rm_soong
     false ; check_fail
-  fi 
+  fi
 done
-unset GOGC GOMEMLIMIT
-#unset GOMEMLIMIT GOMAXPROCS GODEBUG
+unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
 
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon
 #set -v
