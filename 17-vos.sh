@@ -94,7 +94,7 @@ SLEEPID=$!
 if ls rm_soong; then rm -rf rm_soong out/soong; fi
 #export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
 #export GOMEMLIMIT=52GiB GOMAXPROCS=12 GODEBUG="gctrace=1"
-GOGC=20 GOMEMLIMIT=52GiB
+export GOGC=20 GOMEMLIMIT=52GiB
 for i in 1 2 3 4 5 6 7 8; do
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
