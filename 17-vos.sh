@@ -70,6 +70,7 @@ set +v
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
 echo "envsetup.sh"
+rm -rf rm_soong out/soong
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
 #export SELINUX_IGNORE_NEVERALLOWS=true
