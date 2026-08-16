@@ -4,40 +4,44 @@ export BUILD_HOSTNAME=foss
 
 #rm -rf device/xiaomi/fog
 #rm -rf device/xiaomi/fog-kernel
+export update="no"
+#touch rm_soong
+rm rm_soong
+if [ "$update" = "yes" ]; then
+   repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
+   rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
-repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
-rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
-
-echo "repo sync"
-/opt/crave/resync.sh
-# signing key
-export curDir=`pwd`
-cd vendor/voltage-priv/keys
-./keys.sh
-cd $curDir
-touch rm_soong
-rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
-rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
-rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
-#rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
-#cd $curDir
-
-#cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
-#cd $curDir
-#cd packages/apps/Settings && git checkout 6205287aa09f078fba8a9f03b6fa32d4d9c1f79e
-#cd $curDir
-#wget https://github.com/VoltageOS/bionic/raw/0c133d2f44e0cb6244509a817fc52f7178da39d4/libc/bionic/custom_rom_hide.cpp && mv custom_rom_hide.cpp bionic/libc/bionic/
-##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
-#cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
-#cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
-
-if [ ! -f script_sch2.sh ]; then
-   wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+   echo "repo sync"
+   /opt/crave/resync.sh
+   # signing key
+   export curDir=`pwd`
+   cd vendor/voltage-priv/keys
+   ./keys.sh
+   cd $curDir
+   
+   rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
+   rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
+   rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
+   #rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
+   #cd $curDir
+   
+   #cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
+   #cd $curDir
+   #cd packages/apps/Settings && git checkout 6205287aa09f078fba8a9f03b6fa32d4d9c1f79e
+   #cd $curDir
+   #wget https://github.com/VoltageOS/bionic/raw/0c133d2f44e0cb6244509a817fc52f7178da39d4/libc/bionic/custom_rom_hide.cpp && mv custom_rom_hide.cpp bionic/libc/bionic/
+   ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
+   #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
+   #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
+   rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+   
+   if [ ! -f script_sch2.sh ]; then
+      wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
+   fi
+   . script_sch2.sh
 fi
-. script_sch2.sh
 
-cat /proc/meminfo
+#cat /proc/meminfo
 free -h
 export PACKAGE_NAME="voltage"
 
@@ -90,7 +94,7 @@ make installclean
 echo "Build $PACKAGE_NAME starting soong. "
 START_SECONDS=$(date +%s)
 ( #do not hog the server. set a hard time limit. 30-45 minutes minimum needed.
-  sleep 3660; #1 hour
+  sleep 3000; 
   #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
   #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
   #rm -rf /tmp/src/android/vendor/lineage-priv ;
@@ -107,7 +111,7 @@ for i in 1 2 3 4 5 6 7 8 9; do #maximum needed for success is 6 tries so far, mi
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
   USED_MINUTES=$((USED_SECONDS / 60))
   echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
-  if [[ $USED_SECONDS -ge 3600 ]]; then
+  if [[ $USED_SECONDS -ge 2700 ]]; then
     kill -9 $SLEEPID
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     #touch rm_soong
