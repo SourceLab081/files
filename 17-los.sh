@@ -42,6 +42,10 @@ rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules
 #echo 32G | sudo tee /sys/block/zram0/disksize
 #sudo mkswap /dev/zram0
 #sudo swapon /dev/zram0
+rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
+rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
+rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
+
 PACKAGE_NAME=Pixelify-AOSP
 echo "envsetup.sh"
 . build/envsetup.sh
@@ -68,7 +72,7 @@ START_SECONDS=$(date +%s)
 ) &
 SLEEPID=$!
 #export GOMEMLIMIT=52GiB GOGC=20 GODEBUG="gctrace=1" GOMAXPROCS=12
-export GOMEMLIMIT=52GiB GOMAXPROCS=12
+export GOMEMLIMIT=52GiB GOMAXPROCS=12 GOGC=20
 for i in 1 2 3 4 5 6 7 8; do
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
@@ -77,7 +81,7 @@ for i in 1 2 3 4 5 6 7 8; do
   if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
     echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    exit 1
+    false ; exit 1
     #false  ;check_fail
   fi    
   if m nothing; then
@@ -85,20 +89,20 @@ for i in 1 2 3 4 5 6 7 8; do
     USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
     USED_MINUTES=$((USED_SECONDS / 60))
     echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset GOMEMLIMIT GOMAXPROCS
-    #GOGC GODEBUG
+    unset GOMEMLIMIT GOMAXPROCS GOGC
+    # GODEBUG
     kill -9 $SLEEPID
     break
   fi
   if [[ $i -eq 8 ]]; then
     echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
     kill -9 $SLEEPID
-    exit 1
+    false ; exit 1
     #false  ;check_fail
   fi 
 done
 #unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
-unset GOMEMLIMIT GOMAXPROCS
+unset GOMEMLIMIT GOMAXPROCS GOGC
 
 make -j$(nproc --all) 
 #make installclean
