@@ -2,6 +2,11 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 
+echo "memory:"
+free -h
+echo "cores:"
+nproc -all
+
 #rm -rf device/xiaomi/fog
 #rm -rf device/xiaomi/fog-kernel
 export update="no"
@@ -42,30 +47,8 @@ if [ "$update" = "yes" ]; then
 fi
 
 #cat /proc/meminfo
-free -h
 export PACKAGE_NAME="voltage"
 
-# Better than ' || exit 1 '
-check_fail () {
-  if [ $? -ne 0 ]; then 
-    if ls out/target/product/fog/$PACKAGE_NAME*.zip; then
-      echo "Build $PACKAGE_NAME on crave.io softfailed."
-      echo "weird. build failed but OTA package exists."
-      #cleanup_self
-      echo softfail > result.txt
-      exit 1
-    else
-      echo "Build $PACKAGE_NAME on crave.io failed."
-      echo "oh no. script failed"
-      #curl -L -F document=@"out/error.log" -F caption="error log" -F chat_id="$TG_CID" -X POST https://api.telegram.org/bot$TG_TOKEN/sendDocument > /dev/null 2>&1
-      #cleanup_self
-      echo fail > result.txt
-      exit 1 
-    fi
- fi
-}
-
-set +v
 
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
@@ -88,53 +71,34 @@ fi
 lunch voltage_fog-cp2a-user
 
 make installclean
-#A17 soong oom killed workaround.
-#soong_build is incremental i.e. it continues where it was before killed.
-#'m nothing' does first stage of build only.
-echo "Build $PACKAGE_NAME starting soong. "
-START_SECONDS=$(date +%s)
-( #do not hog the server. set a hard time limit. 30-45 minutes minimum needed.
-  sleep 3000; 
-  #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
-  #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
-  #rm -rf /tmp/src/android/vendor/lineage-priv ;
-  #touch rm_soong #if failed after 1 hour then soong files are probably corrupt. delete on next script run.
-  kill -9 $$
-) &
-SLEEPID=$!
-#if ls rm_soong; then rm -rf rm_soong out/soong; fi
-export GOMEMLIMIT=52GiB GOGC=20 GOMAXPROCS=12
-#GODEBUG="gctrace=1" 
-#export GOGC=20 GOMEMLIMIT=52GiB #these seem like optimal values, but still not good enough to succeed on 1 try.
-for i in 1 2 3 4 5 6 7 8 9; do #maximum needed for success is 6 tries so far, minimum 2. has failed on 8 too, before 45 min time limit.
-  NOW_SECONDS=$(date +%s)
-  USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
-  USED_MINUTES=$((USED_SECONDS / 60))
-  echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
-  if [[ $USED_SECONDS -ge 2700 ]]; then
-    kill -9 $SLEEPID
-    echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
-    #touch rm_soong
-    false ; check_fail
-  fi
-  if m nothing; then
-    kill -9 $SLEEPID
-    NOW_SECONDS=$(date +%s)
-    USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
-    USED_MINUTES=$((USED_SECONDS / 60))
-    echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
-    #rm -f rm_soong
-    break
-  fi
-  if [[ $i -eq 9 ]]; then
-    kill -9 $SLEEPID
-    echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
-    #touch rm_soong
-    false ; check_fail
-  fi
-done
-unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
+
+export GOMEMLIMIT=20GiB
+export GOGC=40
+export GOMAXPROCS=$(($(nproc) - 2))
+
+export _JAVA_OPTIONS="-Xmx24g -XX:+UseG1GC"
+
+# Matikan CCACHE karena server tidak memilikinya
+export USE_CCACHE=0
+
+# Optimasi penanganan RAM & Linker
+export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+export DISABLE_LTO=true
+export USE_CLANG_LLD=true
+
+# =======================================================
+# TAHAP 1: PRE-PARSING SOONG (m nothing)
+# =======================================================
+m nothing
+
+# =======================================================
+# TRANSISI FASE: LEPAS BATASAN CPU GO
+# =======================================================
+unset GOGC
+unset GOMAXPROCS
+
+# Bersihkan RAM cache OS jika ada akses sudo
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches 2>/dev/null
 
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon
 #set -v
