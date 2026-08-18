@@ -4,6 +4,8 @@ export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
 
+free -h
+nproc --all
 repo init --depth 1 -u https://github.com/AICP/platform_manifest.git -b w16.2 --git-lfs
 rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 16-aicp .repo/local_manifests
 echo "repo sync"
