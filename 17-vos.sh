@@ -100,7 +100,7 @@ unset GOMAXPROCS
 # Bersihkan RAM cache OS jika ada akses sudo
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches 2>/dev/null
 
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon -j$(nproc --all)
 #set -v
 #echo success > result.txt
 #brunch fog
