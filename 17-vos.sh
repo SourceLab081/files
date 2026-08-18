@@ -9,7 +9,7 @@ nproc -all
 
 #rm -rf device/xiaomi/fog
 #rm -rf device/xiaomi/fog-kernel
-export update="no"
+#export update="no"
 #touch rm_soong
 rm rm_soong
 if [ "$update" = "yes" ]; then
