@@ -5,12 +5,13 @@ export BUILD_HOSTNAME=foss
 echo "memory:"
 free -h
 echo "cores:"
-nproc -all
+nproc --all
 
 #rm -rf device/xiaomi/fog
 #rm -rf device/xiaomi/fog-kernel
 #export update="no"
 #touch rm_soong
+echo "update=$update"
 rm rm_soong
 if [ "$update" = "yes" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
