@@ -112,7 +112,7 @@ unset GOGC
 unset GOMAXPROCS
 
 # Naikkan batas Go untuk bacon (tetap di batas aman)
-export GOMEMLIMIT=20GiB 
+export GOMEMLIMIT=16GiB 
 
 # Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
