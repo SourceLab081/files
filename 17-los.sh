@@ -3,7 +3,8 @@ export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
 echo "start date = `date`"
-
+free -h
+nproc --all
 repo init --depth 1 -u https://github.com/Pixelify-AOSP/platform_manifest -b 17 --git-lfs
 rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 17-los .repo/local_manifests
 echo "repo sync"
@@ -57,53 +58,51 @@ lunch fog-cp2a-user
 #mka bacon
 mka installclean
 
-#A17 soong oom killed workaround.
-#soong_build is incremental ie. it continues where it was before killed.
-#'m nothing' does all things needed before actual build begins.
-echo "Build $PACKAGE_NAME starting soong. "
+echo "Build $PACKAGE_NAME starting soong."
+
+# 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
+export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
+export GOGC=20                   # GC sangat agresif
+export GOMAXPROCS=4              
+
+export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
+export USE_CCACHE=0
+export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+export DISABLE_LTO=true
+export USE_CLANG_LLD=true
+
 START_SECONDS=$(date +%s)
-(
-  sleep 3000; # 50 minutes 
-  #curl -s -X POST $TG_URL -d chat_id=$TG_CID -d text="crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" > /dev/null 2>&1 ;
-  #curl -s -d "crave.io build failed. soong timed out after limit. harakiri. `date`. JJ_SPEC:$JJ_SPEC" "ntfy.sh/$NTFYSUB" > /dev/null 2>&1 ;
-  echo "crave.io build failed. soong timed out after limit. harakiri. `date`"
-  rm -rf /tmp/src/android/vendor/lineage-priv ;
-  kill -9 $$
-) &
-SLEEPID=$!
-#export GOMEMLIMIT=52GiB GOGC=20 GODEBUG="gctrace=1" GOMAXPROCS=12
-export GOMEMLIMIT=52GiB GOMAXPROCS=12 GOGC=20
-for i in 1 2 3 4 5 6 7 8; do
+
+# Loop Retry khusus 'm nothing'
+for i in {1..5}; do
   NOW_SECONDS=$(date +%s)
   USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
   USED_MINUTES=$((USED_SECONDS / 60))
-  echo "Build $PACKAGE_NAME trying soong. try $i. $USED_MINUTES minutes."
-  if [[ $USED_SECONDS -ge 2700 ]]; then # 45 minutes
-    echo "Build $PACKAGE_NAME failed. soong timed out. $i - 1 tries. $USED_MINUTES minutes."
-    kill -9 $SLEEPID
-    false ; exit 1
-    #false  ;check_fail
-  fi    
+  
+  echo "Build $PACKAGE_NAME trying soong (m nothing). Try $i. Time elapsed: $USED_MINUTES minutes."
+  
   if m nothing; then
-    NOW_SECONDS=$(date +%s)
-    USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
-    USED_MINUTES=$((USED_SECONDS / 60))
-    echo "Build $PACKAGE_NAME soong success. $i tries. $USED_MINUTES minutes."
-    unset GOMEMLIMIT GOMAXPROCS GOGC
-    # GODEBUG
-    kill -9 $SLEEPID
+    echo "Build $PACKAGE_NAME soong SUCCESS at try $i."
     break
   fi
-  if [[ $i -eq 8 ]]; then
-    echo "Build $PACKAGE_NAME soong failed. $i tries. $USED_MINUTES minutes."
-    kill -9 $SLEEPID
-    false ; exit 1
-    #false  ;check_fail
-  fi 
-done
-#unset GOMEMLIMIT GOGC GODEBUG GOMAXPROCS
-unset GOMEMLIMIT GOMAXPROCS GOGC
 
+  if [[ $i -eq 5 ]]; then
+    echo "Build $PACKAGE_NAME soong FAILED after 5 tries."
+    exit 1
+  fi
+done
+
+# 2. TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
+unset GOGC
+unset GOMAXPROCS
+
+# Naikkan batas Go untuk bacon (tetap di batas aman)
+export GOMEMLIMIT=16GiB 
+
+# Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
+
+# 3. EKSEKUSI KOMPILASI UTAMA
 make -j$(nproc --all) 
 #make installclean
 #echo "Breakfast + Build the code"
