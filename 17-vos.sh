@@ -70,7 +70,7 @@ fi
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
 
-lunch fog-cp2a-user 
+lunch voltage_fog-cp2a-user
 mka installclean
 
 echo "Build $PACKAGE_NAME starting soong."
