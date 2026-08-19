@@ -69,40 +69,58 @@ fi
 #lunch yaap_fog-userdebug
 #lunch aosp_fog-bp2a-userdebug
 #breakfast fog eng
-lunch voltage_fog-cp2a-user
 
-make installclean
+lunch fog-cp2a-user 
+mka installclean
 
-export GOMEMLIMIT=20GiB
-export GOGC=40
-export GOMAXPROCS=$(($(nproc) - 2))
+echo "Build $PACKAGE_NAME starting soong."
 
-export _JAVA_OPTIONS="-Xmx24g -XX:+UseG1GC"
+# 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
+export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
+export GOGC=20                   # GC sangat agresif
+export GOMAXPROCS=4              
 
-# Matikan CCACHE karena server tidak memilikinya
+export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
-
-# Optimasi penanganan RAM & Linker
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-# =======================================================
-# TAHAP 1: PRE-PARSING SOONG (m nothing)
-# =======================================================
-m nothing
+START_SECONDS=$(date +%s)
 
-# =======================================================
-# TRANSISI FASE: LEPAS BATASAN CPU GO
-# =======================================================
+# Loop Retry khusus 'm nothing'
+for i in {1..5}; do
+  NOW_SECONDS=$(date +%s)
+  USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
+  USED_MINUTES=$((USED_SECONDS / 60))
+  
+  echo "Build $PACKAGE_NAME trying soong (m nothing). Try $i. Time elapsed: $USED_MINUTES minutes."
+  
+  if m nothing; then
+    echo "Build $PACKAGE_NAME soong SUCCESS at try $i."
+    break
+  fi
+
+  if [[ $i -eq 5 ]]; then
+    echo "Build $PACKAGE_NAME soong FAILED after 5 tries."
+    exit 1
+  fi
+done
+
+# 2. TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
 unset GOGC
 unset GOMAXPROCS
 
-# Bersihkan RAM cache OS jika ada akses sudo
-sync; echo 3 | sudo tee /proc/sys/vm/drop_caches 2>/dev/null
+# Naikkan batas Go untuk bacon (tetap di batas aman)
+export GOMEMLIMIT=20GiB 
 
+# Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
+
+# 3. EKSEKUSI KOMPILASI UTAMA
+echo "Starting main compilation (mka bacon)..."
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon -j$(nproc --all)
-#set -v
+
 #echo success > result.txt
 #brunch fog
 #echo "build the code"
