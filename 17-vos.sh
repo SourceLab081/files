@@ -89,22 +89,35 @@ export USE_CLANG_LLD=true
 START_SECONDS=$(date +%s)
 
 # Loop Retry khusus 'm nothing'
+export GOMEMLIMIT=14GiB
+export GOGC=20
+export GOMAXPROCS=4
+
+export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC"
+export USE_CCACHE=0
+export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+export DISABLE_LTO=true
+export USE_CLANG_LLD=true
+
+START_SECONDS=$(date +%s)
+SOONG_SUCCESS=0
+# Loop Retry khusus 'm nothing'
 for i in {1..5}; do
   NOW_SECONDS=$(date +%s)
-  USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
-  USED_MINUTES=$((USED_SECONDS / 60))
+  USED_MINUTES=$(( (NOW_SECONDS - START_SECONDS) / 60 ))
   
-  echo "Build $PACKAGE_NAME trying soong (m nothing). Try $i. Time elapsed: $USED_MINUTES minutes."
+  echo "==> Percobaan m nothing ke-$i (Waktu berjalan: $USED_MINUTES menit)..."
   
-  if m nothing; then
-    echo "Build $PACKAGE_NAME soong SUCCESS at try $i."
+  # Trik '&& ||' agar skrip tidak mati mendadak saat m nothing gagal
+  m nothing && SOONG_SUCCESS=1 || SOONG_SUCCESS=0
+
+  if [ $SOONG_SUCCESS -eq 1 ]; then
+    echo "✅ m nothing SUKSES pada percobaan ke-$i!"
     break
   fi
 
-  if [[ $i -eq 5 ]]; then
-    echo "Build $PACKAGE_NAME soong FAILED after 5 tries."
-    exit 1
-  fi
+  echo "⚠️ Percobaan ke-$i gagal. Membersihkan cache RAM sebelum mencoba lagi..."
+  sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 done
 
 # 2. TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
