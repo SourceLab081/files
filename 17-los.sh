@@ -71,35 +71,30 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-START_SECONDS=$(date +%s)
-
-# Loop Retry khusus 'm nothing'
+# =======================================================
+# 1. RETRY LOOP 'm nothing' (Dengan Batasan Ketat)
+# =======================================================
 for i in {1..5}; do
-  NOW_SECONDS=$(date +%s)
-  USED_SECONDS=$((NOW_SECONDS - START_SECONDS))
-  USED_MINUTES=$((USED_SECONDS / 60))
-  
-  echo "Build $PACKAGE_NAME trying soong (m nothing). Try $i. Time elapsed: $USED_MINUTES minutes."
-  
+  echo "Mencoba m nothing (Percobaan $i)..."
   if m nothing; then
-    echo "Build $PACKAGE_NAME soong SUCCESS at try $i."
+    echo "✅ m nothing SUKSES!"
     break
   fi
-
-  if [[ $i -eq 5 ]]; then
-    echo "Build $PACKAGE_NAME soong FAILED after 5 tries."
-    exit 1
-  fi
+  echo "⚠️ m nothing gagal pada percobaan $i, membersihkan cache RAM..."
+  sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 done
 
-# 2. TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
+# =======================================================
+# 2. TRANSISI KONFIGURASI KE BACON (TETAP DIEKSEKUSI)
+# =======================================================
+echo "==> Mempersiapkan transisi ke mka bacon..."
+
+# Lepas pembatas CPU Go dan naikkan batas RAM Go ke 18GB
 unset GOGC
 unset GOMAXPROCS
+export GOMEMLIMIT=18GiB 
 
-# Naikkan batas Go untuk bacon (tetap di batas aman)
-export GOMEMLIMIT=16GiB 
-
-# Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
+# Bersihkan cache RAM OS
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 
 # 3. EKSEKUSI KOMPILASI UTAMA
