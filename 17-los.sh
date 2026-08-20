@@ -74,18 +74,7 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-# =======================================================
-# 1. RETRY LOOP 'm nothing' (Dengan Batasan Ketat)
-# =======================================================
-for i in {1..5}; do
-  echo "Mencoba m nothing (Percobaan $i)..."
-  if m nothing; then
-    echo "✅ m nothing SUKSES!"
-    break
-  fi
-  echo "⚠️ m nothing gagal pada percobaan $i, membersihkan cache RAM..."
-  sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
-done
+m nothing
 
 # =======================================================
 # 2. TRANSISI KONFIGURASI KE BACON (TETAP DIEKSEKUSI)
