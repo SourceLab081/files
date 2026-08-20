@@ -88,11 +88,6 @@ export USE_CLANG_LLD=true
 
 START_SECONDS=$(date +%s)
 
-# Loop Retry khusus 'm nothing'
-export GOMEMLIMIT=14GiB
-export GOGC=20
-export GOMAXPROCS=4
-
 export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC"
 export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
