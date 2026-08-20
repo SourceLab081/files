@@ -47,7 +47,10 @@ rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
 rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
 rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 
-PACKAGE_NAME=Pixelify-AOSP
+#khusus setelah ada error ldd
+rm -rf out/soong/.intermediates/bionic/
+
+#PACKAGE_NAME=Pixelify-AOSP
 echo "envsetup.sh"
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
