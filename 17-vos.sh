@@ -78,7 +78,7 @@ echo "Build $PACKAGE_NAME starting soong."
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
 export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
 export GOGC=20                   # GC sangat agresif
-export GOMAXPROCS=4              
+export GOMAXPROCS=8              
 
 export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
