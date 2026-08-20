@@ -78,7 +78,7 @@ echo "Build $PACKAGE_NAME starting soong."
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
 export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
 export GOGC=20                   # GC sangat agresif
-export GOMAXPROCS=8              
+export GOMAXPROCS=4              
 
 export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
@@ -94,28 +94,9 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-START_SECONDS=$(date +%s)
-SOONG_SUCCESS=0
-# Loop Retry khusus 'm nothing'
-for i in {1..5}; do
-  NOW_SECONDS=$(date +%s)
-  USED_MINUTES=$(( (NOW_SECONDS - START_SECONDS) / 60 ))
-  
-  echo "==> Percobaan m nothing ke-$i (Waktu berjalan: $USED_MINUTES menit)..."
-  
-  # Trik '&& ||' agar skrip tidak mati mendadak saat m nothing gagal
-  m nothing && SOONG_SUCCESS=1 || SOONG_SUCCESS=0
+m nothing
 
-  if [ $SOONG_SUCCESS -eq 1 ]; then
-    echo "✅ m nothing SUKSES pada percobaan ke-$i!"
-    break
-  fi
-
-  echo "⚠️ Percobaan ke-$i gagal. Membersihkan cache RAM sebelum mencoba lagi..."
-  sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
-done
-
-# 2. TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
+# TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
 unset GOGC
 unset GOMAXPROCS
 
