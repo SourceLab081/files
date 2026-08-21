@@ -77,6 +77,8 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
+export NINJA_ARGS="-j8"
+export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
