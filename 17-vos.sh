@@ -79,15 +79,7 @@ export GOGC=20                   # GC sangat agresif
 export GOMAXPROCS=2              
 export SOONG_BUILD_MAX_PARALLEL_THREADS=2
 
-export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
-export USE_CCACHE=0
-export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-export DISABLE_LTO=true
-export USE_CLANG_LLD=true
-
-START_SECONDS=$(date +%s)
-
-export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC"
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
@@ -96,7 +88,7 @@ export USE_CLANG_LLD=true
 m nothing
 
 # JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
-# export GOMEMLIMIT=14GiB
+export GOMEMLIMIT=14GiB
  
 
 # Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
