@@ -81,7 +81,8 @@ export USE_CLANG_LLD=true
 # 2. RUNNING 'm nothing'
 # =======================================================
 echo "==> Memulai m nothing..."
-m nothing || exit 1
+m nothing 
+#|| exit 1
 
 # =======================================================
 # 3. TRANSISI KE BACON / BUILD UTAMA
