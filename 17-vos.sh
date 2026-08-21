@@ -12,7 +12,7 @@ nproc --all
 #export update="no"
 #touch rm_soong
 echo "update=$update"
-rm rm_soong
+
 if [ "$update" = "yes" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
@@ -59,9 +59,7 @@ export PACKAGE_NAME="voltage"
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
 echo "envsetup.sh"
-if [ -f rm_soong ]; then
-   rm -rf rm_soong out/soong;
-fi
+
 . build/envsetup.sh
 #export ALLOW_MISSING_DEPENDENCIES=true 
 #export SELINUX_IGNORE_NEVERALLOWS=true
@@ -76,9 +74,10 @@ mka installclean
 echo "Build $PACKAGE_NAME starting soong."
 
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
+export GOMEMLIMIT=12GiB          # Menjaga Go tetap hemat
 export GOGC=20                   # GC sangat agresif
 export GOMAXPROCS=4              
+export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 
 export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
@@ -96,12 +95,9 @@ export USE_CLANG_LLD=true
 
 m nothing
 
-# TRANSISI KE BACON: Lepas pembatas CPU Go, TAPI PERTAHANKAN REM MEMORI
-unset GOGC
-unset GOMAXPROCS
-
-# Naikkan batas Go untuk bacon (tetap di batas aman)
-export GOMEMLIMIT=16GiB 
+# JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
+# export GOMEMLIMIT=14GiB
+ 
 
 # Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
