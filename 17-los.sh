@@ -48,7 +48,7 @@ rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
 rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 
 #khusus setelah ada error ldd
-rm -rf out/soong/.intermediates/bionic/
+#rm -rf out/soong/.intermediates/bionic/
 
 #PACKAGE_NAME=Pixelify-AOSP
 echo "envsetup.sh"
@@ -61,36 +61,48 @@ lunch fog-cp2a-user
 #mka bacon
 mka installclean
 
-echo "Build $PACKAGE_NAME starting soong."
+# =======================================================
+# 1. PASANG PEMBATASAN RAM SECARA KETAT (TETAP DIKAPALKAN)
+# =======================================================
+export GOMEMLIMIT=12GiB          # Ditunggangi agar Go/Soong tidak maruk
+export GOGC=30                   # GC cukup agresif (JANGAN DI-UNSET)
+export GOMAXPROCS=4              # Cukup 4 thread untuk Go agar RAM hemat
 
-# 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
-export GOGC=20                   # GC sangat agresif
-export GOMAXPROCS=4              
+# KUNCI UTAMA: Pangkas RAM Java dari 20GB ke 6GB/8GB!
+# Java di A17 tidak butuh 20GB. Memangkasnya memberi sisa ~12GB RAM murni untuk Clang!
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" 
 
-export _JAVA_OPTIONS="-Xmx20g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-m nothing
+# =======================================================
+# 2. RUNNING 'm nothing'
+# =======================================================
+echo "==> Memulai m nothing..."
+m nothing || exit 1
 
 # =======================================================
-# 2. TRANSISI KONFIGURASI KE BACON (TETAP DIEKSEKUSI)
+# 3. TRANSISI KE BACON / BUILD UTAMA
 # =======================================================
-echo "==> Mempersiapkan transisi ke mka bacon..."
+echo "==> Mempersiapkan transisi ke kompilasi utama..."
 
-# Lepas pembatas CPU Go dan naikkan batas RAM Go ke 18GB
-unset GOGC
-unset GOMAXPROCS
-export GOMEMLIMIT=18GiB 
+# JANGAN UNSET GOGC! Biarkan GOGC=30 agar Soong tidak makan RAM saat kompilasi C++
+export GOMEMLIMIT=14GiB
 
 # Bersihkan cache RAM OS
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 
-# 3. EKSEKUSI KOMPILASI UTAMA
-make -j$(nproc --all) 
+# =======================================================
+# 4. EKSEKUSI KOMPILASI UTAMA DENGAN NINJA LOAD-LIMIT
+# =======================================================
+# Tetap gunakan full CPU (-j$(nproc)), TAPI batasi jika beban RAM/Load melonjak
+export NINJA_ARGS="-l$(nproc)"
+
+echo "==> Memulai kompilasi utama dengan full CPU..."
+make -j$(nproc)
+
 #make installclean
 #echo "Breakfast + Build the code"
 #brunch fog user
