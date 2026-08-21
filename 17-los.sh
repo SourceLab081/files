@@ -99,7 +99,7 @@ sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 # 4. EKSEKUSI KOMPILASI UTAMA DENGAN NINJA LOAD-LIMIT
 # =======================================================
 # Tetap gunakan full CPU (-j$(nproc)), TAPI batasi jika beban RAM/Load melonjak
-export NINJA_ARGS="-j$(nproc)"
+#export NINJA_ARGS="-j$(nproc)"
 
 echo "==> Memulai kompilasi utama dengan full CPU..."
 make -j$(nproc)
