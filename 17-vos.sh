@@ -51,12 +51,6 @@ fi
 #cat /proc/meminfo
 export PACKAGE_NAME="voltage"
 #coz error in soong process
-rm -rf out/soong/.bootstrap \
-       out/soong/.minibp \
-       out/soong/.intermediates/bionic/ \
-       out/soong/build.*.ninja \
-       out/soong/soong.*.variables \
-       out/.module_paths/
 
 
 # rm -rf out/target/product/fog/system/etc/vintf
@@ -82,7 +76,13 @@ mka installclean
 echo "Build $PACKAGE_NAME starting soong."
 
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-export GOMEMLIMIT=32GiB          
+# 1. BERSIHKAN CACHE SOONG SECARA TOTAL (Hasil kompilasi C++ di out/target/ TETAP UTUH!)
+rm -rf out/soong
+
+# 2. KONFIGURASI RAM & MATIKAN INCREMENTAL SOONG
+export SOONG_INCREMENTAL_ANALYSIS=false
+
+export GOMEMLIMIT=32GiB       
 export GOGC=30                   
 export GOMAXPROCS=4              
 export SOONG_BUILD_MAX_PARALLEL_THREADS=4
