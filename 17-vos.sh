@@ -13,7 +13,7 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 
-if [ "$update" = "no" ]; then
+if [ "$update" = "yes" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
@@ -29,10 +29,6 @@ if [ "$update" = "no" ]; then
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
    
-   #after error 
-   rm -rf out/soong/.intermediates/bionic/ out/soong/.bootstrap out/soong/build.ninja out/soong/soong.variables
-   #rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
-   #cd $curDir
    
    #cd frameworks/base && git checkout ca94c181d8a23569b8157427d4740154ea529b55 
    #cd $curDir
@@ -54,6 +50,13 @@ fi
 
 #cat /proc/meminfo
 export PACKAGE_NAME="voltage"
+#coz error in soong process
+rm -rf out/soong/.bootstrap \
+       out/soong/.minibp \
+       out/soong/.intermediates/bionic/ \
+       out/soong/build.*.ninja \
+       out/soong/soong.*.variables \
+       out/.module_paths/
 
 
 # rm -rf out/target/product/fog/system/etc/vintf
@@ -79,10 +82,10 @@ mka installclean
 echo "Build $PACKAGE_NAME starting soong."
 
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
-export GOGC=20                   # GC sangat agresif
-export GOMAXPROCS=2              
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2
+export GOMEMLIMIT=32GiB          
+export GOGC=30                   
+export GOMAXPROCS=4              
+export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 
 export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" # Rem untuk Java
 export USE_CCACHE=0
@@ -90,14 +93,11 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-m nothing
+#m nothing
 
 # JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
 #export GOMEMLIMIT=14GiB
  
-
-# Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
-sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 
 # 3. EKSEKUSI KOMPILASI UTAMA
 echo "Starting main compilation (mka bacon)..."
