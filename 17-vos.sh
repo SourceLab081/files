@@ -13,7 +13,7 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 
-if [ "$update" = "yes" ]; then
+if [ "$update" = "no" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
@@ -28,6 +28,9 @@ if [ "$update" = "yes" ]; then
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
+   
+   #after error 
+   rm -rf out/soong/.intermediates/bionic/ out/soong/.bootstrap out/soong/build.ninja out/soong/soong.variables
    #rm -rf bionic && git clone  https://github.com/VoltageOS/bionic -b 16.2 bionic &&  cd bionic && git checkout 9bc94b544244ffab12aa05cd670a135ebdda45ab
    #cd $curDir
    
@@ -39,7 +42,9 @@ if [ "$update" = "yes" ]; then
    ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
    #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
    #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-   rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+   if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
+       rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+   fi
    
    if [ ! -f script_sch2.sh ]; then
       wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
@@ -74,7 +79,7 @@ mka installclean
 echo "Build $PACKAGE_NAME starting soong."
 
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-export GOMEMLIMIT=12GiB          # Menjaga Go tetap hemat
+export GOMEMLIMIT=14GiB          # Menjaga Go tetap hemat
 export GOGC=20                   # GC sangat agresif
 export GOMAXPROCS=2              
 export SOONG_BUILD_MAX_PARALLEL_THREADS=2
@@ -88,7 +93,7 @@ export USE_CLANG_LLD=true
 m nothing
 
 # JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
-export GOMEMLIMIT=14GiB
+#export GOMEMLIMIT=14GiB
  
 
 # Bersihkan sisa cache RAM OS sebelum Clang/C++ berjalan
