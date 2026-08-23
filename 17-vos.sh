@@ -93,7 +93,7 @@ export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
-#m nothing
+m nothing
 
 # JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
 #export GOMEMLIMIT=14GiB
@@ -101,7 +101,7 @@ export USE_CLANG_LLD=true
 
 # 3. EKSEKUSI KOMPILASI UTAMA
 echo "Starting main compilation (mka bacon)..."
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false mka bacon -j$(nproc --all)
+mka bacon -j$(nproc --all)
 
 #echo success > result.txt
 #brunch fog
