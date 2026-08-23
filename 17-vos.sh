@@ -73,9 +73,7 @@ export GOMAXPROCS=4
 export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 
 export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" # Rem untuk Java
-export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-export USE_CLANG_LLD=true
 
 echo "envsetup.sh"
 . build/envsetup.sh
