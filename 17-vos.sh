@@ -60,21 +60,6 @@ export PACKAGE_NAME="voltage"
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/file.te && mv file.te $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
-echo "envsetup.sh"
-
-. build/envsetup.sh
-#export ALLOW_MISSING_DEPENDENCIES=true 
-#export SELINUX_IGNORE_NEVERALLOWS=true
-#echo "breakfast/lunch"
-#lunch yaap_fog-userdebug
-#lunch aosp_fog-bp2a-userdebug
-#breakfast fog eng
-
-lunch voltage_fog-cp2a-user
-mka installclean
-
-echo "Build $PACKAGE_NAME starting soong."
-
 # 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
 # 1. BERSIHKAN CACHE SOONG SECARA TOTAL (Hasil kompilasi C++ di out/target/ TETAP UTUH!)
 #rm -rf out/soong
@@ -92,16 +77,18 @@ export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 export USE_CLANG_LLD=true
 
-m nothing
+echo "envsetup.sh"
+. build/envsetup.sh
+#export ALLOW_MISSING_DEPENDENCIES=true 
+#export SELINUX_IGNORE_NEVERALLOWS=true
+#echo "breakfast/lunch"
+#lunch yaap_fog-userdebug
+#lunch aosp_fog-bp2a-userdebug
+#breakfast fog eng
 
-# JANGAN UNSET GOGC! Biarkan GOGC=20 agar Soong tidak makan RAM saat kompilasi C++
-#export GOMEMLIMIT=14GiB
- 
-
-# 3. EKSEKUSI KOMPILASI UTAMA
-echo "Starting main compilation (mka bacon)..."
-mka bacon -j$(nproc --all)
-
+#lunch voltage_fog-cp2a-user
+mka installclean
+brunch fog
 #echo success > result.txt
 #brunch fog
 #echo "build the code"
