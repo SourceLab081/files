@@ -64,7 +64,7 @@ mka installclean
 # =======================================================
 # 1. PASANG PEMBATASAN RAM SECARA KETAT (TETAP DIKAPALKAN)
 # =======================================================
-export GOMEMLIMIT=12GiB          # Ditunggangi agar Go/Soong tidak maruk
+export GOMEMLIMIT=32GiB          # Ditunggangi agar Go/Soong tidak maruk
 export GOGC=30                   # GC cukup agresif (JANGAN DI-UNSET)
 export GOMAXPROCS=4              # Cukup 4 thread untuk Go agar RAM hemat
 
@@ -74,7 +74,6 @@ export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 
 export USE_CCACHE=0
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-export DISABLE_LTO=true
 export USE_CLANG_LLD=true
 
 #export NINJA_ARGS="-j8"
@@ -82,8 +81,8 @@ export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
-echo "==> Memulai m nothing..."
-m nothing 
+#echo "==> Memulai m nothing..."
+#m nothing 
 #|| exit 1
 
 # =======================================================
@@ -92,10 +91,10 @@ m nothing
 echo "==> Mempersiapkan transisi ke kompilasi utama..."
 
 # JANGAN UNSET GOGC! Biarkan GOGC=30 agar Soong tidak makan RAM saat kompilasi C++
-export GOMEMLIMIT=14GiB
+#export GOMEMLIMIT=14GiB
 
 # Bersihkan cache RAM OS
-sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
+#sync; echo 3 | sudo tee /proc/sys/vm/drop_caches > /dev/null 2>&1
 
 # =======================================================
 # 4. EKSEKUSI KOMPILASI UTAMA DENGAN NINJA LOAD-LIMIT
