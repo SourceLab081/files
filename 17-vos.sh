@@ -50,7 +50,8 @@ fi
 
 #cat /proc/meminfo
 export PACKAGE_NAME="voltage"
-#coz error in soong process
+#coz error berfore soong process
+rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
 
 
 # rm -rf out/target/product/fog/system/etc/vintf
@@ -67,12 +68,13 @@ export PACKAGE_NAME="voltage"
 # 2. KONFIGURASI RAM & MATIKAN INCREMENTAL SOONG
 #export SOONG_INCREMENTAL_ANALYSIS=false
 
-export GOMEMLIMIT=32GiB       
-export GOGC=30                   
-export GOMAXPROCS=4              
-export SOONG_BUILD_MAX_PARALLEL_THREADS=4
+# Pengatur Memori & Threading Go/Soong
+export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
+export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
+export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" # Rem untuk Java
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
