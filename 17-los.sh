@@ -50,6 +50,18 @@ rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
 
+# =======================================================
+# 1. PASANG PEMBATASAN RAM SECARA KETAT (TETAP DIKAPALKAN)
+# =======================================================
+export GOMEMLIMIT=32GiB          # Ditunggangi agar Go/Soong tidak maruk
+export GOGC=30                   # GC cukup agresif (JANGAN DI-UNSET)
+export GOMAXPROCS=4              # Cukup 4 thread untuk Go agar RAM hemat
+
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" 
+export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+export SOONG_BUILD_MAX_PARALLEL_THREADS=4
+
+
 #PACKAGE_NAME=Pixelify-AOSP
 echo "envsetup.sh"
 . build/envsetup.sh
@@ -62,33 +74,12 @@ lunch fog-cp2a-user
 mka installclean
 
 # =======================================================
-# 1. PASANG PEMBATASAN RAM SECARA KETAT (TETAP DIKAPALKAN)
-# =======================================================
-export GOMEMLIMIT=32GiB          # Ditunggangi agar Go/Soong tidak maruk
-export GOGC=30                   # GC cukup agresif (JANGAN DI-UNSET)
-export GOMAXPROCS=4              # Cukup 4 thread untuk Go agar RAM hemat
-
-# KUNCI UTAMA: Pangkas RAM Java dari 20GB ke 6GB/8GB!
-# Java di A17 tidak butuh 20GB. Memangkasnya memberi sisa ~12GB RAM murni untuk Clang!
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" 
-
-export USE_CCACHE=0
-export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-export USE_CLANG_LLD=true
-
-#export NINJA_ARGS="-j8"
-export SOONG_BUILD_MAX_PARALLEL_THREADS=4
-# =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
 #echo "==> Memulai m nothing..."
 #m nothing 
 #|| exit 1
 
-# =======================================================
-# 3. TRANSISI KE BACON / BUILD UTAMA
-# =======================================================
-echo "==> Mempersiapkan transisi ke kompilasi utama..."
 
 # JANGAN UNSET GOGC! Biarkan GOGC=30 agar Soong tidak makan RAM saat kompilasi C++
 #export GOMEMLIMIT=14GiB
