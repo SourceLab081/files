@@ -76,9 +76,9 @@ export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" # Rem untuk Java
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
-rm -rf out/soong/.intermediates/device/xiaomi/fog/rro_overlays/FogFrameworksOverlayCommon/
+#rm -rf out/soong/.intermediates/device/xiaomi/fog/rro_overlays/FogFrameworksOverlayCommon/
 # Hapus file state/cache Ninja & Soong yang setengah jadi
-rm -f out/.ninja_deps out/.ninja_log out/soong/build.ninja
+#rm -f out/.ninja_deps out/.ninja_log out/soong/build.ninja
 
 echo "envsetup.sh"
 . build/envsetup.sh
