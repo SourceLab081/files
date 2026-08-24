@@ -50,16 +50,14 @@ rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
 
-# =======================================================
-# 1. PASANG PEMBATASAN RAM SECARA KETAT (TETAP DIKAPALKAN)
-# =======================================================
-export GOMEMLIMIT=32GiB          # Ditunggangi agar Go/Soong tidak maruk
-export GOGC=30                   # GC cukup agresif (JANGAN DI-UNSET)
-export GOMAXPROCS=4              # Cukup 4 thread untuk Go agar RAM hemat
+# Pengatur Memori & Threading Go/Soong
+export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
+export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
+export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC" 
 export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-export SOONG_BUILD_MAX_PARALLEL_THREADS=4
 
 
 #PACKAGE_NAME=Pixelify-AOSP
