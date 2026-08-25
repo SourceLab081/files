@@ -31,9 +31,9 @@ if [ "$update" = "no" ]; then
    #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
    rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
 
-  rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
-  rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
-  rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
+   rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
+   rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
+   rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 fi
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
@@ -71,7 +71,7 @@ export GOMEMLIMIT=28GiB
 # 3. Kembalikan variabel & jalankan kompilasi biner utama
 
 #|| exit 1
-mka installclean
+#mka installclean
 
 # JANGAN UNSET GOGC! Biarkan GOGC=30 agar Soong tidak makan RAM saat kompilasi C++
 #export GOMEMLIMIT=14GiB
