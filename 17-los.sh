@@ -50,14 +50,7 @@ rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
 
-# Pengatur Memori & Threading Go/Soong
-export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
-export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
-export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 
-export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 
 #PACKAGE_NAME=Pixelify-AOSP
@@ -71,6 +64,14 @@ lunch fog-cp2a-user
 #mka bacon
 mka installclean
 
+# Pengatur Memori & Threading Go/Soong
+export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
+export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
+export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
+
+export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
