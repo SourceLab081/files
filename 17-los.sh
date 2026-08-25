@@ -62,22 +62,28 @@ echo "envsetup.sh"
 #breakfast fog eng
 lunch fog-cp2a-user 
 #mka bacon
-mka installclean
+
 
 # Pengatur Memori & Threading Go/Soong
-export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
-export GOGC=30                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
-export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
-export USE_CCACHE=0
+#export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
+#export GOGC=30                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
+#export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
+#export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
+#export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
+#export USE_CCACHE=0
+export GOGC=15
+export GOMAXPROCS=4
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
 #echo "==> Memulai m nothing..."
-m nothing 
-#|| exit 1
+m nothing || m nothing || m nothing
 
+# 3. Kembalikan variabel & jalankan kompilasi biner utama
+unset GOGC
+unset GOMAXPROCS 
+#|| exit 1
+mka installclean
 
 # JANGAN UNSET GOGC! Biarkan GOGC=30 agar Soong tidak makan RAM saat kompilasi C++
 #export GOMEMLIMIT=14GiB
