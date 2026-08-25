@@ -14,7 +14,7 @@ nproc --all
 #sudo mkswap /dev/zram0
 #sudo swapon /dev/zram0
 echo "update=$update"
-if [ "$update" = "yes" ]; then
+if [ "$update" = "no" ]; then
    repo init --depth 1 -u https://github.com/Pixelify-AOSP/platform_manifest -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 17-los .repo/local_manifests
    echo "repo sync"
