@@ -66,12 +66,11 @@ mka installclean
 
 # Pengatur Memori & Threading Go/Soong
 export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
-export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
+export GOGC=30                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
 export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
 export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
 export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
-
-export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+export USE_CCACHE=0
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
