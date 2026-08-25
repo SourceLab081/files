@@ -75,7 +75,7 @@ export USE_CCACHE=0
 # 2. RUNNING 'm nothing'
 # =======================================================
 #echo "==> Memulai m nothing..."
-#m nothing 
+m nothing 
 #|| exit 1
 
 
