@@ -51,7 +51,7 @@ fi
 #cat /proc/meminfo
 export PACKAGE_NAME="voltage"
 #coz error berfore soong process
-rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
+#rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
 
 
 # rm -rf out/target/product/fog/system/etc/vintf
@@ -69,13 +69,13 @@ rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.
 #export SOONG_INCREMENTAL_ANALYSIS=false
 
 # Pengatur Memori & Threading Go/Soong
-export GOMEMLIMIT=28GiB          # Memberi ruang napas untuk sistem Linux agar tidak kena memory stall
-export GOGC=20                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
-export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
+export GOGC=15
+export GOMAXPROCS=4
+export GOMEMLIMIT=28GiB
 export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
 export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 
-export ANDROID_RAM_OPTIMIZE_THROTTLE=true
+#export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
 #rm -rf out/soong/.intermediates/device/xiaomi/fog/rro_overlays/FogFrameworksOverlayCommon/
@@ -92,7 +92,8 @@ echo "envsetup.sh"
 #breakfast fog eng
 
 #lunch voltage_fog-cp2a-user
-mka installclean
+mka in
+stallclean
 brunch fog
 #echo success > result.txt
 #brunch fog
