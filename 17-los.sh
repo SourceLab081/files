@@ -73,15 +73,15 @@ lunch fog-cp2a-user
 #export USE_CCACHE=0
 export GOGC=15
 export GOMAXPROCS=4
+export GOMEMLIMIT=28GiB
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
 #echo "==> Memulai m nothing..."
-m nothing || m nothing || m nothing
+#m nothing || m nothing || m nothing
 
 # 3. Kembalikan variabel & jalankan kompilasi biner utama
-unset GOGC
-unset GOMAXPROCS 
+
 #|| exit 1
 mka installclean
 
@@ -98,7 +98,7 @@ mka installclean
 #export NINJA_ARGS="-j$(nproc)"
 
 echo "==> Memulai kompilasi utama dengan full CPU..."
-make -j$(nproc)
+make -j$(nproc --all)
 
 #make installclean
 #echo "Breakfast + Build the code"
