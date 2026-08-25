@@ -83,7 +83,7 @@ lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch v
 
 # 3. FASE PEMANASAN SOONG (Toleransi Error Pertama VoltageOS)
 echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
-m nothing || m nothing || m nothing
+m nothing || m nothing
 
 # 4. KOMPILASI UTAMA
 echo "=== Phase 2: Memulai Kompilasi Biner Utama ==="
