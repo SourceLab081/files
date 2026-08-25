@@ -57,11 +57,12 @@ lunch fog-cp2a-user
 #export GOGC=30                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
 #export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
 #export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
-#export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
+export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 #export USE_CCACHE=0
 export GOGC=15
 export GOMAXPROCS=4
 export GOMEMLIMIT=28GiB
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
