@@ -68,12 +68,26 @@ export PACKAGE_NAME="voltage"
 # 2. KONFIGURASI RAM & MATIKAN INCREMENTAL SOONG
 #export SOONG_INCREMENTAL_ANALYSIS=false
 
-# Pengatur Memori & Threading Go/Soong
-export GOGC=15
-export GOMAXPROCS=4
-export GOMEMLIMIT=28GiB
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
+# 1. BENTENG PERTAHANAN RAM CONTAINER
+export GOGC=10
+export GOMAXPROCS=2
+export SOONG_BUILD_MAX_PARALLEL_THREADS=1
+export GOMEMLIMIT=20GiB
+export _JAVA_OPTIONS="-Xmx4g -XX:+UseG1GC"
+
+# 2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
+source build/envsetup.sh
+
+# Ganti 'fog' dengan codename device kamu jika berbeda
+lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch voltage_fog-userdebug
+
+# 3. FASE PEMANASAN SOONG (Toleransi Error Pertama VoltageOS)
+echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
+m nothing || m nothing || m nothing
+
+# 4. KOMPILASI UTAMA
+echo "=== Phase 2: Memulai Kompilasi Biner Utama ==="
+mka bacon -j$(nproc --all) 
 
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
@@ -82,8 +96,7 @@ export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
 # Hapus file state/cache Ninja & Soong yang setengah jadi
 #rm -f out/.ninja_deps out/.ninja_log out/soong/build.ninja
 
-echo "envsetup.sh"
-. build/envsetup.sh
+
 #export ALLOW_MISSING_DEPENDENCIES=true 
 #export SELINUX_IGNORE_NEVERALLOWS=true
 #echo "breakfast/lunch"
@@ -92,9 +105,8 @@ echo "envsetup.sh"
 #breakfast fog eng
 
 #lunch voltage_fog-cp2a-user
-mka in
-stallclean
-brunch fog
+
+#brunch fog
 #echo success > result.txt
 #brunch fog
 #echo "build the code"
