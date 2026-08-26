@@ -101,7 +101,7 @@ source build/envsetup.sh
 #m nothing || m nothing
 
 # 4. KOMPILASI UTAMA
-echo "=== Phase 2: Memulai Kompilasi Biner Utama ==="
+echo "=== Memulai Kompilasi Biner Utama ==="
 #mka bacon -j$(nproc --all) 
 brunch fog
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
