@@ -68,27 +68,42 @@ export PACKAGE_NAME="voltage"
 # 2. KONFIGURASI RAM & MATIKAN INCREMENTAL SOONG
 #export SOONG_INCREMENTAL_ANALYSIS=false
 
-# 1. BENTENG PERTAHANAN RAM CONTAINER
-export GOGC=10
-export GOMAXPROCS=2
-export SOONG_BUILD_MAX_PARALLEL_THREADS=1
-export GOMEMLIMIT=20GiB
-export _JAVA_OPTIONS="-Xmx4g -XX:+UseG1GC"
+# =======================================================
+# 1. GO RUNTIME & SOONG CONFIGURATION (40 GB LIMIT)
+# =======================================================
+# Following the commit logic in main.go (40 GB RAM & 25% GC)
+export GOMEMLIMIT=40GiB
+export GOGC=25
 
-# 2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
+# Prevent sudden RAM spikes during Soong analysis
+export GOMAXPROCS=4
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2
+
+# =======================================================
+# 2. JAVA / KOTLINC MEMORY LIMIT CONFIGURATION
+# =======================================================
+# Lock the Java Heap so it does not exceed 16 GB
+export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
+
+# =======================================================
+# 3. DISABLE EXCESSIVE RAM LOAD OPTIONS (UNSET)
+# =======================================================
+unset SOONG_SPLIT_ALL_VARIANTS
+unset SOONG_ENFORCE_NO_REANALYSIS
+#2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
 source build/envsetup.sh
 
 # Ganti 'fog' dengan codename device kamu jika berbeda
-lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch voltage_fog-userdebug
+#lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch voltage_fog-userdebug
 
 # 3. FASE PEMANASAN SOONG (Toleransi Error Pertama VoltageOS)
-echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
-m nothing || m nothing
+#echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
+#m nothing || m nothing
 
 # 4. KOMPILASI UTAMA
 echo "=== Phase 2: Memulai Kompilasi Biner Utama ==="
-mka bacon -j$(nproc --all) 
-
+#mka bacon -j$(nproc --all) 
+brunch fog
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
