@@ -14,7 +14,7 @@ nproc --all
 #sudo mkswap /dev/zram0
 #sudo swapon /dev/zram0
 echo "update=$update"
-if [ "$update" = "no" ]; then
+if [ "$update" = "yes" ]; then
    repo init --depth 1 -u https://github.com/Pixelify-AOSP/platform_manifest -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 17-los .repo/local_manifests
    echo "repo sync"
@@ -38,7 +38,21 @@ fi
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
 
+# =======================================================
+# 1. PENGATUR MEMORI & THREADING GO/SOONG (SANGAT KETAT)
+# =======================================================
+# Gunakan nilai paling hemat ini khusus di container VPS kamu
+export GOGC=10                           # GC super agresif membuang RAM sampah
+export GOMAXPROCS=2                      # Batasi CPU thread khusus untuk Go/Soong
+export SOONG_BUILD_MAX_PARALLEL_THREADS=1# Buat Soong menganalisis graph 1 per 1
+export GOMEMLIMIT=18GiB                  # Kunci di bawah batas container
+export _JAVA_OPTIONS="-Xmx4g -XX:+UseG1GC"
 
+# =======================================================
+# 2. HAPUS CACHE SOONG GRAPH LAMA (AGAR TIDAK OOM)
+# =======================================================
+# HANYA hapus cache graph Soong, JANGAN HAPUS out/target (biner aman!)
+rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
 
 
 #PACKAGE_NAME=Pixelify-AOSP
@@ -57,18 +71,13 @@ lunch fog-cp2a-user
 #export GOGC=30                   # Memaksa Garbage Collector Go lebih sering membuang RAM sampah
 #export GOMAXPROCS=4              # Membatasi thread Go runtime saat pembacaan graph
 #export SOONG_BUILD_MAX_PARALLEL_THREADS=2  # Membatasi paralisme Soong builder
-export _JAVA_OPTIONS="-Xmx8g -XX:+UseG1GC"
-#export USE_CCACHE=0
-export GOGC=15
-export GOMAXPROCS=4
-export GOMEMLIMIT=28GiB
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2
+
 # =======================================================
 # 2. RUNNING 'm nothing'
 # =======================================================
 #echo "==> Memulai m nothing..."
 #m nothing || m nothing || m nothing
-
+m nothing
 # 3. Kembalikan variabel & jalankan kompilasi biner utama
 
 #|| exit 1
