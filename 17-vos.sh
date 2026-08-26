@@ -91,6 +91,7 @@ export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
 unset SOONG_SPLIT_ALL_VARIANTS
 unset SOONG_ENFORCE_NO_REANALYSIS
 #2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
+echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
 
 # Ganti 'fog' dengan codename device kamu jika berbeda
