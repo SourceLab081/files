@@ -14,7 +14,7 @@ nproc --all
 #sudo mkswap /dev/zram0
 #sudo swapon /dev/zram0
 echo "update=$update"
-if [ "$update" = "yes" ]; then
+# if [ "$update" = "yes" ]; then
    repo init --depth 1 -u https://github.com/Pixelify-AOSP/platform_manifest -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 17-los .repo/local_manifests
    echo "repo sync"
@@ -29,12 +29,15 @@ if [ "$update" = "yes" ]; then
    curDir=`pwd`
    #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
    #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-   rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
-
+   if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
+      git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+   fi
+   
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
-fi
+#fi
+
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
 
