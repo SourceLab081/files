@@ -42,10 +42,10 @@ fi
 # 1. PENGATUR MEMORI & THREADING GO/SOONG (SANGAT KETAT)
 # =======================================================
 # Gunakan nilai paling hemat ini khusus di container VPS kamu
-export GOGC=10                           # GC super agresif membuang RAM sampah
-export GOMAXPROCS=2                      # Batasi CPU thread khusus untuk Go/Soong
-export SOONG_BUILD_MAX_PARALLEL_THREADS=1# Buat Soong menganalisis graph 1 per 1
-export GOMEMLIMIT=18GiB                  # Kunci di bawah batas container
+export GOGC=5                           # GC super agresif membuang RAM sampah
+export GOMAXPROCS=1                      # Batasi CPU thread khusus untuk Go/Soong
+export SOONG_BUILD_MAX_PARALLEL_THREADS=1 # Buat Soong menganalisis graph 1 per 1
+export GOMEMLIMIT=16GiB                  # Kunci di bawah batas container
 export _JAVA_OPTIONS="-Xmx4g -XX:+UseG1GC"
 
 # =======================================================
