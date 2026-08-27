@@ -88,25 +88,27 @@ export PACKAGE_NAME="voltage"
 # 1. GO RUNTIME & SOONG CONFIGURATION (40 GB LIMIT)
 # =======================================================
 # Following the commit logic in main.go (40 GB RAM & 25% GC)
-export GOMEMLIMIT=40GiB
-export GOGC=25
+#export GOMEMLIMIT=40GiB
+#export GOGC=25
 
 # Prevent sudden RAM spikes during Soong analysis
-export GOMAXPROCS=4
-export SOONG_BUILD_MAX_PARALLEL_THREADS=2
+#export GOMAXPROCS=4
+#export SOONG_BUILD_MAX_PARALLEL_THREADS=2
 
 # =======================================================
 # 2. JAVA / KOTLINC MEMORY LIMIT CONFIGURATION
 # =======================================================
 # Lock the Java Heap so it does not exceed 16 GB
-export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
+#export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
 
 # =======================================================
 # 3. DISABLE EXCESSIVE RAM LOAD OPTIONS (UNSET)
 # =======================================================
-unset SOONG_SPLIT_ALL_VARIANTS
-unset SOONG_ENFORCE_NO_REANALYSIS
+#unset SOONG_SPLIT_ALL_VARIANTS
+#unset SOONG_ENFORCE_NO_REANALYSIS
 #2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
+#test
+wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
 
