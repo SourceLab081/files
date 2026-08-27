@@ -19,6 +19,22 @@ if [ "$update" = "yes" ]; then
 
    echo "repo sync"
    /opt/crave/resync.sh
+   
+   echo "Fix for smth already defined" 
+   if [ -d "system/core/trusty/storage/interface" ]; then
+      echo "Folder system/core/trusty/storage/interface exists."
+      rm -rf system/core/trusty/storage/interface
+   else
+      echo "Folder system/core/trusty/storage/interface does not exist."
+   fi
+  
+   if [ -d "system/extras/memory_replay" ]; then
+      echo "Folder system/extras/memory_replay exists."
+      rm -rf system/extras/memory_replay
+   else
+      echo "Folder system/extras/memory_replay does not exist."
+   fi
+   
    # signing key
    export curDir=`pwd`
    cd vendor/voltage-priv/keys
