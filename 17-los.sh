@@ -14,7 +14,7 @@ nproc --all
 #sudo mkswap /dev/zram0
 #sudo swapon /dev/zram0
 echo "update=$update"
-# if [ "$update" = "yes" ]; then
+if [ "$update" = "yes" ]; then
    repo init --depth 1 -u https://github.com/Pixelify-AOSP/platform_manifest -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone  https://github.com/SourceLab081/local_manifests --depth 1 -b 17-los .repo/local_manifests
    echo "repo sync"
@@ -36,7 +36,7 @@ echo "update=$update"
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
-#fi
+fi
 
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
