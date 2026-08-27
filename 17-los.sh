@@ -40,23 +40,28 @@ echo "update=$update"
 
 #khusus setelah ada error ldd
 #rm -rf out/soong/.intermediates/bionic/
+# =======================================================
+# 1. GO RUNTIME & SOONG CONFIGURATION (40 GB LIMIT)
+# =======================================================
+# Following the commit logic in main.go (40 GB RAM & 25% GC)
+export GOMEMLIMIT=40GiB
+export GOGC=25
+
+# Prevent sudden RAM spikes during Soong analysis
+export GOMAXPROCS=4
+export SOONG_BUILD_MAX_PARALLEL_THREADS=2
 
 # =======================================================
-# 1. PENGATUR MEMORI & THREADING GO/SOONG (SANGAT KETAT)
+# 2. JAVA / KOTLINC MEMORY LIMIT CONFIGURATION
 # =======================================================
-# Gunakan nilai paling hemat ini khusus di container VPS kamu
-export GOGC=5                           # GC super agresif membuang RAM sampah
-export GOMAXPROCS=1                      # Batasi CPU thread khusus untuk Go/Soong
-export SOONG_BUILD_MAX_PARALLEL_THREADS=1 # Buat Soong menganalisis graph 1 per 1
-export GOMEMLIMIT=16GiB                  # Kunci di bawah batas container
-export _JAVA_OPTIONS="-Xmx4g -XX:+UseG1GC"
+# Lock the Java Heap so it does not exceed 16 GB
+export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
 
 # =======================================================
-# 2. HAPUS CACHE SOONG GRAPH LAMA (AGAR TIDAK OOM)
+# 3. DISABLE EXCESSIVE RAM LOAD OPTIONS (UNSET)
 # =======================================================
-# HANYA hapus cache graph Soong, JANGAN HAPUS out/target (biner aman!)
-rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
-
+unset SOONG_SPLIT_ALL_VARIANTS
+unset SOONG_ENFORCE_NO_REANALYSIS
 
 #PACKAGE_NAME=Pixelify-AOSP
 echo "envsetup.sh"
@@ -80,7 +85,7 @@ lunch fog-cp2a-user
 # =======================================================
 #echo "==> Memulai m nothing..."
 #m nothing || m nothing || m nothing
-m nothing
+#m nothing
 # 3. Kembalikan variabel & jalankan kompilasi biner utama
 
 #|| exit 1
