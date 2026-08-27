@@ -13,7 +13,7 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 
-if [ "$update" = "yes" ]; then
+if [ "$update" = "no" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
