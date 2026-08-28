@@ -13,7 +13,7 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 
-if [ "$update" = "no" ]; then
+if [ "$update" = "yes" ]; then
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
@@ -107,8 +107,13 @@ export PACKAGE_NAME="voltage"
 #unset SOONG_SPLIT_ALL_VARIANTS
 #unset SOONG_ENFORCE_NO_REANALYSIS
 #2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
-#test
-wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
+# OK, but this is not copy twice
+#wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
+
+#Fix for error redeclaration and unresolved maybe this is cuased by undeleted file form base rom lin 22.1 
+rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
+rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
+
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
 
