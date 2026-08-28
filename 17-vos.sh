@@ -42,11 +42,14 @@ if [ "$update" = "yes" ]; then
       echo "Folder system/extras/memory_replay does not exist."
    fi
    
-   # signing key
-   export curDir=`pwd`
-   cd vendor/voltage-priv/keys
-   ./keys.sh
-   cd $curDir
+   export curDir=`pwd` twice="yes"
+   
+   if [ "$twice" = "no" ]; then
+       # signing key
+       cd vendor/voltage-priv/keys
+       ./keys.sh
+        cd $curDir
+   fi
    
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
