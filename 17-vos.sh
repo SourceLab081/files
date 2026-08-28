@@ -14,12 +14,19 @@ nproc --all
 echo "update=$update"
 
 if [ "$update" = "yes" ]; then
+   
+   #COZ error redeclaration and unresolved on folder   frameworks/base/
+   rm -rf frameworks/base
+   
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
 
    echo "repo sync"
    /opt/crave/resync.sh
-   
+
+   # run this line after resync
+   wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
+
    echo "Fix for smth already defined" 
    if [ -d "system/core/trusty/storage/interface" ]; then
       echo "Folder system/core/trusty/storage/interface exists."
@@ -77,42 +84,10 @@ export PACKAGE_NAME="voltage"
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/file.te && mv file.te $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/genfs_contexts && mv genfs_contexts $fldr
 #wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/init_shell.te && mv init_shell.te $fldr
-# 1. PASANG PEMBATASAN RAM SECARA KETAT & PERMANEN (TIDAK DI-UNSET)
-# 1. BERSIHKAN CACHE SOONG SECARA TOTAL (Hasil kompilasi C++ di out/target/ TETAP UTUH!)
-#rm -rf out/soong
-
-# 2. KONFIGURASI RAM & MATIKAN INCREMENTAL SOONG
-#export SOONG_INCREMENTAL_ANALYSIS=false
-
-# =======================================================
-# 1. GO RUNTIME & SOONG CONFIGURATION (40 GB LIMIT)
-# =======================================================
-# Following the commit logic in main.go (40 GB RAM & 25% GC)
-#export GOMEMLIMIT=40GiB
-#export GOGC=25
-
-# Prevent sudden RAM spikes during Soong analysis
-#export GOMAXPROCS=4
-#export SOONG_BUILD_MAX_PARALLEL_THREADS=2
-
-# =======================================================
-# 2. JAVA / KOTLINC MEMORY LIMIT CONFIGURATION
-# =======================================================
-# Lock the Java Heap so it does not exceed 16 GB
-#export _JAVA_OPTIONS="-Xms4g -Xmx16g -XX:+UseG1GC"
-
-# =======================================================
-# 3. DISABLE EXCESSIVE RAM LOAD OPTIONS (UNSET)
-# =======================================================
-#unset SOONG_SPLIT_ALL_VARIANTS
-#unset SOONG_ENFORCE_NO_REANALYSIS
-#2. LOAD ENVIRONMENT & LUNCH VOLTAGEOS
-# OK, but this is not copy twice
-#wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
 
 #Fix for error redeclaration and unresolved maybe this is cuased by undeleted file form base rom lin 22.1 
-rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
-rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
+#rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
+#rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
