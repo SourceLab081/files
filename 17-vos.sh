@@ -12,8 +12,9 @@ nproc --all
 #export update="no"
 #touch rm_soong
 echo "update=$update"
-
-if [ "$update" = "yes" ]; then
+#temporary no
+if [ "$update" = "no" ]; then
+   #"twice" here = more than once
    #export twice="no"
    export twice="yes"
    
