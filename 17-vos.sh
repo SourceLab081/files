@@ -14,9 +14,13 @@ nproc --all
 echo "update=$update"
 
 if [ "$update" = "yes" ]; then
+   #export twice="no"
+   export twice="yes"
    
-   #COZ error redeclaration and unresolved on folder   frameworks/base/
-   rm -rf frameworks/base
+   if [ "$twice" = "no" ]; then
+      #COZ error redeclaration and unresolved on folder   frameworks/base/
+      rm -rf frameworks/base
+   fi
    
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
@@ -42,7 +46,7 @@ if [ "$update" = "yes" ]; then
       echo "Folder system/extras/memory_replay does not exist."
    fi
    
-   export curDir=`pwd` twice="yes"
+   export curDir=`pwd` 
    
    if [ "$twice" = "no" ]; then
        # signing key
@@ -108,6 +112,8 @@ source build/envsetup.sh
 
 # 4. KOMPILASI UTAMA
 echo "=== Memulai Kompilasi Biner Utama ==="
+
+make installclean
 #mka bacon -j$(nproc --all) 
 PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false brunch fog
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
