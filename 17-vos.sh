@@ -13,7 +13,7 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 #temporary no
-if [ "$update" = "no" ]; then
+if [ "$update" = "yes" ]; then
    #"twice" here = more than once
    #export twice="no"
    export twice="yes"
@@ -97,12 +97,19 @@ export PACKAGE_NAME="voltage"
 #rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
-echo "LOAD ENVIRONMENT envsetup.sh"
-
 #CONFIG_CFI_CLANG
-export PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false
 
+echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
+
+# === FIX SOONG HARDCODED VINTF CHECK ===
+echo "=== Patching android_device.go for VINTF bypass ==="
+sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/g' build/soong/filesystem/android_device.go
+
+# Eksekusi Build
+echo "=== Memulai Kompilasi Biner Utama ==="
+make installclean
+brunch fog
 
 # Ganti 'fog' dengan codename device kamu jika berbeda
 #lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch voltage_fog-userdebug
@@ -111,12 +118,6 @@ source build/envsetup.sh
 #echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
 #m nothing || m nothing
 
-# 4. KOMPILASI UTAMA
-echo "=== Memulai Kompilasi Biner Utama ==="
-
-make installclean
-#mka bacon -j$(nproc --all) 
-PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false brunch fog
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
