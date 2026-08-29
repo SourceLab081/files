@@ -93,6 +93,10 @@ export PACKAGE_NAME="voltage"
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
 echo "LOAD ENVIRONMENT envsetup.sh"
+
+#CONFIG_CFI_CLANG
+export PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false
+
 source build/envsetup.sh
 
 # Ganti 'fog' dengan codename device kamu jika berbeda
@@ -105,7 +109,7 @@ source build/envsetup.sh
 # 4. KOMPILASI UTAMA
 echo "=== Memulai Kompilasi Biner Utama ==="
 #mka bacon -j$(nproc --all) 
-brunch fog
+PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false brunch fog
 #export ANDROID_RAM_OPTIMIZE_THROTTLE=true
 
 #coz continue build
