@@ -98,13 +98,18 @@ export PACKAGE_NAME="voltage"
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
 #CONFIG_CFI_CLANG
+# === FIX SOONG HARDCODED VINTF CHECK ===
+sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/g' build/soong/filesystem/android_device.go
+sed -i 's/builder.Command().Textf("echo -n -e PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/# \0/g' build/soong/filesystem/android_device.go
+
+echo "=== 2. Hapus Cache Soong (Wajib agar file .go di-compile ulang) ==="
+rm -rf out/soong
+rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
+
 
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
 
-# === FIX SOONG HARDCODED VINTF CHECK ===
-echo "=== Patching android_device.go for VINTF bypass ==="
-sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/g' build/soong/filesystem/android_device.go
 
 # Eksekusi Build
 echo "=== Memulai Kompilasi Biner Utama ==="
