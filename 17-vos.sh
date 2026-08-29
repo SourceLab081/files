@@ -99,8 +99,8 @@ export PACKAGE_NAME="voltage"
 
 #CONFIG_CFI_CLANG
 # === FIX SOONG HARDCODED VINTF CHECK ===
-sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/g' build/soong/filesystem/android_device.go
-sed -i 's/builder.Command().Textf("echo -n -e PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/# \0/g' build/soong/filesystem/android_device.go
+#sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/g' build/soong/filesystem/android_device.go
+#sed -i 's/builder.Command().Textf("echo -n -e PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/# \0/g' build/soong/filesystem/android_device.go
 
 echo "=== 2. Hapus Cache Soong (Wajib agar file .go di-compile ulang) ==="
 rm -rf out/soong
