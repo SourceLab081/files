@@ -103,7 +103,7 @@ export PACKAGE_NAME="voltage"
 #sed -i 's/builder.Command().Textf("echo -n -e PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/# \0/g' build/soong/filesystem/android_device.go
 wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/android_device.go && mv android_device.go build/soong/filesystem/
 echo "=== 2. Hapus Cache Soong (Wajib agar file .go di-compile ulang) ==="
-rm -rf out/soong
+#rm -rf out/soong
 rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
 
 
