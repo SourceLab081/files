@@ -81,10 +81,6 @@ fi
 
 #cat /proc/meminfo
 export PACKAGE_NAME="voltage"
-#coz error berfore soong process
-#rm -rf out/soong/.bootstrap out/soong/build.*.ninja out/soong/soong.environment.*
-
-
 # rm -rf out/target/product/fog/system/etc/vintf
 # fix for error Problems processing genfscon rules
 # https://github.com/LineageOS/android_device_qcom_sepolicy_vndr/blob/lineage-22.2-legacy-um/generic/vendor/common/init_shell.te
@@ -97,15 +93,12 @@ export PACKAGE_NAME="voltage"
 #rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
-#CONFIG_CFI_CLANG
-# === FIX SOONG HARDCODED VINTF CHECK ===
-#sed -i 's/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=false/PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/g' build/soong/filesystem/android_device.go
-#sed -i 's/builder.Command().Textf("echo -n -e PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS=true/# \0/g' build/soong/filesystem/android_device.go
-#wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/android_device.go && mv android_device.go build/soong/filesystem/
-#echo "=== 2. Hapus Cache Soong (Wajib agar file .go di-compile ulang) ==="
-#rm -rf out/soong
-#rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
+#CONFIG_CFI_CLANG or PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
+#revert to original
+wget -O android_device.go https://github.com/VoltageOS/build_soong/raw/refs/heads/17/filesystem/android_device.go && mv android_device.go build/soong/filesystem/
 
+echo "PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false" >> device/xiaomi/fog/device.mk
+rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
 
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
@@ -116,33 +109,3 @@ echo "=== Memulai Kompilasi Biner Utama ==="
 make installclean
 brunch fog
 
-# Ganti 'fog' dengan codename device kamu jika berbeda
-#lunch voltage_fog-cp2a-user   # Atau: lunch lineage_fog-ap3a-userdebug / lunch voltage_fog-userdebug
-
-# 3. FASE PEMANASAN SOONG (Toleransi Error Pertama VoltageOS)
-#echo "=== Phase 1: Membangun Soong Build Graph (VoltageOS Fix) ==="
-#m nothing || m nothing
-
-#export ANDROID_RAM_OPTIMIZE_THROTTLE=true
-
-#coz continue build
-#rm -rf out/soong/.intermediates/device/xiaomi/fog/rro_overlays/FogFrameworksOverlayCommon/
-# Hapus file state/cache Ninja & Soong yang setengah jadi
-#rm -f out/.ninja_deps out/.ninja_log out/soong/build.ninja
-
-
-#export ALLOW_MISSING_DEPENDENCIES=true 
-#export SELINUX_IGNORE_NEVERALLOWS=true
-#echo "breakfast/lunch"
-#lunch yaap_fog-userdebug
-#lunch aosp_fog-bp2a-userdebug
-#breakfast fog eng
-
-#lunch voltage_fog-cp2a-user
-
-#brunch fog
-#echo success > result.txt
-#brunch fog
-#echo "build the code"
-#m yaap
-#mka clover -j$(nproc --all)
