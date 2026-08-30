@@ -13,10 +13,11 @@ nproc --all
 #touch rm_soong
 echo "update=$update"
 #temporary no
+#"twice" here = more than once
+#export twice="no"
+export twice="yes"
+
 if [ "$update" = "yes" ]; then
-   #"twice" here = more than once
-   #export twice="no"
-   export twice="yes"
    
    if [ "$twice" = "no" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
@@ -94,10 +95,13 @@ export PACKAGE_NAME="voltage"
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
 
 #CONFIG_CFI_CLANG or PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false
-#revert to original
+# Revert android_device.go to original VoltageOS version
 wget -O android_device.go https://github.com/VoltageOS/build_soong/raw/refs/heads/17/filesystem/android_device.go && mv android_device.go build/soong/filesystem/
-
-echo "PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false" >> device/xiaomi/fog/device.mk
+export once="yes"
+#export once="no"
+if [ "$once" = "yes" ]; then
+   echo "PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false" >> device/xiaomi/fog/device.mk
+fi   
 rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
 
 echo "LOAD ENVIRONMENT envsetup.sh"
