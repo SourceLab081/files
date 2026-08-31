@@ -99,6 +99,10 @@ if [ "$once" = "yes" ]; then
    echo "PRODUCT_OTA_ENFORCE_VINTF_KERNEL_REQUIREMENTS := false" >> device/xiaomi/fog/device.mk
 fi   
 #rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
+#update
+wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/BoardConfig.mk && mv BoardConfig.mk device/xiaomi/fog/
+wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/voltage_fog.mk && mv voltage_fog.mk device/xiaomi/fog/
+wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/device.mk && mv device.mk device/xiaomi/fog/
 
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
