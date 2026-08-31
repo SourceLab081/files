@@ -100,10 +100,11 @@ if [ "$once" = "yes" ]; then
 fi   
 #rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
 #change
-rm -rf kernel/xiaomi/fog && git clone  -b fog-new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
-wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/BoardConfig.mk && mv BoardConfig.mk device/xiaomi/fog/
+#rm -rf kernel/xiaomi/fog && git clone  -b fog-new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+#wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/BoardConfig.mk && mv BoardConfig.mk device/xiaomi/fog/
 wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/voltage_fog.mk && mv voltage_fog.mk device/xiaomi/fog/
-wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/device.mk && mv device.mk device/xiaomi/fog/
+#wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/device.mk && mv device.mk device/xiaomi/fog/
+wget https://github.com/VoltageOS/vendor_voltage/raw/refs/heads/17/config/version.mk && mv version.mk vendor/voltage/config/
 
 echo "LOAD ENVIRONMENT envsetup.sh"
 source build/envsetup.sh
