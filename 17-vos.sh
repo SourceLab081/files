@@ -8,17 +8,18 @@ echo "cores:"
 nproc --all
 
 echo "update=$update"
-#temporary no
+
 #"twice" here = more than once
 #export twice="no"
 export twice="yes"
-
-if [ "$update" = "yes" ]; then
+#temporary no
+if [ "$update" = "no" ]; then
    
    if [ "$twice" = "no" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
+   rm -rf device/xiaomi/fog
    
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
@@ -66,9 +67,9 @@ if [ "$update" = "yes" ]; then
    ##wget https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/voltage.devices && mv voltage.devices vendor/voltage/
    #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
    #cd kernel/xiaomi/fog &&	rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash -s legacy_susfs && cd $curDir
-   if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
-       git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
-   fi
+   #if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
+   rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+   #fi
    
    if [ ! -f script_sch2.sh ]; then
       wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
@@ -100,8 +101,8 @@ if [ "$once" = "yes" ]; then
 fi   
 #rm -rf out/target/product/fog/obj/PACKAGING/check_vintf_all_intermediates
 #change
-rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
-wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/BoardConfig.mk && mv BoardConfig.mk device/xiaomi/fog/
+#rm -rf kernel/xiaomi/fog && git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+#wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/BoardConfig.mk && mv BoardConfig.mk device/xiaomi/fog/
 #wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/voltage_fog.mk && mv voltage_fog.mk device/xiaomi/fog/
 #wget https://github.com/SourceLab081/device_fog/raw/refs/heads/17-vos/device.mk && mv device.mk device/xiaomi/fog/
 
