@@ -13,13 +13,13 @@ echo "update=$update"
 #export twice="no"
 export twice="yes"
 #temporary no
-if [ "$update" = "no" ]; then
+if [ "$update" = "yes" ]; then
    
    if [ "$twice" = "no" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
-   rm -rf device/xiaomi/fog
+   # rm -rf device/xiaomi/fog
    
    repo init -u https://github.com/VoltageOS/manifest.git --depth 1 -b 17 --git-lfs
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-VoltageOS .repo/local_manifests
@@ -47,12 +47,12 @@ if [ "$update" = "no" ]; then
    
    export curDir=`pwd` 
    
-   if [ "$twice" = "no" ]; then
+   #if [ "$twice" = "no" ]; then
        # signing key
        cd vendor/voltage-priv/keys
        ./keys.sh
         cd $curDir
-   fi
+   #fi
    
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
