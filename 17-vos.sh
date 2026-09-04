@@ -165,8 +165,9 @@ if [[ "${BUILD_SUCCESS}" == "1" ]]; then
     fi
     if [[ -n "$secret_num" ]]; then
        ZIP_FILE=$(find . -maxdepth 1 -type f -name "voltage-6*.zip" \
-       -printf '%T@ %p\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
-       info "Send $ZIP_FILE to github"
+       -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
+       
+       info "Upload $ZIP_FILE to github"
        . send_file.sh $ZIP_FILE
     fi
 else
