@@ -41,7 +41,7 @@ echo "update=$update"
 
 export first="yes"
 if [ -d "out" ]; then
-   $first="no"    
+   first="no"    
 fi
 
 export curDir=`pwd` 
@@ -139,10 +139,6 @@ fi
 
 BUILD_END=$(date +%s)
 BUILD_MINUTES=$(((BUILD_END - BUILD_START) / 60))
-
-# ============================================================
-# Optional .var
-# ============================================================
 
 if [[ -f ".var" ]]; then
     source ".var"
