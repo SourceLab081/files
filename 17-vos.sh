@@ -66,9 +66,11 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    SYNC_END=$(date +%s)
    ok "Source sync stage finished"
    info "Sync time: $(((SYNC_END - SYNC_START) / 60)) minutes" 
-   # run this line after resync
+   # Fix for error memory stall at build soong 
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
-
+   # test for resolving error sbox_command.0.bash: line 1: 48256 Killed
+   sed -i 's/Flag("-J-Xmx6114m")\./Flag("-J-Xmx5120m")./' build/soong/java/droidstubs.go
+   
    echo "Fix for smth already defined" 
    if [ -d "system/core/trusty/storage/interface" ]; then
       echo "Folder system/core/trusty/storage/interface exists."
