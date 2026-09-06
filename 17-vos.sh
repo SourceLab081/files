@@ -69,8 +69,23 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    # Fix for error memory stall at build soong 
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
    # test for resolving error sbox_command.0.bash: line 1: 48256 Killed
-   sed -i 's/Flag("-J-Xmx6114m")\./Flag("-J-Xmx5120m")./' build/soong/java/droidstubs.go
-   
+   #sed -i 's/Flag("-J-Xmx6114m")\./Flag("-J-Xmx5120m")./' build/soong/java/droidstubs.go
+   #still error so the code is changed to:
+   # 1. Deteksi nilai Xmx saat ini
+   OLD_XMX=$(grep -oP '\-J\-Xmx\K[0-9]+m' build/soong/java/droidstubs.go | head -n 1)
+   NEW_XMX="4096m"
+
+   # 2. String pengganti lengkap dengan newline (\n) dan indentasi spasi
+   REPLACEMENT="Flag(\"-J-Xmx${NEW_XMX}\").\n\t\tFlag(\"-J-XX:+UseG1GC\").\n\t\tFlag(\"-J-XX:MinHeapFreeRatio=10\").\n\t\tFlag(\"-J-XX:MaxHeapFreeRatio=20\")"
+
+   if [ -n "$OLD_XMX" ]; then
+      echo "Nilai Xmx saat ini: $OLD_XMX"
+      # Menggunakan sed dengan \n untuk ganti baris
+      sed -i "s/Flag(\"-J-Xmx${OLD_XMX}\")/${REPLACEMENT}/g" build/soong/java/droidstubs.go
+      echo "Berhasil diperbarui dengan format multi-line."
+   else
+      echo "Pola -J-Xmx tidak ditemukan di build/soong/java/droidstubs.go"
+   fi
    echo "Fix for smth already defined" 
    if [ -d "system/core/trusty/storage/interface" ]; then
       echo "Folder system/core/trusty/storage/interface exists."
