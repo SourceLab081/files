@@ -188,7 +188,7 @@ fi
 JOB_END=$(date +%s)
 TOTAL_MINUTES=$(((JOB_END - JOB_START) / 60))
 
-section "Job Complete"
+info "Job Complete"
 
 ok "Everything finished"
 info "Total time: ${TOTAL_MINUTES} minutes"
