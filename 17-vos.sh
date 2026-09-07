@@ -112,10 +112,11 @@ fi
 export PACKAGE_NAME="voltage"
 
 # Hapus hanya cache hasil output metalava/stubs
-rm -rf out/target/common/obj/JAVA_LIBRARIES/*_intermediates/
-rm -rf out/soong/.minibp*
+#rm -rf out/target/common/obj/JAVA_LIBRARIES/*_intermediates/
+#rm -rf out/soong/.minibp*
 # Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
-rm -f out/soong/build.ninja
+#rm -f out/soong/build.ninja
+
 #Fix for error redeclaration and unresolved maybe this is cuased by undeleted file form base rom lin 22.1 
 #rm frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/*.java
 #rm -rf frameworks/base/packages/SystemUI/plugin_core/src/com/android/systemui/plugins/processor
