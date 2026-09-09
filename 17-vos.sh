@@ -53,7 +53,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
-   rm -rf /device/xiaomi/fog
+
    echo "Syncing Source"
    SYNC_START=$(date +%s)
    
