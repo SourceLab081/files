@@ -1,7 +1,9 @@
 export ROM="rising"
 export DEV="fog"
 
-wget -O general.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
+if [ ! -f general.sh ]; then
+   wget -O general.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
+fi
 
 . general.sh
 
@@ -14,6 +16,15 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
+
+   echo "Fix for error already defined in RisingOS"
+   rm -rf packages/overlays/Lineage
+   rm -rf hardware/qcom-caf/msm8998
+   rm -rf hardware/qcom-caf/sdm845
+   rm -rf packages/apps/Trebuchet
+   rm -rf packages/apps/Nfc
+   rm -rf external/rust/crates
+   rm -rf external/rust/android-crates-io
 
    repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-rising .repo/local_manifests
@@ -43,7 +54,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    else
       echo "Folder system/extras/memory_replay does not exist."
    fi
-   
+
    cmd_before_envsetup  
 fi
 
