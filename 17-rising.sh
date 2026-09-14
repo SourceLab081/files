@@ -20,7 +20,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    echo "Fix for error already defined in RisingOS"
    rm -rf packages/overlays/Lineage
    rm -rf hardware/qcom-caf/msm8998
-   rm -rf hardware/qcom-caf/sdm845
+   #rm -rf hardware/qcom-caf/sdm845
    rm -rf packages/apps/Trebuchet
    rm -rf packages/apps/Nfc
    rm -rf external/rust/crates
