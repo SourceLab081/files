@@ -16,15 +16,18 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
-
+  
    echo "Fix for error already defined in RisingOS"
-   rm -rf packages/overlays/Lineage
-   rm -rf hardware/qcom-caf/msm8998
-   #rm -rf hardware/qcom-caf/sdm845
-   rm -rf packages/apps/Trebuchet
-   rm -rf packages/apps/Nfc
-   rm -rf external/rust/crates
-   rm -rf external/rust/android-crates-io
+   rm -rf external/python/cpython2  
+   rm -rf hardware/qcom-caf/sdm845
+
+   #That had already been removed in a previous build.
+   #rm -rf packages/overlays/Lineage
+   #rm -rf hardware/qcom-caf/msm8998
+   #rm -rf packages/apps/Trebuchet
+   #rm -rf packages/apps/Nfc
+   #rm -rf external/rust/crates
+   #rm -rf external/rust/android-crates-io
 
    repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-rising .repo/local_manifests
@@ -39,22 +42,6 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
    #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
    
-   echo "Fix for smth already defined"
-   mkdir bckp
-   if [ -d "system/core/trusty/storage/interface" ]; then
-      echo "Folder system/core/trusty/storage/interface exists."
-      mv system/core/trusty/storage/interface bckp/
-   else
-      echo "Folder system/core/trusty/storage/interface does not exist."
-   fi
-  
-   if [ -d "system/extras/memory_replay" ]; then
-      echo "Folder system/extras/memory_replay exists."
-      mv system/extras/memory_replay bckp/
-   else
-      echo "Folder system/extras/memory_replay does not exist."
-   fi
-
    cmd_before_envsetup  
 fi
 
