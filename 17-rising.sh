@@ -49,10 +49,10 @@ export curDir=`pwd`
 #temporary no
 if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
-   #if [ "$first" = "yes" ]; then
+   if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
-   #   rm -rf frameworks/base
-   #fi
+      rm -rf frameworks/base
+   fi
 
    echo "Syncing Source"
    SYNC_START=$(date +%s)
@@ -70,35 +70,30 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    # Fix for the “memory stall” error when building Soong
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
    
-   # Fixes for errors that occur when compiling code in framework/base
-   wget -O droidstubs.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go && mv droidstubs.go build/soong/java/
-   wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
-   wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
+   # Fixes for errors that occur when compiling code in framework/base if the compilation process continues
+   #wget -O droidstubs.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go && mv droidstubs.go build/soong/java/
+   #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
+   #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
    
-   echo "Fix for smth already defined" 
+   echo "Fix for smth already defined"
+   mkdir bckp
    if [ -d "system/core/trusty/storage/interface" ]; then
       echo "Folder system/core/trusty/storage/interface exists."
-      rm -rf system/core/trusty/storage/interface
+      mv system/core/trusty/storage/interface bckp/
    else
       echo "Folder system/core/trusty/storage/interface does not exist."
    fi
   
    if [ -d "system/extras/memory_replay" ]; then
       echo "Folder system/extras/memory_replay exists."
-      rm -rf system/extras/memory_replay
+      mv system/extras/memory_replay bckp/
    else
       echo "Folder system/extras/memory_replay does not exist."
    fi
    
-   if [ "$first" = "yes" ]; then
-       # signing key
-       cd vendor/voltage-priv/keys
-       ./keys.sh
-        cd $curDir
-   fi
-   
+  
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
-   rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
+   rm -f hardware/qcom/sdm845/Android.bp h.ardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
    
    #cd kernel/xiaomi/fog && rm -rf KernelSU-Next && curl -LSs "https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/next/kernel/setup.sh" | bash - && cd $curDir
@@ -179,7 +174,7 @@ if [[ "${BUILD_SUCCESS}" == "1" ]]; then
        -f $1' > send_file.sh
     fi
     if [[ -n "$secret_num" ]]; then
-       ZIP_FILE=$(find . -maxdepth 1 -type f -name "voltage-6*.zip" \
+       ZIP_FILE=$(find . -maxdepth 1 -type f -name "rising*.zip" \
        -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
        
        info "Upload $ZIP_FILE to github"
