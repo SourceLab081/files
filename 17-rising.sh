@@ -1,4 +1,4 @@
-export ROM="rising"
+export ROM="RisingOS"
 export DEV="fog"
 
 if [ ! -f general.sh ]; then
@@ -52,9 +52,9 @@ build_start
 
 riseup fog user
 make installclean
-gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
+#gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
 
-if rise sb; then
+if rise b; then
     BUILD_SUCCESS=1
 else
     BUILD_SUCCESS=0
