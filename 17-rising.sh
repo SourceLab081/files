@@ -15,20 +15,18 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
+   
+      echo "Fix for error already defined in RisingOS"
+      rm -rf external/python/cpython2  
+      rm -rf hardware/qcom-caf/sdm845
+      rm -rf packages/overlays/Lineage
+      rm -rf hardware/qcom-caf/msm8998
+      rm -rf packages/apps/Trebuchet
+      rm -rf packages/apps/Nfc
+      rm -rf external/rust/crates
+      rm -rf external/rust/android-crates-io
    fi
-  
-   echo "Fix for error already defined in RisingOS"
-   rm -rf external/python/cpython2  
-   rm -rf hardware/qcom-caf/sdm845
-
-   #That had already been removed in a previous build.
-   #rm -rf packages/overlays/Lineage
-   #rm -rf hardware/qcom-caf/msm8998
-   #rm -rf packages/apps/Trebuchet
-   #rm -rf packages/apps/Nfc
-   #rm -rf external/rust/crates
-   #rm -rf external/rust/android-crates-io
-
+     
    repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
    rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-rising .repo/local_manifests
    
@@ -42,14 +40,13 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
    #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
    
+   # Hapus hanya cache hasil output metalava/stubs
+   #rm -rf out/target/common/obj/JAVA_LIBRARIES/*_intermediates/
+   #rm -rf out/soong/.minibp*
+   # Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
+   #rm -f out/soong/build.ninja
    cmd_before_envsetup  
 fi
-
-# Hapus hanya cache hasil output metalava/stubs
-#rm -rf out/target/common/obj/JAVA_LIBRARIES/*_intermediates/
-#rm -rf out/soong/.minibp*
-# Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
-#rm -f out/soong/build.ninja
 
 build_start
 
