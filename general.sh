@@ -63,6 +63,7 @@ repo_sync_custom() {
     SYNC_START=$(date +%s)
     repo sync \    
         -c \
+        -j$(nproc --all) \
         --force-sync \
         --force-remove-dirty \
         --no-tags \
