@@ -50,9 +50,9 @@ fi
 
 build_start
 
-riseup fog user
+riseup fog userdebug
 make installclean
-#gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
+gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
 
 if rise b; then
     BUILD_SUCCESS=1
