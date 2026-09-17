@@ -1,13 +1,6 @@
 export ROM="RisingOS"
 export DEV="fog"
-
-if [ ! -f general.sh ]; then
-   wget -O general.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
-fi
-
-. general.sh
-
-job_start
+export VARIANT="userdebug"
 
 source_repo() {
    repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
@@ -15,7 +8,7 @@ source_repo() {
 }
 
 run_build() {
-   riseup fog userdebug
+   riseup $DEV $VARIANT
    make installclean
    gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
    if rise b; then
@@ -24,6 +17,14 @@ run_build() {
       BUILD_SUCCESS=0
    fi
 }
+
+if [ ! -f general.sh ]; then
+   wget -O general.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
+fi
+
+. general.sh
+
+job_start
 
 #temporary no
 if [[ "$first" = "yes" || "$update" = "yes" ]]; then
