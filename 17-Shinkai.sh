@@ -1,4 +1,4 @@
-ROM="RisingOS"
+ROM="Shinkai"
 DEV="fog"
 VARIANT="user"
 
