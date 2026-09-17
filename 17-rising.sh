@@ -9,6 +9,22 @@ fi
 
 job_start
 
+source_repo() {
+   repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
+   rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-rising .repo/local_manifests
+}
+
+run_build() {
+   riseup fog userdebug
+   make installclean
+   gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
+   if rise b; then
+      BUILD_SUCCESS=1
+   else
+      BUILD_SUCCESS=0
+   fi
+}
+
 #temporary no
 if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
@@ -27,8 +43,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf external/rust/android-crates-io
    fi
      
-   repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
-   rm -rf .repo/local_manifests && git clone https://github.com/SourceLab081/local_manifests --depth 1 -b 17-rising .repo/local_manifests
+   source_repo
    
    repo_sync_crave 
    
@@ -50,14 +65,6 @@ fi
 
 build_start
 
-riseup fog userdebug
-make installclean
-gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
-
-if rise b; then
-    BUILD_SUCCESS=1
-else
-    BUILD_SUCCESS=0
-fi
+run_build
 
 build_finish
