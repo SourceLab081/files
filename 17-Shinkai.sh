@@ -1,6 +1,6 @@
 ROM="RisingOS"
 DEV="fog"
-VARIANT="userdebug"
+VARIANT="user"
 
 source_repo() {
    repo init --depth=1 -u https://github.com/ShinkaiProject/shinkai_manifest.git -b heptakaideka --git-lfs  
@@ -8,10 +8,10 @@ source_repo() {
 }
 
 run_build() {
-   riseup "$DEV" "$VARIANT"
+   breakfast "$DEV" "$VARIANT"
    make installclean
-   gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
-   if rise b; then
+   
+   if mka shinkai; then
       BUILD_SUCCESS=1
    else
       BUILD_SUCCESS=0
@@ -39,7 +39,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    repo_sync_crave 
    
    # Fix for the “memory stall” error when building Soong
-   #wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
+   wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
    
    # Fixes for errors that occur when compiling code in framework/base if the compilation process continues
    #wget -O droidstubs.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go && mv droidstubs.go build/soong/java/
