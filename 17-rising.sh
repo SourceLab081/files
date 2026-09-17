@@ -1,6 +1,6 @@
-export ROM="RisingOS"
-export DEV="fog"
-export VARIANT="userdebug"
+ROM="RisingOS"
+DEV="fog"
+VARIANT="userdebug"
 
 source_repo() {
    repo init --depth=1 -u https://github.com/RisingOS-Revived/android.git -b seventeen --git-lfs  
@@ -8,7 +8,7 @@ source_repo() {
 }
 
 run_build() {
-   riseup $DEV $VARIANT
+   riseup "$DEV" "$VARIANT"
    make installclean
    gk -f #(to regenerate replace old keys, rise sb automatically generate keys for full build signing if no keys exists)
    if rise b; then
