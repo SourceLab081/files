@@ -1,7 +1,7 @@
 ROM="ASCP"
 DEV="fog"
 VARIANT="user"
-local_manifest=" https://github.com/SourceLab081/local_manifests"
+local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
 
