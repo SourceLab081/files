@@ -21,12 +21,11 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    source_repo
    
    repo_sync_crave 
-   repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
-   repo_sync_crave 
+ 
    # Fix for the “memory stall” error when building Soong
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
    
-   # Fixes for errors that occur when compiling code in framework/base if the compilation process continues
+   # Fixes for “memory stall” errors that occur when compiling code in framework/base if the compilation process continues
    #wget -O droidstubs.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go && mv droidstubs.go build/soong/java/
    #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
    #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
