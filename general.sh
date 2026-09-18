@@ -50,6 +50,62 @@ job_start() {
     echo "current directory=$curDir"
 }
 
+local_manifest="https://github.com/SourceLab081/local_manifests"
+
+case $ROM in
+
+  Shinkai)
+    echo "Shinkai"
+    repo_url="https://github.com/ShinkaiProject/shinkai_manifest.git"
+    repo_branch="heptakaideka"
+    manifest_branch="17-Shinkai"
+    l_cmd="breakfast "$DEV" "$VARIANT""
+    BUILD_CMD="mka shinkai"
+    ;;
+
+  ASCP)
+    echo "ASCP"
+    repo_url="https://github.com/Pixelify-AOSP/platform_manifest"
+    repo_branch="17"
+    manifest_branch="17-los"
+    l_cmd="lunch $DEV-cp2a-$VARIANT"
+    BUILD_CMD="mka bacon"
+    ;;
+
+  VoltageOS)
+    echo "VoltageOS"
+    repo_url="https://github.com/VoltageOS/manifest.git"
+    repo_branch="17"
+    manifest_branch="17-VoltageOS"
+    l_cmd=""
+    BUILD_CMD="brunch fog"
+    ;;
+
+  *)
+    echo "unknown"
+    ;;
+esac
+
+source_repo() {
+   repo init --depth=1 -u "$repo_url" -b "$repo_branch" --git-lfs  
+   rm -rf .repo/local_manifests && git clone --depth 1  "$local_manifest" -b "$manifest_branch" .repo/local_manifests
+}
+
+run_build() {
+   if [ -n "$l_cmd" ]; then
+    $l_cmd
+   fi
+   
+   make installclean
+   
+   if $BUILD_CMD; then
+      BUILD_SUCCESS=1
+   else
+      BUILD_SUCCESS=0
+   fi
+}
+
+
 repo_sync_crave() {
     info "Syncing Source using resync.sh from crave.io"
     SYNC_START=$(date +%s)
