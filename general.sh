@@ -48,6 +48,13 @@ job_start() {
     echo "first=$first" 
     export curDir=`pwd` 
     echo "current directory=$curDir"
+    
+    if [[ -f ".var" ]]; then
+       source ".var"
+       ok ".var loaded"
+    else
+       warn ".var not found - continuing"
+    fi
 }
 
 local_manifest="https://github.com/SourceLab081/local_manifests"
