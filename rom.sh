@@ -18,9 +18,6 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf frameworks/base
    fi
    
-   # this in only one time delete, because packages/apps/AppDataBackup folder from project Shinkai is not deleted so it's mixed to ASCP sc
-   #rm -rf packages/apps
-   
    source_repo
    
    repo_sync_crave 
