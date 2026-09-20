@@ -1,4 +1,4 @@
-ROM="ASCP"
+#ROM="ASCP"
 DEV="fog"
 VARIANT="user"
 
