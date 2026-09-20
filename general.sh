@@ -184,12 +184,12 @@ upload_file() {
        COUNT=1
        for FILE in "${SPLIT_FILES[@]}"; do
           echo "Uploading file ($COUNT/$TOTAL_FILES): $FILE"
-          . send_file "$FILE"
+          . send_file.sh "$FILE"
           COUNT=$((COUNT + 1))
        done
     else
        echo "The file size is less than or equal to 2000MB. Uploading the file directly..."
-       . send_file "$ZIP_FILE"
+       . send_file.sh "$ZIP_FILE"
     fi
 }
 
