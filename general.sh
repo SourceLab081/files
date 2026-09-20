@@ -223,7 +223,7 @@ build_finish() {
           -f $1' > send_file.sh
        fi
        if [[ -n "$secret_num" ]]; then
-          ZIP_FILE=$(find . -maxdepth 1 -type f -name "$ROM*.zip" \
+          ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip"  ! -name "*target_files*" ! -name "*ota*" \
           -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
        
           info "Upload $ZIP_FILE to github"
