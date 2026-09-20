@@ -2,6 +2,7 @@ ROM="ASCP"
 DEV="fog"
 VARIANT="user"
 
+echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
    wget -O general.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
 #fi
