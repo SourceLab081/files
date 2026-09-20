@@ -157,6 +157,42 @@ build_start() {
    info "Build start at $BUILD_START"
 }
 
+upload_file() {
+    # Get the file size in bytes
+    FILE_SIZE=$(stat -c%s "$ZIP_FILE")
+    
+    # Size limit of 2000M in bytes (2000 * 1024 * 1024)
+    MAX_SIZE=$((2000 * 1024 * 1024))
+    
+    echo "File size of ‘$ZIP_FILE’: $FILE_SIZE bytes"
+    
+    if [ "$FILE_SIZE" -gt "$MAX_SIZE" ]; then
+       echo "The file size exceeds 2000MB. Starting the split process..."
+       
+       # Run the split command with a numerical suffix for easy identification
+       # This command will generate files such as: filename.zip.part00, filename.zip.part01, etc.
+       split -b 2000M -d -a 2 "$ZIP_FILE" "${ZIP_FILE}.part"
+    
+       # Detect and store the list of split files in an array
+       SPLIT_FILES=("${ZIP_FILE}.part"*)
+       TOTAL_FILES=${#SPLIT_FILES[@]}
+    
+       echo "Finished splitting the file. Total number of files created: $TOTAL_FILES"
+       echo "----------------------------------------"
+    
+       # Loop to upload each split file
+       COUNT=1
+       for FILE in "${SPLIT_FILES[@]}"; do
+          echo "Uploading file ($COUNT/$TOTAL_FILES): $FILE"
+          . send_file "$FILE"
+          COUNT=$((COUNT + 1))
+       done
+    else
+       echo "The file size is less than or equal to 2000MB. Uploading the file directly..."
+       . send_file "$ZIP_FILE"
+    fi
+}
+
 build_finish() {
     info "End process"
     BUILD_END=$(date +%s)
@@ -191,7 +227,8 @@ build_finish() {
           -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
        
           info "Upload $ZIP_FILE to github"
-          . send_file.sh $ZIP_FILE
+          #. send_file.sh $ZIP_FILE
+          upload_file
        fi
     else
        fail "$ROM build failed"
