@@ -29,7 +29,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
       wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
       gpg --batch --quiet --yes --passphrase "$PASS_GPG" -d vendor_shinkai.tar.gz.gpg | tar -xzf - -C vendor/
-   if 
+   fi
    
    # Fix for the “memory stall” error when building Soong
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
