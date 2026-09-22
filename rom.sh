@@ -22,8 +22,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    source_repo
    
    repo_sync_crave 
-   repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
-   repo_sync_crave 
+   #repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
+   #repo_sync_crave 
 
    if [ "$ROM" = "Shinkai" ]; then
       echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
@@ -44,6 +44,11 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #rm -rf out/soong/.minibp*
    # Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
    #rm -f out/soong/build.ninja
+   #after error : build/soong/fsgen/Android.bp:41:1: module "shinkai_fog_generated_system_other_image"
+   rm -rf out/soong/fsgen
+   rm -rf out/soong/build.shinkai_fog.ninja 
+   rm -rf out/soong/.soong.*
+   
    cmd_before_envsetup  
 fi
 
