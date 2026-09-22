@@ -22,14 +22,22 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    source_repo
    
    repo_sync_crave 
-   repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
-   repo_sync_crave 
+   #repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
+   #repo_sync_crave 
 
    source ".var"
    if [ "$ROM" = "Shinkai" ]; then
       echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
       wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
       gpg --batch --quiet --yes --passphrase "$PASS_GPG" -d vendor_shinkai.tar.gz.gpg | tar -xzf - -C vendor/
+   
+      if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
+         mkdir -p packages/apps/LMOFreeform
+         wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
+         tar cjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform   
+      else
+         echo "file packages/apps/LMOFreeform/build.gradle.kts  exists."
+      fi
    fi
    
    # Fix for the “memory stall” error when building Soong
