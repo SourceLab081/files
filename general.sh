@@ -142,6 +142,8 @@ repo_sync_custom() {
 cmd_before_envsetup() { 	
    info "These commands are executed immediately after repo sync"
    
+   rm -rf hardware/google/pixel/kernel_headers/Android.bp
+   
    rm -f hardware/qcom/sm7250/Android.bp hardware/qcom/sm7250/Android.mk
    rm -f hardware/qcom/sdm845/Android.bp hardware/qcom/sdm845/Android.mk
    rm -f hardware/qcom/sm8150/Android.bp hardware/qcom/sm8150/Android.mk
