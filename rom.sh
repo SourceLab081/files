@@ -25,6 +25,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
    repo_sync_crave 
 
+   source .var
    if [ "$ROM" = "Shinkai" ]; then
       echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
       wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
