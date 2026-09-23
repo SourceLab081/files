@@ -153,7 +153,14 @@ cmd_before_envsetup() {
       info "Clone the kernel" 
       git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
    fi
-   
+
+   # signing key
+   if [ ! -d vendor/extra ]; then
+       mkdir -p vendor/extra
+       cd vendor/extra && wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.8/sign.zip && unzip sign.zip && rm sign.zip
+       cd ../..
+   fi
+
    if [ ! -f script_sch2.sh ]; then
       wget https://github.com/SourceLab081/uploadz/releases/download/v0.0.2/script_sch2.sh
    fi
