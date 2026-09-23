@@ -25,7 +25,6 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
    #repo_sync_crave 
 
-   source ".var"
    if [ "$ROM" = "Shinkai" ]; then
       if [ ! -f vendor/custom/config/common.mk ]; then
          echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
