@@ -36,7 +36,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
          mkdir -p packages/apps/LMOFreeform
          wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
-         tar cjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform/   
+         tar xjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform/   
       else
          echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
       fi
