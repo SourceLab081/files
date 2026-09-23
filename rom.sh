@@ -18,7 +18,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       rm -rf frameworks/base
    fi
-   
+   rm -rf prebuilts/clang/host/linux-x86
    source_repo
    
    repo_sync_crave 
