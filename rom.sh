@@ -19,7 +19,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf frameworks/base
    fi
    
-   rm -rf packages/apps/LMOFreeform
+   rm -rf packages/apps/LMOFreeform/.git
    
    source_repo
    
