@@ -66,6 +66,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    # After error, remove state build KATI
    rm -rf out/build-*.ninja
    rm -rf out/soong/.soong.*
+   rm -rf out/.module_paths
 
    cmd_before_envsetup  
 fi
