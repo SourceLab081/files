@@ -58,11 +58,15 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    # Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
    #rm -f out/soong/build.ninja
    
-   #after error : build/soong/fsgen/Android.bp:41:1: module "shinkai_fog_generated_system_other_image"
+   #after error 
    #rm -rf out/soong/fsgen
    #rm -rf out/soong/build.shinkai_fog.ninja 
    #rm -rf out/soong/.soong.*
-   
+
+   # After error, remove state build KATI
+   rm -rf out/build-*.ninja
+   rm -rf out/soong/.soong.*
+
    cmd_before_envsetup  
 fi
 
