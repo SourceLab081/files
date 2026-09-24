@@ -19,7 +19,6 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf frameworks/base
    fi
    
-   rm -rf prebuilts/clang/host/linux-x86
    rm -rf packages/apps/LMOFreeform
    
    source_repo
