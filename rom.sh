@@ -63,10 +63,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #rm -rf out/soong/build.shinkai_fog.ninja 
    #rm -rf out/soong/.soong.*
 
-   # After error, remove state build KATI
-   rm -rf out/build-*.ninja
-   rm -rf out/soong/.soong.*
-   rm -rf out/.module_paths
+   # After error
+   # Hapus cache spesifik hiddenapi dan Soong Ninja
+    rm -rf out/soong/hiddenapi/
+    rm -rf out/soong/.intermediates/frameworks/base/boot/
+    rm -rf out/build-*.ninja
+    rm -rf out/soong/.soong.*
 
    cmd_before_envsetup  
 fi
