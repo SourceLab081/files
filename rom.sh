@@ -52,24 +52,6 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
    #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
    
-   # Hapus hanya cache hasil output metalava/stubs
-   #rm -rf out/target/common/obj/JAVA_LIBRARIES/*_intermediates/
-   #rm -rf out/soong/.minibp*
-   # Hapus manifest Ninja agar aturan dari config.go diperbarui tanpa menghapus hasil compile yang lama
-   #rm -f out/soong/build.ninja
-   
-   #after error 
-   #rm -rf out/soong/fsgen
-   #rm -rf out/soong/build.shinkai_fog.ninja 
-   #rm -rf out/soong/.soong.*
-
-   # After error
-   # Hapus cache spesifik hiddenapi dan Soong Ninja
-    rm -rf out/soong/hiddenapi/
-    rm -rf out/soong/.intermediates/frameworks/base/boot/
-    rm -rf out/build-*.ninja
-    rm -rf out/soong/.soong.*
-
    cmd_before_envsetup  
 fi
 
