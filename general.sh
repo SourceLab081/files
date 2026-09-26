@@ -214,7 +214,8 @@ Get_GHRelease() {
       wget https://github.com/github-release/github-release/releases/download/v0.10.0/linux-amd64-github-release.bz2&&bunzip2 \
       linux-amd64-github-release.bz2&&mv linux-amd64-github-release github-release && chmod +x github-release
    fi
-   
+   #temporary rm for new version send_file.sh
+   rm send_file.sh
    if [ ! -f send_file.sh ]; then
       echo './github-release upload \
       -s $secret_num \
