@@ -200,13 +200,31 @@ upload_file() {
        COUNT=1
        for FILE in "${SPLIT_FILES[@]}"; do
           echo "Uploading file ($COUNT/$TOTAL_FILES): $FILE"
-          . send_file.sh "$FILE"
+          . send_file.sh "$FILE" "$FILE"
           COUNT=$((COUNT + 1))
        done
     else
        echo "The file size is less than or equal to 2000MB. Uploading the file directly..."
-       . send_file.sh "$ZIP_FILE"
+       . send_file.sh "$ZIP_FILE" "$ZIP_FILE" 
     fi
+}
+
+Get_GHRelease() {
+   if [ ! -f github-release ]; then
+      wget https://github.com/github-release/github-release/releases/download/v0.10.0/linux-amd64-github-release.bz2&&bunzip2 \
+      linux-amd64-github-release.bz2&&mv linux-amd64-github-release github-release && chmod +x github-release
+   fi
+   
+   if [ ! -f send_file.sh ]; then
+      echo './github-release upload \
+      -s $secret_num \
+      -u SourceLab081 \
+      -r uploadz \
+      -t $tag \
+      -n $1 \
+      -f $2' > send_file.sh
+    fi
+
 }
 
 build_finish() {
@@ -225,19 +243,7 @@ build_finish() {
        ok "$ROM build successful"
        info "Build time: ${BUILD_MINUTES} minutes"
        cd out/target/product/$DEV
-       if [ ! -f github-release ]; then
-          wget https://github.com/github-release/github-release/releases/download/v0.10.0/linux-amd64-github-release.bz2&&bunzip2 \
-          linux-amd64-github-release.bz2&&mv linux-amd64-github-release github-release && chmod +x github-release
-       fi
-       if [ ! -f send_file.sh ]; then
-          echo './github-release upload \
-          -s $secret_num \
-          -u SourceLab081 \
-          -r uploadz \
-          -t $tag \
-          -n $1 \
-          -f $1' > send_file.sh
-       fi
+       Get_GHRelease
        if [[ -n "$secret_num" ]]; then
           ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip"  ! -name "*target_files*" ! -name "*ota*" \
           -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
@@ -248,6 +254,11 @@ build_finish() {
        fi
     else
        fail "$ROM build failed"
+       if [[ -n "$secret_num" ]]; then
+          Get_GHRelease
+          DATE_LOG=$(date +%s)
+          . send_file.sh  error-"$DATE_LOG".log out/error.log
+       fi
        info "Build time: ${BUILD_MINUTES} minutes"
        exit 1
     fi
