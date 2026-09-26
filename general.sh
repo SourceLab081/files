@@ -224,7 +224,6 @@ Get_GHRelease() {
       -n $1 \
       -f $2' > send_file.sh
     fi
-
 }
 
 build_finish() {
@@ -242,9 +241,9 @@ build_finish() {
     if [[ "${BUILD_SUCCESS}" == "1" ]]; then
        ok "$ROM build successful"
        info "Build time: ${BUILD_MINUTES} minutes"
-       cd out/target/product/$DEV
-       Get_GHRelease
        if [[ -n "$secret_num" ]]; then
+          cd out/target/product/$DEV
+          Get_GHRelease
           ZIP_FILE=$(find . -maxdepth 1 -type f -name "*.zip"  ! -name "*target_files*" ! -name "*ota*" \
           -printf '%T@ %f\n' | sort -nr | head -n 1 | cut -d' ' -f2-)
        
@@ -268,5 +267,4 @@ build_finish() {
 
     info "Job Complete"
     ok "Everything finished"
-
 }
