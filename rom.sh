@@ -28,6 +28,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #repo_sync_crave 
 
    if [ "$ROM" = "Shinkai" ]; then
+      pushd build/soong
+      git fetch --unshallow
+      git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
+      git fetch fiqri
+      git cherry-pick e16dc96626579b49c2cced67a6b09d5b3a0290fc d6363a4b3c978824d06aebc9cb080202c7c86894
+      popd
       if [ ! -f vendor/custom/config/common.mk ]; then
          echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
          wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
@@ -57,6 +63,7 @@ fi
 
 build_start
 
+export UNSAFE_DISABLE_HIDDENAPI_FLAGS=true
 run_build
 
 build_finish
