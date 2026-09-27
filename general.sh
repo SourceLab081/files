@@ -104,7 +104,9 @@ run_build() {
    fi
    
    make installclean
-   
+   if [ "$ROM" = "Shinkai" ]; then
+      m ramdisk
+   fi
    if $BUILD_CMD; then
       BUILD_SUCCESS=1
    else
@@ -168,7 +170,11 @@ cmd_before_envsetup() {
 }
 
 build_start() {
-   source build/envsetup.sh
+   if [ "$ROM" = "Shinkai" ]; then
+      . b*/env*
+   else
+      source build/envsetup.sh
+   fi   
    BUILD_START=$(date +%s)
    info "Build start at $BUILD_START"
 }
@@ -215,7 +221,7 @@ Get_GHRelease() {
       linux-amd64-github-release.bz2&&mv linux-amd64-github-release github-release && chmod +x github-release
    fi
    #temporary rm for new version send_file.sh
-   rm send_file.sh
+   #rm send_file.sh
    if [ ! -f send_file.sh ]; then
       echo './github-release upload \
       -s $secret_num \
