@@ -31,7 +31,13 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    if [ "$ROM" = "Shinkai" ]; then
-      sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' build/make/core/Makefile
+      MK=build/make/core/Makefile
+      if grep -F -B1 '# Copying baseline ramdisk' "$MK" | grep -qF 'mkdir -p $(TARGET_ROOT_OUT)'; then
+         echo "The patch already exists; skipping it"
+      else
+         sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' "$MK"
+         echo "The patch has been applied"
+      fi
       
       pushd build/soong
       git fetch --unshallow
