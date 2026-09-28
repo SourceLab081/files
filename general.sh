@@ -105,7 +105,8 @@ run_build() {
    
    make installclean
    if [ "$ROM" = "Shinkai" ]; then
-      m ramdisk
+      mkdir -p out/target/product/fog/root
+      mkdir -p "$ANDROID_PRODUCT_OUT/root"
    fi
    if $BUILD_CMD; then
       BUILD_SUCCESS=1
