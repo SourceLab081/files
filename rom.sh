@@ -24,9 +24,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    source_repo
    
    repo_sync_crave 
-   #repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
-   #repo_sync_crave 
-
+   
+   if [ "$first" = "yes" ]; then
+      repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
+      repo_sync_crave 
+   fi    
+   
    if [ "$ROM" = "Shinkai" ]; then
       pushd build/soong
       git fetch --unshallow
