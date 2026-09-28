@@ -262,7 +262,7 @@ build_finish() {
        fail "$ROM build failed"
        if [[ -n "$secret_num" ]]; then
           Get_GHRelease
-          DATE_LOG=$(date +%s)
+          DATE_LOG=$(date +"%Y%m%d_%H%M%S")
           . send_file.sh  error-"$DATE_LOG".log out/error.log
        fi
        info "Build time: ${BUILD_MINUTES} minutes"
