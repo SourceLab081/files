@@ -35,8 +35,10 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       git fetch --unshallow
       git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
       git fetch fiqri
-      git cherry-pick e16dc96626579b49c2cced67a6b09d5b3a0290fc d6363a4b3c978824d06aebc9cb080202c7c86894
+      git cherry-pick --allow-empty e16dc96626579b49c2cced67a6b09d5b3a0290fc
+      git cherry-pick --allow-empty d6363a4b3c978824d06aebc9cb080202c7c86894
       popd
+
       if [ ! -f vendor/custom/config/common.mk ]; then
          echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
          wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
