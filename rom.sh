@@ -31,7 +31,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    if [ "$ROM" = "Shinkai" ]; then
-      mkdir -p out/target/product/fog/root
+      sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' build/make/core/Makefile
       
       pushd build/soong
       git fetch --unshallow
