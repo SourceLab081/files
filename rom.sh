@@ -38,7 +38,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
          sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' "$MK"
          echo "The patch has been applied"
       fi
-      
+      if grep -F -B1 'touch $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig/ld.config.txt' "$MK" | grep -qF 'mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig'; then
+         echo "The linkerconfig already exists; skipping it"
+      else
+         sed -i '/^\ttouch \$(TARGET_RECOVERY_ROOT_OUT)\/linkerconfig\/ld\.config\.txt/i\\tmkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig' "$MK"
+         echo "The linkerconfig patch has been applied"
+      fi
       pushd build/soong
       git fetch --unshallow
       git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
