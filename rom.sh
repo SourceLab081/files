@@ -19,7 +19,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf frameworks/base
    fi
    
-   rm -rf device/xiaomi/fog
+   #rm -rf device/xiaomi/fog
    
    source_repo
    
