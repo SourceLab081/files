@@ -31,6 +31,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    if [ "$ROM" = "Shinkai" ]; then
+      mkdir -p out/target/product/fog/root
+      
       pushd build/soong
       git fetch --unshallow
       git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
