@@ -31,19 +31,41 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    if [ "$ROM" = "Shinkai" ]; then
+   
+      #These three fixes are the result of my request to claude.ai (free version)
+      #Pesan sponsor: Claude is AI and can make mistakes. Please double-check responses.
       MK=build/make/core/Makefile
+      #1. Fix to create the out/target/product/fog/root folder
       if grep -F -B1 '# Copying baseline ramdisk' "$MK" | grep -qF 'mkdir -p $(TARGET_ROOT_OUT)'; then
          echo "The patch already exists; skipping it"
       else
          sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' "$MK"
          echo "The patch has been applied"
       fi
+      
+      #2. Fix to create the out/target/product/fog/recovery/root/linkerconfig folder
       if grep -F -B1 'touch $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig/ld.config.txt' "$MK" | grep -qF 'mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig'; then
          echo "The linkerconfig already exists; skipping it"
       else
          sed -i '/^\ttouch \$(TARGET_RECOVERY_ROOT_OUT)\/linkerconfig\/ld\.config\.txt/i\\tmkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig' "$MK"
          echo "The linkerconfig patch has been applied"
       fi
+
+      #3. Fix for the error: Cannot read out/target/product/fog/vendor/compatibility_matrix.xml
+      if ! grep -qF '$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"; then
+         sed -i '/^check_vintf_vendor_deps := \$(filter \$(TARGET_OUT_VENDOR)\/etc\/vintf\/%/i\
+         $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml\
+         \tmkdir -p $(dir $@)\
+         \t$(HOST_OUT_EXECUTABLES)/assemble_vintf -i $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml -o $@\
+         ' "$MK"
+      fi
+
+      if ! grep -q 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE) \$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml' "$MK"; then
+         sed -i '/^\$(check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)\/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE)/s|$| $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml|' "$MK"
+      fi
+      #grep -n -A3 'etc/vintf/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"
+      #grep -n 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf' "$MK"
+      
       pushd build/soong
       git fetch --unshallow
       git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
