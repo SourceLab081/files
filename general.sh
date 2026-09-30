@@ -31,6 +31,14 @@ fail() {
     echo -e "${RED}✖ ${RESET}$1"
 }
 
+curl_cp() {
+    #echo "Url address        : $1"
+    #echo "File               : $2"
+    #echo "Destination folder : $3"
+    curl -fLO "$1" && cp "$2" "$3" 
+    rm "$2"
+}
+
 job_start() {
     JOB_START=$(date +%s)
 
