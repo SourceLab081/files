@@ -67,10 +67,10 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       #grep -n 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf' "$MK"
       
       # 4. Fix for error: missing separator
-      # --- MANDATORY ADDITION: Remove the old rule with the broken tab ---
-      sed -i '/^\$(TARGET_OUT_VENDOR)\/etc\/vintf\/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)\/assemble_vintf/,+2d' "$MK"
+      # 0. Remove the corrupted versions (both those without spaces and those with indentations)
+      sed -i '/^[[:space:]]*\$(TARGET_OUT_VENDOR)\/etc\/vintf\/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)\/assemble_vintf/,+2d' "$MK"
 
-       # --- Fix for the “tab” issue using awk ---
+       # 1. New rule for using awk (indentation-insensitive)
       if ! grep -qF '$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"; then
          awk -v tab="$TAB" '
          /^check_vintf_vendor_deps := \$\(filter \$\(TARGET_OUT_VENDOR\)\/etc\/vintf\/%/ && !done {
@@ -78,14 +78,18 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
            print tab "mkdir -p $(dir $@)"
            print tab "$(HOST_OUT_EXECUTABLES)/assemble_vintf -i $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml -o $@"
            done=1
-        }
-        { print }
-        ' "$MK" > "$MK.tmp" && mv "$MK.tmp" "$MK"
+         }
+         { print }
+         ' "$MK" > "$MK.tmp" && mv "$MK.tmp" "$MK"
       fi
 
+      # 2. Prerequisite in check_vintf_vendor_log
       if ! grep -q 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE) \$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml' "$MK"; then
          sed -i '/^\$(check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)\/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE)/s|$| $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml|' "$MK"
       fi
+
+      # 3. Verification (optional, for logging)
+      #grep -n -A2 'etc/vintf/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK" | cat -A
      
       pushd build/soong
       git fetch --unshallow
