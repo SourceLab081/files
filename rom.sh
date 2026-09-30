@@ -11,28 +11,9 @@ VARIANT="user"
 
 job_start
 
-#temporary no
-if [[ "$first" = "yes" || "$update" = "yes" ]]; then
-   
-   if [ "$first" = "apply" ]; then
-      #COZ error redeclaration and unresolved on folder   frameworks/base/
-      rm -rf frameworks/base
-   fi
-   
-   rm -rf device/xiaomi/fog
-   
-   source_repo
-   
-   repo_sync_crave 
-   
-   if [ "$first" = "yes" ]; then
-      repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
-      repo_sync_crave 
-   fi    
-   
+for_shinkai() {
    if [ "$ROM" = "Shinkai" ]; then
-   
-      #These three fixes are the result of my request to claude.ai (free version)
+      #These four fixes are the result of my request to claude.ai (free version)
       #Pesan sponsor: Claude is AI and can make mistakes. Please double-check responses.
       MK=build/make/core/Makefile
       #1. Fix to create the out/target/product/fog/root folder
@@ -106,6 +87,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       else
          echo "file vendor/custom/config/common.mk exists."
       fi
+      
       if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
          mkdir -p packages/apps/LMOFreeform
          wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
@@ -113,7 +95,30 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       else
          echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
       fi
+      
    fi
+}
+
+#temporary no
+if [[ "$first" = "yes" || "$update" = "yes" ]]; then
+   
+   if [ "$first" = "apply" ]; then
+      #COZ error redeclaration and unresolved on folder   frameworks/base/
+      rm -rf frameworks/base
+   fi
+   
+   rm -rf device/xiaomi/fog
+   
+   source_repo
+   
+   repo_sync_crave 
+   
+   if [ "$first" = "yes" ]; then
+      repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
+      repo_sync_crave 
+   fi    
+   
+   for_shinkai
    
    # Fix for the “killed” error because "memory stall" when building Soong
    wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
