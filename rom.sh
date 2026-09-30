@@ -32,21 +32,6 @@ for_shinkai() {
          echo "The linkerconfig patch has been applied"
       fi
 
-      #3. Fix for the error: Cannot read out/target/product/fog/vendor/compatibility_matrix.xml
-      if ! grep -qF '$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"; then
-         sed -i '/^check_vintf_vendor_deps := \$(filter \$(TARGET_OUT_VENDOR)\/etc\/vintf\/%/i\
-         $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml\
-         \tmkdir -p $(dir $@)\
-         \t$(HOST_OUT_EXECUTABLES)/assemble_vintf -i $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml -o $@\
-         ' "$MK"
-      fi
-
-      if ! grep -q 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE) \$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml' "$MK"; then
-         sed -i '/^\$(check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)\/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE)/s|$| $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml|' "$MK"
-      fi
-      #grep -n -A3 'etc/vintf/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"
-      #grep -n 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf' "$MK"
-      
       # 4. Fix for error: missing separator
       # 0. Remove the corrupted versions (both those without spaces and those with indentations)
       sed -i '/^[[:space:]]*\$(TARGET_OUT_VENDOR)\/etc\/vintf\/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)\/assemble_vintf/,+2d' "$MK"
@@ -55,7 +40,7 @@ for_shinkai() {
       if ! grep -qF '$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"; then
          awk -v tab="$TAB" '
          /^check_vintf_vendor_deps := \$\(filter \$\(TARGET_OUT_VENDOR\)\/etc\/vintf\/%/ && !done {
-           print "$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml"
+         print "$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml"
            print tab "mkdir -p $(dir $@)"
            print tab "$(HOST_OUT_EXECUTABLES)/assemble_vintf -i $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml -o $@"
            done=1
