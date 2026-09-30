@@ -34,6 +34,7 @@ for_shinkai() {
 
       # 4. Fix for error: missing separator
       # 0. Remove the corrupted versions (both those without spaces and those with indentations)
+      TAB=$(printf '\t')
       sed -i '/^[[:space:]]*\$(TARGET_OUT_VENDOR)\/etc\/vintf\/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)\/assemble_vintf/,+2d' "$MK"
 
        # 1. New rule for using awk (indentation-insensitive)
