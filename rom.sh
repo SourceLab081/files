@@ -1,6 +1,8 @@
 #ROM="ASCP"
 DEV="fog"
 VARIANT="user"
+fix_killed_AtSoong="yes"
+fix_killed_AtCompiling="yes"
 
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
@@ -10,80 +12,6 @@ VARIANT="user"
 . general.sh
 
 job_start
-
-for_shinkai() {
-   if [ "$ROM" = "Shinkai" ]; then
-      #These four fixes are the result of my request to claude.ai (free version)
-      #Pesan sponsor: Claude is AI and can make mistakes. Please double-check responses.
-      MK=build/make/core/Makefile
-      #1. Fix to create the out/target/product/fog/root folder
-      if grep -F -B1 '# Copying baseline ramdisk' "$MK" | grep -qF 'mkdir -p $(TARGET_ROOT_OUT)'; then
-         echo "The patch already exists; skipping it"
-      else
-         sed -i '/^\t# Copying baseline ramdisk\.\.\./i\\tmkdir -p $(TARGET_ROOT_OUT)' "$MK"
-         echo "The patch has been applied"
-      fi
-      
-      #2. Fix to create the out/target/product/fog/recovery/root/linkerconfig folder
-      if grep -F -B1 'touch $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig/ld.config.txt' "$MK" | grep -qF 'mkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig'; then
-         echo "The linkerconfig already exists; skipping it"
-      else
-         sed -i '/^\ttouch \$(TARGET_RECOVERY_ROOT_OUT)\/linkerconfig\/ld\.config\.txt/i\\tmkdir -p $(TARGET_RECOVERY_ROOT_OUT)/linkerconfig' "$MK"
-         echo "The linkerconfig patch has been applied"
-      fi
-
-      # 4. Fix for error: missing separator
-      # 0. Remove the corrupted versions (both those without spaces and those with indentations)
-      TAB=$(printf '\t')
-      sed -i '/^[[:space:]]*\$(TARGET_OUT_VENDOR)\/etc\/vintf\/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)\/assemble_vintf/,+2d' "$MK"
-
-       # 1. New rule for using awk (indentation-insensitive)
-      if ! grep -qF '$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK"; then
-         awk -v tab="$TAB" '
-         /^check_vintf_vendor_deps := \$\(filter \$\(TARGET_OUT_VENDOR\)\/etc\/vintf\/%/ && !done {
-         print "$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml: $(HOST_OUT_EXECUTABLES)/assemble_vintf $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml"
-           print tab "mkdir -p $(dir $@)"
-           print tab "$(HOST_OUT_EXECUTABLES)/assemble_vintf -i $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml -o $@"
-           done=1
-         }
-         { print }
-         ' "$MK" > "$MK.tmp" && mv "$MK.tmp" "$MK"
-      fi
-
-      # 2. Prerequisite in check_vintf_vendor_log
-      if ! grep -q 'check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE) \$(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml' "$MK"; then
-         sed -i '/^\$(check_vintf_vendor_log): \$(HOST_OUT_EXECUTABLES)\/checkvintf \$(check_vintf_vendor_deps) \$(APEX_INFO_FILE)/s|$| $(TARGET_OUT_VENDOR)/etc/vintf/compatibility_matrix.xml|' "$MK"
-      fi
-
-      # 3. Verification (optional, for logging)
-      #grep -n -A2 'etc/vintf/compatibility_matrix.xml: \$(HOST_OUT_EXECUTABLES)/assemble_vintf' "$MK" | cat -A
-     
-      pushd build/soong
-      git fetch --unshallow
-      git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
-      git fetch fiqri
-      git cherry-pick --allow-empty e16dc96626579b49c2cced67a6b09d5b3a0290fc
-      git cherry-pick --allow-empty d6363a4b3c978824d06aebc9cb080202c7c86894
-      popd
-
-      if [ ! -f vendor/custom/config/common.mk ]; then
-         echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
-         wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
-         gpg --batch --quiet --yes --passphrase "$PASS_GPG" -d vendor_shinkai.tar.gz.gpg | tar -xzf - -C vendor/
-      else
-         echo "file vendor/custom/config/common.mk exists."
-      fi
-      
-      if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
-         mkdir -p packages/apps/LMOFreeform
-         wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
-         tar xjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform/   
-      else
-         echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
-      fi
-      
-   fi
-}
 
 #temporary no
 if [[ "$first" = "yes" || "$update" = "yes" ]]; then
@@ -105,17 +33,19 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    for_shinkai
-   
-   # Fix for the “killed” error because "memory stall" when building Soong
-   #wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
-   curl_cp "https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go" "main.go" "build/soong/cmd/soong_build/"
-   # Fixes for “killed” errors becaues "memory stall" that occur when compiling code in framework/base if the compilation process continues
-   #wget -O droidstubs.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go && mv droidstubs.go build/soong/java/
-   #wget -O config.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go && mv config.go build/soong/java/config/
-   #wget -O kotlin.go https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go && mv kotlin.go build/soong/java/config/
-   curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go" "droidstubs.go" "build/soong/java/"
-   curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go" "config.go" "build/soong/java/config/"
-   curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go" "kotlin.go" "build/soong/java/config/"
+
+   if [ "$fix_killed_AtSoong" = "yes" ]; then
+      # Fix for the “killed” error because "memory stall" when building Soong
+      #wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
+      curl_cp "https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go" "main.go" "build/soong/cmd/soong_build/"
+   fi 
+
+   if [ "$fix_killed_AtCompiling" = "yes" ]; then
+       # Fixes for “killed” errors becaues "memory stall" that occur when compiling code in framework/base if the compilation process continues 
+       curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go" "droidstubs.go" "build/soong/java/"
+       curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go" "config.go" "build/soong/java/config/"
+       curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go" "kotlin.go" "build/soong/java/config/"
+   fi
    
    cmd_before_envsetup  
 fi
