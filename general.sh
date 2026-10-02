@@ -68,7 +68,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
-
+  HertzifyOS)
+    echo "HertzifyOS"
+    repo_url="https://github.com/HertzifyOS/android_manifest.git"
+    repo_branch="17"
+    manifest_branch="17-HertzifyO"
+    l_cmd="lunch hertzify_"$DEV"-cp2a-"$VARIANT""
+    BUILD_CMD="make bacon"
+  ;;
+  
   Shinkai)
     echo "Shinkai"
     repo_url="https://github.com/ShinkaiProject/shinkai_manifest.git"
