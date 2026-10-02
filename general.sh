@@ -73,8 +73,8 @@ case $ROM in
     repo_url="https://github.com/HertzifyOS/android_manifest.git"
     repo_branch="17"
     manifest_branch="17-HertzifyOS"
-    l_cmd="lunch hertzify_"$DEV"-cp2a-"$VARIANT""
-    BUILD_CMD="make bacon"
+    l_cmd="lunch hertzify_$DEV-cp2a-$VARIANT"
+    BUILD_CMD="mka bacon"
     ;;
   
   Shinkai)
