@@ -42,20 +42,22 @@ curl_cp() {
 job_start() {
     JOB_START=$(date +%s)
 
-    echo "memory:"
+    ok "memory:"
     free -h
-    echo "cores:"
+    ok "cores:"
     nproc --all
+    ok "cpu:" 
+    cat /proc/cpuinfo
     
     echo "update=$update"
-    export first="yes"
+    first="yes"
     
     if [ -d "out" ]; then
        first="no"    
     fi
     echo "first=$first" 
-    export curDir=`pwd` 
-    echo "current directory=$curDir"
+    curDir=`pwd` 
+    info "current directory=$curDir"
     
     if [[ -f ".var" ]]; then
        source ".var"
