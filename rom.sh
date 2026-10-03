@@ -33,7 +33,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi    
    
    for_shinkai
-
+   df -h 
    if [ "$Fix_Killed_AtSoong" = "yes" ]; then
       # Fix for the “killed” error because "memory stall" when building Soong
       #wget https://github.com/yaap-17-stone/build_soong/raw/f9c27b0b9298f6eeee9a850346e0a646c3eaeb87/cmd/soong_build/main.go && mv main.go build/soong/cmd/soong_build/
