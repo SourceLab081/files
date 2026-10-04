@@ -2,7 +2,7 @@
 DEV="fog"
 VARIANT="user"
 Fix_Killed_AtSoong="yes"
-Fix_Killed_AtCompiling="n"
+Fix_Killed_AtCompiling="yes"
 
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
