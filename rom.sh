@@ -32,7 +32,25 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo_sync_crave 
    fi    
    
+   if [ "$ROM" = "HertzifyOS" ]; then
+      F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
+      # Hapus HANYA baris hardware Tensor-specific, bukan seluruh file
+      if ! grep -q "^#.*latency_device" "$F"; then
+         sed -i '/latency_device/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*unix_socket_connect(hal_power_default, pps," "$F"; then
+         sed -i '/unix_socket_connect(hal_power_default, pps,/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*proc_vendor_sched" "$F"; then
+         sed -i '/proc_vendor_sched/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*thermal_link_device" "$F"; then
+         sed -i '/thermal_link_device/s/^/#/' "$F"
+      fi
+   fi 
+   
    for_shinkai
+   
    df -h 
    if [ "$Fix_Killed_AtSoong" = "yes" ]; then
       # Fix for the “killed” error because "memory stall" when building Soong
