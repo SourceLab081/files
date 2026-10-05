@@ -55,6 +55,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       if ! grep -q "^#.*dev/socket/pps" "$F"; then
          sed -i '\|/dev/socket/pps|s/^/#/' "$F"
       fi
+
+      F=build/soong/ui/build/androidmk_denylist.go
+      if ! grep -q "packages/apps/HertzifySettings/Android.mk" "$F"; then
+         sed -i '/"bootable\/deprecated-ota\/updater\/Android.mk",/a\	"packages/apps/HertzifySettings/Android.mk",' "$F"
+      fi
+      sed -i 's/^"packages\/apps\/HertzifySettings\/Android.mk",/\t"packages\/apps\/HertzifySettings\/Android.mk",/' build/soong/ui/build/androidmk_denylist.go
    fi 
    
    for_shinkai
