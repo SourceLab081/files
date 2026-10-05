@@ -3,7 +3,7 @@ DEV="fog"
 VARIANT="user"
 Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
-
+usingPixelSepolicy="no"
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
    curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
@@ -32,7 +32,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo_sync_crave 
    fi    
    
-   if [ "$ROM" = "HertzifyOS" ]; then
+   if [ "$usingPixelSepolicy" = "yes" ]; then
       F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
       # Hapus HANYA baris hardware Tensor-specific, bukan seluruh file
       if ! grep -q "^#.*latency_device" "$F"; then
@@ -55,12 +55,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       if ! grep -q "^#.*dev/socket/pps" "$F"; then
          sed -i '\|/dev/socket/pps|s/^/#/' "$F"
       fi
-
-      F=build/soong/ui/build/androidmk_denylist.go
-      if ! grep -q "packages/apps/HertzifySettings/Android.mk" "$F"; then
-         sed -i '/"bootable\/deprecated-ota\/updater\/Android.mk",/a\	"packages/apps/HertzifySettings/Android.mk",' "$F"
-      fi
-      sed -i 's/^"packages\/apps\/HertzifySettings\/Android.mk",/\t"packages\/apps\/HertzifySettings\/Android.mk",/' build/soong/ui/build/androidmk_denylist.go
+      #Temporary
+      #F=build/soong/ui/build/androidmk_denylist.go
+      #if ! grep -q "packages/apps/HertzifySettings/Android.mk" "$F"; then
+      #   sed -i '/"bootable\/deprecated-ota\/updater\/Android.mk",/a\	"packages/apps/HertzifySettings/Android.mk",' "$F"
+      #fi
+      #sed -i 's/^"packages\/apps\/HertzifySettings\/Android.mk",/\t"packages\/apps\/HertzifySettings\/Android.mk",/' build/soong/ui/build/androidmk_denylist.go
    fi 
    
    for_shinkai
