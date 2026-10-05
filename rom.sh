@@ -47,6 +47,14 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       if ! grep -q "^#.*thermal_link_device" "$F"; then
          sed -i '/thermal_link_device/s/^/#/' "$F"
       fi
+      # Fix for error Multiple different specifications for /dev/...
+      F=hardware/google/pixel-sepolicy/power-libperfmgr/file_contexts
+      if ! grep -q "^#.*cpu_dma_latency" "$F"; then
+         sed -i '\|/dev/cpu_dma_latency|s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*dev/socket/pps" "$F"; then
+         sed -i '\|/dev/socket/pps|s/^/#/' "$F"
+      fi
    fi 
    
    for_shinkai
