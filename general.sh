@@ -132,6 +132,11 @@ run_build() {
 
 for_shinkai() {
    if [ "$ROM" = "Shinkai" ]; then
+      MK=build/make/target/product/media_product.mk
+      if ! grep -q "^#PRODUCT_PACKAGES += \\\\$" "$MK"; then
+         sed -i '0,/^PRODUCT_PACKAGES += \\$/{s/^PRODUCT_PACKAGES += \\$/#PRODUCT_PACKAGES += \\/}' "$MK"
+         sed -i '0,/^    webview \\$/{s/^    webview \\$/#    webview \\/}' "$MK"
+      fi
       #These four fixes are the result of my request to claude.ai (free version)
       #Pesan sponsor: Claude is AI and can make mistakes. Please double-check responses.
       MK=build/make/core/Makefile
