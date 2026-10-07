@@ -1,6 +1,6 @@
 #ROM="ASCP"
 DEV="fog"
-VARIANT="user"
+VARIANT="userdebug"
 Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
 usingPixelSepolicy="no"
