@@ -84,10 +84,6 @@ fi
 
 build_start
 
-if [ "$ROM" = "Shinkai" ]; then
-   export UNSAFE_DISABLE_HIDDENAPI_FLAGS=true
-fi
-
 run_build
 
 build_finish
