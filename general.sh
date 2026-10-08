@@ -70,6 +70,16 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  PenguinOS2)
+    echo "PenguinOS-AOSP"
+    repo_url="https://github.com/PenguinOS-AOSP/android_manifest.git"
+    repo_branch="celerity"
+    manifest_branch="17-PenguinOS-AOSP"
+    l_cmd=""
+    BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+
+    
   HertzifyOS)
     echo "HertzifyOS"
     repo_url="https://github.com/HertzifyOS/android_manifest.git"
