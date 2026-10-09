@@ -22,6 +22,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi
    
    rm -rf device/xiaomi/fog
+   rm -rf packages/apps/PenguinSetupWizard  packages/apps/Updater
    
    source_repo
    
