@@ -30,7 +30,15 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    if [ "$first" = "yes" ]; then
       repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
       repo_sync_crave 
-   fi    
+   fi
+   
+   if [ "$ROM" = "PenguinOS2" ]; then
+      TARGET_FILE="vendor/penguin/config/penguin.mk"
+      # 1. Changing PenguinSetupWizard to SetupWizard
+      sed -i 's/\bPenguinSetupWizard\b/SetupWizard/g' "$TARGET_FILE"
+      # 2. Delete ONLY the rows that contain only 'Updater \'
+      sed -i '/^[[:space:]]*Updater[[:space:]]*\\$/d' "$TARGET_FILE"
+   fi
    
    if [ "$usingPixelSepolicy" = "yes" ]; then
       F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
