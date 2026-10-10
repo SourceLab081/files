@@ -116,8 +116,13 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    cmd_before_envsetup  
 fi
 
-build_start
-
-run_build
+if [ "$ROM" = "PenguinOS" ]; then
+   #If you want to view the rom-build.sh file ,  according to https://github.com/Project-PenguinOS/manifest ,
+   #go to https://github.com/AOSPA/android_vendor_aospa/blob/calcite/build.sh
+   ./rom-build.sh $DEV   
+else
+   build_start
+   run_build
+fi
 
 build_finish
