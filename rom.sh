@@ -60,8 +60,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
          if [ -f "$TARGET_FILE" ]; then
             echo "✓ Success! SEPolicy.mk is now available."
          else
-         echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
-         #exit 1
+            echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
          fi
       fi
    
