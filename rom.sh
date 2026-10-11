@@ -18,12 +18,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
    if [ "$first" = "apply" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
-      rm -rf frameworks/base
+      #rm -rf frameworks/base
+      rm -rf device/qcom/sepolicy_vndr
    fi
    
-   rm -rf device/xiaomi/fog
-   rm -rf device/qcom/sepolicy_vndr
-   
+   rm -rf device/xiaomi/fog vendor/xiaomi/fog
+      
    source_repo
    
    repo_sync_crave 
