@@ -16,7 +16,7 @@ job_start
 #temporary no
 if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
-   if [ "$first" = "apply" ]; then
+   if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       #rm -rf frameworks/base
       rm -rf device/qcom/sepolicy_vndr
