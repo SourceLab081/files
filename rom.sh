@@ -22,7 +22,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf device/qcom/sepolicy_vndr
    fi
    
-   rm -rf device/xiaomi/fog vendor/xiaomi/fog
+   #rm -rf device/xiaomi/fog vendor/xiaomi/fog
       
    source_repo
    
