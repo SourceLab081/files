@@ -32,13 +32,40 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
       repo_sync_crave 
    fi
+
+   if [ "$ROM" = "PenguinOS" ]; then
+      TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
+      TARGET_DIR="device/qcom/sepolicy_vndr"
+      
+      echo "Checking for $TARGET_FILE..."
+      if [ -f "$TARGET_FILE" ]; then
+         echo "✓ SEPolicy.mk file found. No action required."
+      else
+         echo "x SEPolicy.mk file NOT found!"
+         # Check if the directory already exists or contains corrupted files or old .git files
+         if [ -d "$TARGET_DIR" ]; then
+            echo "Cleaning up the old $TARGET_DIR directory..."
+            rm -rf "$TARGET_DIR"
+         fi
+      
+         echo "Cloning the sepolicy_vndr repository..."
+         git clone --depth 1 https://github.com/AOSPA/android_device_qcom_sepolicy_vndr -b calcite "$TARGET_DIR"
+         # Verify the cloning result
+         if [ -f "$TARGET_FILE" ]; then
+            echo "✓ Success! SEPolicy.mk is now available."
+         else
+            echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
+         fi
+      fi
+   
+   fi
    
    if [ "$ROM" = "PenguinOS2" ]; then
-      TARGET_FILE="vendor/penguin/config/penguin.mk"
+      #TARGET_FILE="vendor/penguin/config/penguin.mk"
       # 1. Changing PenguinSetupWizard to SetupWizard
-      sed -i 's/\bPenguinSetupWizard\b/SetupWizard/g' "$TARGET_FILE"
+      #sed -i 's/\bPenguinSetupWizard\b/SetupWizard/g' "$TARGET_FILE"
       # 2. Delete ONLY the rows that contain only 'Updater \'
-      sed -i '/^[[:space:]]*Updater[[:space:]]*\\$/d' "$TARGET_FILE"
+      #sed -i '/^[[:space:]]*Updater[[:space:]]*\\$/d' "$TARGET_FILE"
 
       TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
       TARGET_DIR="device/qcom/sepolicy_vndr"
