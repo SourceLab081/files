@@ -35,6 +35,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi
 
    if [ "$ROM" = "PenguinOS" ]; then
+      #1. Fix for error: device/qcom/sepolicy_vndr/SEPolicy.mk: No such file or directory
       TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
       TARGET_DIR="device/qcom/sepolicy_vndr"
       
@@ -58,7 +59,21 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
             echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
          fi
       fi
-   
+
+      #2. Fix for error "libqti-perfd-client_system" depends on undefined module "vendor.qti.hardware.perf@2.2" and ..."vendor.qti.hardware.perf@2.3"
+      SRC=bckp_/android_vendor_aospa-calcite/interfaces/qcom
+      DST=vendor/aospa/interfaces/qcom
+      
+      if [ ! -f "$DST/perf/2.3/Android.bp" ]; then
+         mkdir bckp_
+         curl -LO https://github.com/AOSPA/android_vendor_aospa/archive/refs/heads/calcite.zip
+         unzip calcite.zip -d bckp_/
+         cp -a "$SRC/perf" "$DST/"
+         rm -rf bckp_/android_vendor_aospa-calcite 
+      else 
+         echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
+      fi
+      
    fi
    
    if [ "$ROM" = "PenguinOS2" ]; then
