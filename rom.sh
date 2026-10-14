@@ -22,7 +22,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf device/qcom/sepolicy_vndr
    fi
    
-   #rm -rf kernel/xiaomi/fog
+   rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
       
    source_repo
@@ -81,7 +81,7 @@ dd76694de5ef346703b450dc96e6c96e274caacb52fba60ad52cb69352467040 vendor.qti.hard
 ca3830177c6813da7219ffa8fd4bf2ffc161f9d10bcbb08b334a93838974f852 vendor.qti.hardware.perf@2.3::IPerf
 EOF
          fi
-         rm -rf bckp_/android_vendor_aospa-calcite 
+         rm -rf bckp_/android_vendor_aospa-calcite calcite.zip
       else 
          echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
       fi
