@@ -148,6 +148,74 @@ run_build() {
    fi
 }
 
+for_PenguinOS2() {
+  if [ "$ROM" = "PenguinOS2" ]; then
+      #TARGET_FILE="vendor/penguin/config/penguin.mk"
+      # 1. Changing PenguinSetupWizard to SetupWizard
+      #sed -i 's/\bPenguinSetupWizard\b/SetupWizard/g' "$TARGET_FILE"
+      # 2. Delete ONLY the rows that contain only 'Updater \'
+      #sed -i '/^[[:space:]]*Updater[[:space:]]*\\$/d' "$TARGET_FILE"
+
+      TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
+      TARGET_DIR="device/qcom/sepolicy_vndr"
+      
+      echo "Checking for $TARGET_FILE..."
+      if [ -f "$TARGET_FILE" ]; then
+         echo "✓ SEPolicy.mk file found. No action required."
+      else
+         echo "x SEPolicy.mk file NOT found!"
+         # Check if the directory already exists or contains corrupted files or old .git files
+         if [ -d "$TARGET_DIR" ]; then
+            echo "Cleaning up the old $TARGET_DIR directory..."
+            rm -rf "$TARGET_DIR"
+         fi
+      
+         echo "Cloning the sepolicy_vndr repository..."
+         git clone --depth 1 https://github.com/stx-staging/android_device_qcom_sepolicy_vndr -b cb "$TARGET_DIR"
+         # Verify the cloning result
+         if [ -f "$TARGET_FILE" ]; then
+            echo "✓ Success! SEPolicy.mk is now available."
+         else
+            echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
+         fi
+      fi
+   
+  fi
+}
+
+for_HertzifyOS() {
+  if [ "$usingPixelSepolicy" = "yes" ]; then
+      F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
+      # Hapus HANYA baris hardware Tensor-specific, bukan seluruh file
+      if ! grep -q "^#.*latency_device" "$F"; then
+         sed -i '/latency_device/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*unix_socket_connect(hal_power_default, pps," "$F"; then
+         sed -i '/unix_socket_connect(hal_power_default, pps,/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*proc_vendor_sched" "$F"; then
+         sed -i '/proc_vendor_sched/s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*thermal_link_device" "$F"; then
+         sed -i '/thermal_link_device/s/^/#/' "$F"
+      fi
+      # Fix for error Multiple different specifications for /dev/...
+      F=hardware/google/pixel-sepolicy/power-libperfmgr/file_contexts
+      if ! grep -q "^#.*cpu_dma_latency" "$F"; then
+         sed -i '\|/dev/cpu_dma_latency|s/^/#/' "$F"
+      fi
+      if ! grep -q "^#.*dev/socket/pps" "$F"; then
+         sed -i '\|/dev/socket/pps|s/^/#/' "$F"
+      fi
+      #Temporary
+      #F=build/soong/ui/build/androidmk_denylist.go
+      #if ! grep -q "packages/apps/HertzifySettings/Android.mk" "$F"; then
+      #   sed -i '/"bootable\/deprecated-ota\/updater\/Android.mk",/a\	"packages/apps/HertzifySettings/Android.mk",' "$F"
+      #fi
+      #sed -i 's/^"packages\/apps\/HertzifySettings\/Android.mk",/\t"packages\/apps\/HertzifySettings\/Android.mk",/' build/soong/ui/build/androidmk_denylist.go
+  fi 
+}
+
 for_shinkai() {
    if [ "$ROM" = "Shinkai" ]; then
       MK=build/make/target/product/media_product.mk
