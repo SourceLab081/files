@@ -298,7 +298,14 @@ for_shinkai() {
 repo_sync_crave() {
     info "Syncing Source using resync.sh from crave.io"
     SYNC_START=$(date +%s)
-    /opt/crave/resync.sh
+    
+    if [ ! -f "/opt/crave/resync.sh" ]; then
+       curl -LO https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
+       . resync.sh
+    else
+       /opt/crave/resync.sh
+    fi
+    
     ok "Source sync stage finished"
     info "Sync time: $(((SYNC_END - SYNC_START) / 60)) minutes" 
 }
