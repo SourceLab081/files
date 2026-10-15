@@ -326,6 +326,7 @@ repo_sync_crave() {
     SYNC_START=$(date +%s)
     
     if [ ! -f "/opt/crave/resync.sh" ]; then
+       #This section is for repo syncs that are not on the foss.crave.io server
        #curl -LO https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
        #. resync.sh
        repo_sync_custom
@@ -340,19 +341,10 @@ repo_sync_crave() {
 repo_sync_custom() {
     info "Syncing Source using custom options"
     SYNC_START=$(date +%s)
-    repo sync \    
-        -c \
-        --force-sync \
-        --force-remove-dirty \
-        --no-tags \
-        --no-clone-bundle \
-        || {
-            repo sync \    
-            -c \
-            --force-sync \
-            --optimized-fetch \
-            --no-tags \
-            --no-clone-bundle 
+    repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags \
+     || {
+            # Fix for error 429, but this was not executed on the foss.crave.io server
+            repo sync -c -j4 --force-sync --optimized-fetch --no-clone-bundle --no-tags 
             warn "Forced repo sync returned an error"
             warn "Continuing build anyway..."
         }
