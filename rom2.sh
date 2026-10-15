@@ -6,7 +6,7 @@ Fix_Killed_AtCompiling="no"
 usingPixelSepolicy="no"
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
-   curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
+   curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh
 #fi
 
 . general.sh
