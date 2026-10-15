@@ -70,6 +70,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  PenguinOS_Next)
+    echo "Project-PenguinOS"
+    repo_url="https://github.com/Project-PenguinOS/manifest"
+    repo_branch="celerity"
+    manifest_branch="17-PenguinOS_Next"
+    l_cmd=""
+    BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+    
   RisingOS)
     echo "RisingOS"
     repo_url="https://github.com/RisingOS-Revived/android.git"
