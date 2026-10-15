@@ -327,7 +327,7 @@ repo_sync_crave() {
     
     if [ ! -f "/opt/crave/resync.sh" ]; then
        curl -LO https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
-       . resync.sh
+       #. resync.sh
     else
        /opt/crave/resync.sh
     fi
