@@ -326,8 +326,9 @@ repo_sync_crave() {
     SYNC_START=$(date +%s)
     
     if [ ! -f "/opt/crave/resync.sh" ]; then
-       curl -LO https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
+       #curl -LO https://raw.githubusercontent.com/accupara/docker-images/master/aosp/common/resync.sh
        #. resync.sh
+       repo_sync_custom
     else
        /opt/crave/resync.sh
     fi
@@ -341,12 +342,17 @@ repo_sync_custom() {
     SYNC_START=$(date +%s)
     repo sync \    
         -c \
-        -j$(nproc --all) \
         --force-sync \
         --force-remove-dirty \
         --no-tags \
         --no-clone-bundle \
         || {
+            repo sync \    
+            -c \
+            --force-sync \
+            --optimized-fetch \
+            --no-tags \
+            --no-clone-bundle 
             warn "Forced repo sync returned an error"
             warn "Continuing build anyway..."
         }
