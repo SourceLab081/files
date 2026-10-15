@@ -70,6 +70,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  RisingOS)
+    echo "RisingOS"
+    repo_url="https://github.com/RisingOS-Revived/android.git"
+    repo_branch="seventeen"
+    manifest_branch="17-rising"
+    l_cmd="riseup $DEV $VARIANT"
+    BUILD_CMD="rise b"
+    ;;
+    
   PenguinOS)
     echo "Project-PenguinOS"
     repo_url="https://github.com/Project-PenguinOS/manifest"
@@ -145,6 +154,23 @@ run_build() {
       BUILD_SUCCESS=1
    else
       BUILD_SUCCESS=0
+   fi
+}
+
+for_RisingOS() {
+   if [ "$first" = "yes" ]; then
+      #COZ error redeclaration and unresolved on folder   frameworks/base/
+      rm -rf frameworks/base
+   
+      echo "Fix for error already defined in RisingOS"
+      rm -rf external/python/cpython2  
+      rm -rf hardware/qcom-caf/sdm845
+      rm -rf packages/overlays/Lineage
+      rm -rf hardware/qcom-caf/msm8998
+      rm -rf packages/apps/Trebuchet
+      rm -rf packages/apps/Nfc
+      rm -rf external/rust/crates
+      rm -rf external/rust/android-crates-io
    fi
 }
 
