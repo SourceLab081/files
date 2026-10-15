@@ -22,6 +22,12 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       rm -rf device/qcom/sepolicy_vndr
    fi
    
+   if [ "$ROM" = "PenguinOS" ]; then
+      #3. Fix for error error: system/libhidl/vintfdata/Android.bp:47:1 . But in PenguinOS from Commit c10c4a5 manifest: Unfork system/libhidl
+      #So this error is caused by the presence of the system/libhidl folder from the LOS 23.2 base repository, which must be deleted
+      rm -rf system/libhidl
+   fi
+   
    #rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
       
