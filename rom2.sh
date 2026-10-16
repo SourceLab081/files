@@ -9,7 +9,7 @@ usingPixelSepolicy="no"
    curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh
 #fi
 
-. general.sh
+. general2.sh
 
 job_start
 
