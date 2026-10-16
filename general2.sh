@@ -219,7 +219,7 @@ for_PenguinOS2() {
 }
 
 for_HertzifyOS() {
-  if [ "$usingPixelSepolicy" = "yes" ]; then
+  if [ "$ROM" = "HertzifyOS" ]; then
       F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
       # Hapus HANYA baris hardware Tensor-specific, bukan seluruh file
       if ! grep -q "^#.*latency_device" "$F"; then
