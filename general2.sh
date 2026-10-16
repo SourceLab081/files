@@ -350,7 +350,7 @@ repo_sync_crave() {
 repo_sync_custom() {
     info "Syncing Source using custom options"
     SYNC_START=$(date +%s)
-    repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags \
+    repo sync -c -j24 --force-sync --force-remove-dirty --no-clone-bundle --no-tags \
      || {
             # Fix for error 429, but this was not executed on the foss.crave.io server
             repo sync -c -j4 --force-sync --optimized-fetch --no-clone-bundle --no-tags 
