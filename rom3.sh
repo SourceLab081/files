@@ -25,7 +25,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    repo_sync_crave 
    
    if [ "$first" = "yes" ]; then
-      repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
+      repo sync -c --force-sync --force-remove-dirty --no-clone-bundle --no-tags
       repo_sync_crave 
    fi
 
