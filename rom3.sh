@@ -107,8 +107,8 @@ if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" ]]; then
    #If you want to view the rom-build.sh file ,  according to https://github.com/Project-PenguinOS/manifest ,
    #go to https://github.com/Project-PenguinOS/android_vendor_aospa/blob/celerity/build.sh
    export TARGET_DISABLES_GMS=true
-   export TARGET_USES_NQ_NFC=false
-   export TARGET_USES_ST_NFC=false
+   #export TARGET_USES_NQ_NFC=false
+   #export TARGET_USES_ST_NFC=false
    ./rom-build.sh $DEV   
 else
    build_start
