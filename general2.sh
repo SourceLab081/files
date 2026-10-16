@@ -59,11 +59,11 @@ job_start() {
     curDir=`pwd` 
     info "current directory=$curDir"
     
-    if [[ -f ".var" ]]; then
-       source ".var"
-       ok ".var loaded"
+    if [[ -f "~/.var" ]]; then
+       source "~/.var"
+       ok "~/.var loaded"
     else
-       warn ".var not found - continuing"
+       warn "~/.var not found - continuing"
     fi
 }
 
@@ -466,11 +466,11 @@ build_finish() {
     BUILD_END=$(date +%s)
     BUILD_MINUTES=$(((BUILD_END - BUILD_START) / 60))
 
-    if [[ -f ".var" ]]; then
-       source ".var"
-       ok ".var loaded"
+    if [[ -f "~/.var" ]]; then
+       source "~/.var"
+       ok "~/.var loaded"
        else
-       warn ".var not found - continuing"
+       warn "~/.var not found - continuing"
     fi
 
     if [[ "${BUILD_SUCCESS}" == "1" ]]; then
