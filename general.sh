@@ -111,7 +111,7 @@ case $ROM in
     repo_url="https://github.com/ShinkaiProject/shinkai_manifest.git"
     repo_branch="heptakaideka"
     manifest_branch="17-Shinkai"
-    l_cmd="breakfast "$DEV" "$VARIANT""
+    l_cmd="breakfast $DEV"
     BUILD_CMD="mka shinkai"
     ;;
 
@@ -243,6 +243,41 @@ for_HertzifyOS() {
 }
 
 for_shinkai() {
+   if [ "$ROM" = "Shinkai" ]; then
+      MK=build/make/target/product/media_product.mk
+      if ! grep -q "^#PRODUCT_PACKAGES += \\\\$" "$MK"; then
+         sed -i '0,/^PRODUCT_PACKAGES += \\$/{s/^PRODUCT_PACKAGES += \\$/#PRODUCT_PACKAGES += \\/}' "$MK"
+         sed -i '0,/^    webview \\$/{s/^    webview \\$/#    webview \\/}' "$MK"
+      fi
+
+      pushd build/soong
+      git fetch --unshallow
+      git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
+      git fetch fiqri
+      git cherry-pick --allow-empty e16dc96626579b49c2cced67a6b09d5b3a0290fc
+      git cherry-pick --allow-empty d6363a4b3c978824d06aebc9cb080202c7c86894
+      popd
+
+      if [ ! -f vendor/custom/config/common.mk ]; then
+         echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
+         wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
+         gpg --batch --quiet --yes --passphrase "$PASS_GPG" -d vendor_shinkai.tar.gz.gpg | tar -xzf - -C vendor/
+      else
+         echo "file vendor/custom/config/common.mk exists."
+      fi
+      
+      if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
+         mkdir -p packages/apps/LMOFreeform
+         wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
+         tar xjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform/   
+      else
+         echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
+      fi
+      
+   fi
+}
+
+for_shinkai2() {
    if [ "$ROM" = "Shinkai" ]; then
       MK=build/make/target/product/media_product.mk
       if ! grep -q "^#PRODUCT_PACKAGES += \\\\$" "$MK"; then
