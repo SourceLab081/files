@@ -109,6 +109,7 @@ case $ROM in
   Shinkai)
     echo "Project Shinkai"
     rm -rf shinkai_project_palapaos_redesignui
+    echo "tag='v0.2.5'" >> .var
     repo_url="https://github.com/ShinkaiProject/shinkai_manifest.git"
     repo_branch="heptakaideka"
     manifest_branch="17-Shinkai"
