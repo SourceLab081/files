@@ -273,7 +273,12 @@ for_shinkai() {
       else
          echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
       fi
-      
+
+      git clone https://github.com/Gustyx-Power/shinkai_project_palapaos_redesignui -b palapa-triwulan --depth 1 
+      cd shinkai_project_palapaos_redesignui
+      chmod +x apply.sh
+      ./apply.sh $curDir --ui-only
+       cd $curDir
    fi
 }
 
