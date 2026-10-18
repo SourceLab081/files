@@ -258,6 +258,37 @@ for_shinkai() {
          sed -i '0,/^PRODUCT_PACKAGES += \\$/{s/^PRODUCT_PACKAGES += \\$/#PRODUCT_PACKAGES += \\/}' "$MK"
          sed -i '0,/^    webview \\$/{s/^    webview \\$/#    webview \\/}' "$MK"
       fi
+      pushd build/soong
+      git fetch --unshallow
+      git remote add fiqri https://github.com/fiqri19102002/android_build_soong.git
+      git fetch fiqri
+      git cherry-pick --allow-empty e16dc96626579b49c2cced67a6b09d5b3a0290fc
+      git cherry-pick --allow-empty d6363a4b3c978824d06aebc9cb080202c7c86894
+      popd
+
+      if [ ! -f vendor/custom/config/common.mk ]; then
+         echo "To get permission to access android_vendor_shinkai, send a private message with your GitHub username to https://t.me/khayloaf or https://t.me/Mnskkyy"
+         wget -O vendor_shinkai.tar.gz.gpg https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/vendor_shinkai.tar.gz.gpg
+         gpg --batch --quiet --yes --passphrase "$PASS_GPG" -d vendor_shinkai.tar.gz.gpg | tar -xzf - -C vendor/
+      else
+         echo "file vendor/custom/config/common.mk exists."
+      fi
+      
+      if [ ! -f packages/apps/LMOFreeform/build.gradle.kts ]; then
+         mkdir -p packages/apps/LMOFreeform
+         wget -O LMOFreeform.tar.bz2 https://github.com/SourceLab081/uploadz/releases/download/v0.2.5/LMOFreeform.tar.bz2
+         tar xjf LMOFreeform.tar.bz2 -C packages/apps/LMOFreeform/   
+      else
+         echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
+      fi
+
+      git clone https://github.com/Gustyx-Power/shinkai_project_palapaos_redesignui -b palapa-triwulan --depth 1 
+      cd shinkai_project_palapaos_redesignui
+      chmod +x apply.sh
+      ./apply.sh $curDir --ui-only
+      cd $curDir
+      rm -rf shinkai_project_palapaos_redesignui
+      
    fi
 }
 
