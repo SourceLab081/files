@@ -279,8 +279,8 @@ for_shinkai() {
       cd shinkai_project_palapaos_redesignui
       chmod +x apply.sh
       ./apply.sh $curDir --ui-only
-       cd $curDir
-       rm -rf shinkai_project_palapaos_redesignui
+      cd $curDir
+      rm -rf shinkai_project_palapaos_redesignui
    fi
 }
 
