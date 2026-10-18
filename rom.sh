@@ -12,9 +12,9 @@ usingPixelSepolicy="no"
 . general.sh
 
 job_start
-
+rm -rf shinkai_project_palapaos_redesignui
 #temporary no
-if [[ "$first" = "yes" || "$update" = "yes" ]]; then
+if [[ "$first" = "yes" || "$update" = "Nyes" ]]; then
    
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
