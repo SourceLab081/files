@@ -12,7 +12,7 @@ usingPixelSepolicy="no"
 . general.sh
 
 job_start
-rm -rf shinkai_project_palapaos_redesignui
+
 #temporary no
 if [[ "$first" = "yes" || "$update" = "Nyes" ]]; then
    
