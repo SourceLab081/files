@@ -1,6 +1,6 @@
 #ROM="ASCP"
 DEV="fog"
-VARIANT="userdebug"
+VARIANT="user"
 Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
 usingPixelSepolicy="no"
@@ -19,15 +19,11 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
       #rm -rf frameworks/base
-      rm -rf device/qcom/sepolicy_vndr
+      #rm -rf device/qcom/sepolicy_vndr
+      echo "first=yes so the out folder not found"
    fi
    
-   if [ "$ROM" = "PenguinOS" ]; then
-      #3. Fix for error error: system/libhidl/vintfdata/Android.bp:47:1 . But in PenguinOS from Commit c10c4a5 manifest: Unfork system/libhidl
-      #So this error is caused by the presence of the system/libhidl folder from the LOS 23.2 base repository, which must be deleted
-      rm -rf system/libhidl
-   fi
-   
+  
    #rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
       
