@@ -183,6 +183,68 @@ for_RisingOS() {
    fi
 }
 
+for_PenguinOS() {
+   if [ "$ROM" = "PenguinOS" ]; then
+      #1. Fix for error: device/qcom/sepolicy_vndr/SEPolicy.mk: No such file or directory
+      TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
+      TARGET_DIR="device/qcom/sepolicy_vndr"
+      
+      echo "Checking for $TARGET_FILE..."
+      if [ -f "$TARGET_FILE" ]; then
+         echo "✓ SEPolicy.mk file found. No action required."
+      else
+         echo "x SEPolicy.mk file NOT found!"
+         # Check if the directory already exists or contains corrupted files or old .git files
+         if [ -d "$TARGET_DIR" ]; then
+            echo "Cleaning up the old $TARGET_DIR directory..."
+            rm -rf "$TARGET_DIR"
+         fi
+      
+         echo "Cloning the sepolicy_vndr repository..."
+         git clone --depth 1 https://github.com/AOSPA/android_device_qcom_sepolicy_vndr -b calcite "$TARGET_DIR"
+         # Verify the cloning result
+         if [ -f "$TARGET_FILE" ]; then
+            echo "✓ Success! SEPolicy.mk is now available."
+         else
+            echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
+         fi
+      fi
+
+      #2. Fix for error "libqti-perfd-client_system" depends on undefined module "vendor.qti.hardware.perf@2.2" and ..."vendor.qti.hardware.perf@2.3"
+      SRC=bckp_/android_vendor_aospa-calcite/interfaces/qcom
+      DST=vendor/aospa/interfaces/qcom
+      
+      if [ ! -f "$DST/perf/2.3/Android.bp" ]; then
+         mkdir bckp_
+         curl -LO https://github.com/AOSPA/android_vendor_aospa/archive/refs/heads/calcite.zip
+         unzip calcite.zip -d bckp_/
+         cp -a "$SRC/perf" "$DST/"
+         if ! grep -Fq 'ca3830177c6813da7219ffa8fd4bf2ffc161f9d10bcbb08b334a93838974f852 vendor.qti.hardware.perf@2.3::IPerf' "$DST/current.txt"; then
+            cat >> "$DST/current.txt" <<'EOF'
+
+## perf
+3b62e5f205de632f6c1d6b46d01a2945b5a855ec4a98247515ce8d14b51a4fa3 vendor.qti.hardware.perf@1.0::IPerf
+517008020b188864935535fa5c9ab30c686d01a4e7559659658d61b78fcd7cd1 vendor.qti.hardware.perf@2.0::IPerf
+429bbf6c78faecc882e6d39ea05329be9519b3ae547448ec3cc5c2393b918740 vendor.qti.hardware.perf@2.1::IPerf
+d5308ed1c730c17c0ae57de676255eb68f48846b5e976fccc1b046755e015a2e vendor.qti.hardware.perf@2.1::IPerfCallback
+dd76694de5ef346703b450dc96e6c96e274caacb52fba60ad52cb69352467040 vendor.qti.hardware.perf@2.2::IPerf
+ca3830177c6813da7219ffa8fd4bf2ffc161f9d10bcbb08b334a93838974f852 vendor.qti.hardware.perf@2.3::IPerf
+EOF
+         fi
+         rm -rf bckp_/android_vendor_aospa-calcite calcite.zip
+      else 
+         echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
+      fi
+      rm -rf vendor/qcom/opensource/commonsys/nfc
+      mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
+      mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+      sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
+      mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
+      #vim vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
+   fi
+}
+
 for_PenguinOS2() {
   if [ "$ROM" = "PenguinOS2" ]; then
       #TARGET_FILE="vendor/penguin/config/penguin.mk"
