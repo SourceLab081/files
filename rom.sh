@@ -14,7 +14,7 @@ usingPixelSepolicy="no"
 job_start
 
 #temporary no
-if [[ "$first" = "yes" || "$update" = "Nyes" ]]; then
+if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
@@ -36,7 +36,8 @@ if [[ "$first" = "yes" || "$update" = "Nyes" ]]; then
       repo_sync_crave 
    fi
    
-   for_PenguinOS 
+   for_PenguinOS
+   for_PenguinOS2
    for_HertzifyOS
    for_shinkai
    
