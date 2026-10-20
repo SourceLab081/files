@@ -70,6 +70,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  MistOS)
+    echo "Mist-OS Rom"
+    repo_url="https://github.com/Project-Mist-OS/manifest"
+    repo_branch="17.0"
+    manifest_branch="17-MistOS"
+    l_cmd="mistify $DEV $VARIANT"
+    BUILD_CMD="mist b"
+    ;;
+    
   PenguinOS_Next)
     echo "Project-PenguinOS"
     repo_url="https://github.com/Project-PenguinOS/manifest"
