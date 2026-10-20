@@ -264,6 +264,13 @@ for_PenguinOS2() {
             echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
          fi
       fi
+      
+      #Fix for error device/qcom/sepolicy_vndr/SEPolicy.mk:4: error: BOARD_SYSTEM_EXT_PREBUILT_DIR is obsolete. Use BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS instead.
+      mk_file=$TARGET_FILE
+      if grep -q "BOARD_SYSTEM_EXT_PREBUILT_DIR" "$mk_file" || grep -q "BOARD_PRODUCT_PREBUILT_DIR" "$mk_file"; then
+         sed -i 's/BOARD_SYSTEM_EXT_PREBUILT_DIR/BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
+         sed -i 's/BOARD_PRODUCT_PREBUILT_DIR/BOARD_PRODUCT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
+      fi
    
   fi
 }
