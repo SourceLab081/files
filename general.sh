@@ -271,7 +271,9 @@ for_PenguinOS2() {
          sed -i 's/BOARD_SYSTEM_EXT_PREBUILT_DIR/BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
          sed -i 's/BOARD_PRODUCT_PREBUILT_DIR/BOARD_PRODUCT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
       fi
-   
+      
+      sed -i '838,861 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
+      sed -i '863,885 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
   fi
 }
 
