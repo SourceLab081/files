@@ -294,6 +294,50 @@ for_PenguinOS2() {
             echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
          fi
       fi
+      
+      #Fix for error device/qcom/sepolicy_vndr/SEPolicy.mk:4: error: BOARD_SYSTEM_EXT_PREBUILT_DIR is obsolete. Use BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS instead.
+      mk_file=$TARGET_FILE
+      if grep -q "BOARD_SYSTEM_EXT_PREBUILT_DIR" "$mk_file" || grep -q "BOARD_PRODUCT_PREBUILT_DIR" "$mk_file"; then
+         sed -i 's/BOARD_SYSTEM_EXT_PREBUILT_DIR/BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
+         sed -i 's/BOARD_PRODUCT_PREBUILT_DIR/BOARD_PRODUCT_SEPOLICY_PREBUILT_DIRS/g' "$mk_file"
+      fi
+      
+      sed -i '838,861 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
+      sed -i '863,885 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
+  fi
+}
+
+for_PenguinOS2() {
+  if [ "$ROM" = "PenguinOS2" ]; then
+      #TARGET_FILE="vendor/penguin/config/penguin.mk"
+      # 1. Changing PenguinSetupWizard to SetupWizard
+      #sed -i 's/\bPenguinSetupWizard\b/SetupWizard/g' "$TARGET_FILE"
+      # 2. Delete ONLY the rows that contain only 'Updater \'
+      #sed -i '/^[[:space:]]*Updater[[:space:]]*\\$/d' "$TARGET_FILE"
+
+      TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
+      TARGET_DIR="device/qcom/sepolicy_vndr"
+      
+      echo "Checking for $TARGET_FILE..."
+      if [ -f "$TARGET_FILE" ]; then
+         echo "✓ SEPolicy.mk file found. No action required."
+      else
+         echo "x SEPolicy.mk file NOT found!"
+         # Check if the directory already exists or contains corrupted files or old .git files
+         if [ -d "$TARGET_DIR" ]; then
+            echo "Cleaning up the old $TARGET_DIR directory..."
+            rm -rf "$TARGET_DIR"
+         fi
+      
+         echo "Cloning the sepolicy_vndr repository..."
+         git clone --depth 1 https://github.com/stx-staging/android_device_qcom_sepolicy_vndr -b cb "$TARGET_DIR"
+         # Verify the cloning result
+         if [ -f "$TARGET_FILE" ]; then
+            echo "✓ Success! SEPolicy.mk is now available."
+         else
+            echo "x Failure: The repository was successfully cloned, but SEPolicy.mk is still missing."
+         fi
+      fi
    
   fi
 }
