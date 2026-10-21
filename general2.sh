@@ -305,6 +305,7 @@ for_PenguinOS2() {
       
       sed -i '838,861 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
       sed -i '863,885 { /^\/\//! s/^/\/\// }' hardware/lineage/compat/Android.bp
+      mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
   fi
 }
 
