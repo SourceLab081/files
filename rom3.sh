@@ -23,7 +23,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    source_repo
    
    repo_sync_crave 
-  
+
+   for_PenguinOS2
    for_PenguinOS    
    for_HertzifyOS
    for_shinkai
