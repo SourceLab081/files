@@ -256,7 +256,8 @@ EOF
       rm -rf vendor/qcom/opensource/commonsys/nfc
       mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
       mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
-      sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      #sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
       curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
       mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
       #vim vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
@@ -343,7 +344,7 @@ for_PenguinOS2() {
 }
 
 for_HertzifyOS() {
-  if [ "$ROM" = "HertzifyOS" ]; then
+  if [ "$usingPixelSepolicy" = "yes" ]; then
       F=hardware/google/pixel-sepolicy/power-libperfmgr/hal_power_default.te
       # Hapus HANYA baris hardware Tensor-specific, bukan seluruh file
       if ! grep -q "^#.*latency_device" "$F"; then
@@ -405,14 +406,14 @@ for_shinkai() {
       else
          echo "file packages/apps/LMOFreeform/build.gradle.kts exists."
       fi
-
-      git clone https://github.com/Gustyx-Power/shinkai_project_palapaos_redesignui -b palapa-triwulan --depth 1 
-      cd shinkai_project_palapaos_redesignui
-      chmod +x apply.sh
-      ./apply.sh $curDir --ui-only
-      cd $curDir
-      rm -rf shinkai_project_palapaos_redesignui
-      
+      if [ "$palapas" = "yes" ]; then
+         git clone https://github.com/Gustyx-Power/shinkai_project_palapaos_redesignui -b palapa-triwulan --depth 1 
+         cd shinkai_project_palapaos_redesignui
+         chmod +x apply.sh
+         ./apply.sh $curDir --ui-only
+         cd $curDir
+         rm -rf shinkai_project_palapaos_redesignui
+      fi
    fi
 }
 
