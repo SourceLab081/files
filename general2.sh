@@ -70,6 +70,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  AOSPA)
+    echo "Paranoid Android AOSPA"
+    repo_url="https://github.com/AOSPA/manifest"
+    repo_branch="calcite"
+    manifest_branch="17-AOSPA"
+    l_cmd=""
+    BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+    
   MistOS)
     echo "Mist-OS Rom"
     repo_url="https://github.com/Project-Mist-OS/manifest"
