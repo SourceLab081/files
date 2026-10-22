@@ -72,6 +72,7 @@ local_manifest="https://github.com/SourceLab081/local_manifests"
 case $ROM in
   AOSPA)
     echo "Paranoid Android AOSPA"
+    kernel_aospa="yes"
     repo_url="https://github.com/AOSPA/manifest"
     repo_branch="calcite"
     manifest_branch="17-AOSPA"
@@ -108,6 +109,7 @@ case $ROM in
     
   PenguinOS)
     echo "Project-PenguinOS"
+    kernel_aospa="yes"
     repo_url="https://github.com/Project-PenguinOS/manifest"
     repo_branch="celerity"
     manifest_branch="17_Project-PenguinOS"
@@ -254,10 +256,11 @@ EOF
          echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
       fi
       rm -rf vendor/qcom/opensource/commonsys/nfc
-      mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
-      mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
-      #sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
-      mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
+      #mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
+      #mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+      sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      #mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
+      sed -i 's/(a2dp\.bt_decoder_format == AUDIO_FORMAT_AAC) ||/(a2dp.bt_decoder_format == (codec_t)AUDIO_FORMAT_AAC) ||/g' vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
       curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
       mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
       #vim vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
@@ -540,7 +543,11 @@ cmd_before_envsetup() {
    if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
       #rm -rf kernel/xiaomi/fog && 
       info "Clone the kernel" 
-      git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      if [ "$kernel_aospa" = "yes" ]; then
+         git clone  -b fog_new_aospa --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      else   
+         git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      fi 
    fi
 
    # signing key
