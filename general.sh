@@ -70,6 +70,17 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  
+  AOSPA)
+    echo "Paranoid Android AOSPA"
+    kernel_aospa="yes"
+    repo_url="https://github.com/AOSPA/manifest"
+    repo_branch="calcite"
+    manifest_branch="17-AOSPA"
+    l_cmd=""
+    BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+    
   RisingOS)
     echo "RisingOS"
     repo_url="https://github.com/RisingOS-Revived/android.git"
@@ -81,6 +92,7 @@ case $ROM in
     
   PenguinOS)
     echo "Project-PenguinOS"
+    kernel_aospa="yes"
     repo_url="https://github.com/Project-PenguinOS/manifest"
     repo_branch="celerity"
     manifest_branch="17_Project-PenguinOS"
@@ -217,7 +229,7 @@ for_PenguinOS() {
             cat >> "$DST/current.txt" <<'EOF'
 
 ## perf
-3b62e5f205de632f6c1d6b46d01a2945b5a855ec4a98247515ce8d14b51a4fa5 vendor.qti.hardware.perf@1.0::IPerf
+3b62e5f205de632f6c1d6b46d01a2945b5a855ec4a98247515ce8d14b51a4fa3 vendor.qti.hardware.perf@1.0::IPerf
 517008020b188864935535fa5c9ab30c686d01a4e7559659658d61b78fcd7cd1 vendor.qti.hardware.perf@2.0::IPerf
 429bbf6c78faecc882e6d39ea05329be9519b3ae547448ec3cc5c2393b918740 vendor.qti.hardware.perf@2.1::IPerf
 d5308ed1c730c17c0ae57de676255eb68f48846b5e976fccc1b046755e015a2e vendor.qti.hardware.perf@2.1::IPerfCallback
@@ -229,6 +241,27 @@ EOF
       else 
          echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
       fi
+      rm -rf vendor/qcom/opensource/commonsys/nfc
+      mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
+      mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+      sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      rm kernel/xiaomi/fog/include/uapi/linux/ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/ion.h kernel/xiaomi/fog/include/uapi/linux/
+      rm kernel/xiaomi/fog/include/uapi/linux/msm_ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/msm_ion.h kernel/xiaomi/fog/include/uapi/linux/msm_ion.h
+      #mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
+      sed -i 's/(a2dp\.bt_decoder_format == AUDIO_FORMAT_AAC) ||/(a2dp.bt_decoder_format == (codec_t)AUDIO_FORMAT_AAC) ||/g' vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
+      curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
+      mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
+      #sepolicy
+      curl -LO https://github.com/SourceLab081/uploadz/releases/download/v0.2.3/gemini-check2FolderConflictSepolicy.py
+      python3 gemini-check2FolderConflictSepolicy.py
+      . fix_bengal_conflicts.sh
+      echo ' -> comment line 83-83 in device/qcom/sepolicy_vndr/generic/vendor/common/service_contexts'
+      sed -i '83,83 { /^#/! s/^/# / }' device/xiaomi/fog/sepolicy/vendor/qcom/file.te
+      echo ' -> comment line 76-76 in device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts'
+      sed -i '76,76 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts
+      sed -i '5,5 { /^#/! s/^/# / }' device/qcom/sepolicy/generic/product/private/isolated_compute_app.te
+      #sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te
+      sed -i '57s/service_manager_type/vndservice_manager_type/' device/qcom/sepolicy_vndr/generic/vendor/common/service.te
       
    fi
 }
@@ -474,7 +507,11 @@ cmd_before_envsetup() {
    if [ ! -f kernel/xiaomi/fog/arch/arm64/configs/vendor/fog-perf_defconfig ]; then
       #rm -rf kernel/xiaomi/fog && 
       info "Clone the kernel" 
-      git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      if [ "$kernel_aospa" = "yes" ]; then
+         git clone  -b fog_new_aospa --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      else   
+         git clone  -b fog_new --depth 1 --recurse-submodules https://github.com/SourceLab081/greenforce kernel/xiaomi/fog
+      fi 
    fi
 
    # signing key
