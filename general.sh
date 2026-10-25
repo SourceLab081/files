@@ -190,7 +190,7 @@ for_RisingOS() {
 }
 
 for_PenguinOS() {
-   if [ "$ROM" = "PenguinOS" ]; then
+   if [[ "$ROM" = "PenguinOS" || "$ROM" = "AOSPA" ]]; then
       #1. Fix for error: device/qcom/sepolicy_vndr/SEPolicy.mk: No such file or directory
       TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
       TARGET_DIR="device/qcom/sepolicy_vndr"
@@ -242,21 +242,23 @@ EOF
          echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
       fi
       rm -rf vendor/qcom/opensource/commonsys/nfc
-      mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
-      mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+      if [ "$ROM" = "PenguinOS" ]; then
+         mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
+         mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+      fi
       sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
       rm kernel/xiaomi/fog/include/uapi/linux/ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/ion.h kernel/xiaomi/fog/include/uapi/linux/
       rm kernel/xiaomi/fog/include/uapi/linux/msm_ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/msm_ion.h kernel/xiaomi/fog/include/uapi/linux/msm_ion.h
       #mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
       sed -i 's/(a2dp\.bt_decoder_format == AUDIO_FORMAT_AAC) ||/(a2dp.bt_decoder_format == (codec_t)AUDIO_FORMAT_AAC) ||/g' vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
       curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
-      mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
+      mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc/
       #sepolicy
       curl -LO https://github.com/SourceLab081/uploadz/releases/download/v0.2.3/gemini-check2FolderConflictSepolicy.py
       python3 gemini-check2FolderConflictSepolicy.py
       . fix_bengal_conflicts.sh
       echo ' -> comment line 83-83 in device/qcom/sepolicy_vndr/generic/vendor/common/service_contexts'
-      sed -i '83,83 { /^#/! s/^/# / }' device/xiaomi/fog/sepolicy/vendor/qcom/file.te
+      sed -i '83,83 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/generic/vendor/common/service_contexts
       echo ' -> comment line 76-76 in device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts'
       sed -i '76,76 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts
       sed -i '5,5 { /^#/! s/^/# / }' device/qcom/sepolicy/generic/product/private/isolated_compute_app.te
