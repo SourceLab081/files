@@ -4,12 +4,23 @@ VARIANT="user"
 Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
 usingPixelSepolicy="no"
+
+#Since some of the PenguinOS repositories are currently unavailable for download (syncing), the ROM has been changed to AOSPA.
+#Wait until there are no more repositories failing to sync.
+if [ "$ROM" = "PenguinOS" ]; then
+   ROM="AOSPA"
+   #temp
+   first="yes"
+fi
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
    curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
 #fi
 
 . general.sh
+
+#temp
+first="yes"
 
 job_start
 
@@ -35,7 +46,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo sync -c -j$(nproc --all) --force-sync --force-remove-dirty --no-clone-bundle --no-tags
       repo_sync_crave 
    fi
-   
+
+   for_AOSPA
    for_PenguinOS
    for_PenguinOS2
    for_HertzifyOS
@@ -58,7 +70,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    cmd_before_envsetup  
 fi
 
-if [ "$ROM" = "PenguinOS" ]; then
+if if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS2" || "$ROM" = "AOSPA" ]]; then
    #If you want to view the rom-build.sh file ,  according to https://github.com/Project-PenguinOS/manifest ,
    #go to https://github.com/Project-PenguinOS/android_vendor_aospa/blob/celerity/build.sh
    export TARGET_DISABLES_GMS=true
