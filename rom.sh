@@ -5,6 +5,7 @@ Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
 usingPixelSepolicy="no"
 
+rm -rf device/xiaomi/fog
 #Since some of the PenguinOS repositories are currently unavailable for download (syncing), the ROM has been changed to AOSPA.
 #Wait until there are no more repositories failing to sync.
 if [ "$ROM" = "PenguinOS" ]; then
