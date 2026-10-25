@@ -47,7 +47,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo_sync_crave 
    fi
 
-   for_AOSPA
+   #for_AOSPA
    for_PenguinOS
    for_PenguinOS2
    for_HertzifyOS
