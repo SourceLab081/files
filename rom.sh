@@ -9,9 +9,10 @@ rm -rf device/xiaomi/fog
 #Since some of the PenguinOS repositories are currently unavailable for download (syncing), the ROM has been changed to AOSPA.
 #Wait until there are no more repositories failing to sync.
 if [ "$ROM" = "PenguinOS" ]; then
-   ROM="AOSPA"
-   #temp
-   first="yes"
+   #ROM="AOSPA"
+   ##temp
+   #first="yes"
+   echo "After being checked, it is now accessible"
 fi
 #echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
@@ -21,7 +22,7 @@ fi
 . general.sh
 
 #temp
-first="yes"
+#first="yes"
 
 job_start
 
