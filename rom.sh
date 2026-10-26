@@ -49,7 +49,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       repo_sync_crave 
    fi
 
-   #for_AOSPA
+   cmd_before_envsetup
+   
    for_PenguinOS
    for_PenguinOS2
    for_HertzifyOS
@@ -68,8 +69,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go" "config.go" "build/soong/java/config/"
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go" "kotlin.go" "build/soong/java/config/"
    fi
-   
-   cmd_before_envsetup  
+        
 fi
 
 if if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS2" || "$ROM" = "AOSPA" ]]; then
