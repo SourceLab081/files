@@ -243,8 +243,8 @@ EOF
       fi
       rm -rf vendor/qcom/opensource/commonsys/nfc
       if [ "$ROM" = "PenguinOS" ]; then
-         mv device/qcom/common/sepolicy/pixel/private/flipendo.te device/qcom/common/sepolicy/pixel/private/flipendo.te.bak
-         mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
+         mv device/qcom/common/sepolicy/pixel/private/flipendo.te.bak device/qcom/common/sepolicy/pixel/private/flipendo.te
+         #mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
       fi
       sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
       rm kernel/xiaomi/fog/include/uapi/linux/ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/ion.h kernel/xiaomi/fog/include/uapi/linux/
