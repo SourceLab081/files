@@ -258,9 +258,8 @@ EOF
       echo ' -> comment line 76-76 in device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts'
       sed -i '76,76 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts
       sed -i '5,5 { /^#/! s/^/# / }' device/qcom/sepolicy/generic/product/private/isolated_compute_app.te
-      #sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te
-      sed -i '57s/service_manager_type/vndservice_manager_type/' device/qcom/sepolicy_vndr/generic/vendor/common/service.te
-      
+      sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te
+            
    fi
 }
 
