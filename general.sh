@@ -573,6 +573,17 @@ upload_file() {
           . send_file.sh "$FILE" "$FILE"
           COUNT=$((COUNT + 1))
        done
+       if [[ -n "$PIXELDRAIN_API_KEY" ]]; then
+          echo "Uploading to Pixeldrain..."
+          PD_RESPONSE=$(curl -s -T "$ZIP_FILE" -u ":$PIXELDRAIN_API_KEY" https://pixeldrain.com/api/file/)
+          PD_ID=$(echo "$PD_RESPONSE" | grep -oP '"id":"\K[^"]+')
+          if [[ -n "$PD_ID" ]]; then
+             DOWNLOAD_LINK="https://pixeldrain.com/u/$PD_ID"
+             echo "Upload successful, Download Link: $DOWNLOAD_LINK"
+          else
+             echo "❌ Pixeldrain upload failed. API Response: $PD_RESPONSE"
+          fi
+       fi         
     else
        echo "The file size is less than or equal to 2000MB. Uploading the file directly..."
        . send_file.sh "$ZIP_FILE" "$ZIP_FILE" 
