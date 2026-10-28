@@ -25,8 +25,8 @@ fi
 
 job_start
 
-#temporary no
-if [[ "$first" = "yes" || "$update" = "yes" ]]; then
+# temporary no
+if [[ "$first" = "yes" || "$update" = "no" ]]; then
    
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
