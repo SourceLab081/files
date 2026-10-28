@@ -5,28 +5,16 @@ Fix_Killed_AtSoong="yes"
 Fix_Killed_AtCompiling="yes"
 usingPixelSepolicy="no"
 
-#Since some of the PenguinOS repositories are currently unavailable for download (syncing), the ROM has been changed to AOSPA.
-#Wait until there are no more repositories failing to sync.
-if [ "$ROM" = "PenguinOS" ]; then
-   #ROM="AOSPA"
-   ##temp
-   #first="yes"
-   echo "After being checked, it is now accessible"
-fi
-#echo "Variables ROM=$ROM and update=$update"
 #if [ ! -f general.sh ]; then
    curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
 #fi
 
 . general.sh
 
-#temp
-#first="yes"
-
 job_start
 
 # temporary no
-if [[ "$first" = "yes" || "$update" = "no" ]]; then
+if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
    if [ "$first" = "yes" ]; then
       #COZ error redeclaration and unresolved on folder   frameworks/base/
