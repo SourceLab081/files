@@ -23,7 +23,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       echo "first=yes so the out folder not found"
    fi
    
-  
+   rm -rf device/xiaomi/fog
    #rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
       
