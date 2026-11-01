@@ -242,7 +242,7 @@ EOF
          echo "✓ $DST/perf/2.3/Android.bp file found. No action required."
       fi
       rm -rf vendor/qcom/opensource/commonsys/nfc
-      #sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
+      sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
       #rm kernel/xiaomi/fog/include/uapi/linux/ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/ion.h kernel/xiaomi/fog/include/uapi/linux/
       #rm kernel/xiaomi/fog/include/uapi/linux/msm_ion.h && cp -a kernel/xiaomi/fog/drivers/staging/android/uapi/msm_ion.h kernel/xiaomi/fog/include/uapi/linux/msm_ion.h
       #mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
