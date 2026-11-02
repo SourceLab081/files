@@ -24,7 +24,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    fi
    
    rm -rf device/xiaomi/fog kernel/xiaomi/fog vendor/xiaomi/fog vendor/qcom/opensource/audio-hal/primary-hal
-   
+   rm -rf hardware/qcom/display hardware/qcom/media
       
    source_repo
    
