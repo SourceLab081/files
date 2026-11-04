@@ -1,8 +1,17 @@
 #ROM="ASCP"
 DEV="fog"
 VARIANT="user"
-Fix_Killed_AtSoong="yes"
-Fix_Killed_AtCompiling="yes"
+is_a17="no"
+
+if [ "$is_a17" = "yes" ]; then
+   Fix_Killed_AtSoong="yes"
+   Fix_Killed_AtCompiling="yes"
+else
+   Fix_Killed_AtSoong="no"
+   Fix_Killed_AtCompiling="no"
+   Revert_soong="yes"
+fi
+
 usingPixelSepolicy="no"
 
 #if [ ! -f general.sh ]; then
@@ -54,6 +63,13 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/droidstubs.go" "droidstubs.go" "build/soong/java/"
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go" "config.go" "build/soong/java/config/"
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go" "kotlin.go" "build/soong/java/config/"
+   fi
+
+   if [ "$Revert_soong" = "yes" ]; then
+       curl_cp "https://github.com/AOSPA/android_build_soong/raw/refs/heads/vauxite/cmd/soong_build/main.go" "main.go" "build/soong/cmd/soong_build/"
+       curl_cp "https://github.com/AOSPA/android_build_soong/raw/refs/heads/vauxite/java/droidstubs.go" "droidstubs.go" "build/soong/java/"
+       curl_cp "https://github.com/AOSPA/android_build_soong/raw/refs/heads/vauxite/java/config/config.go" "config.go" "build/soong/java/config/"
+       curl_cp "https://github.com/AOSPA/android_build_soong/raw/refs/heads/vauxite/java/config/kotlin.go" "kotlin.go" "build/soong/java/config/"
    fi
         
 fi
