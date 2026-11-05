@@ -9,7 +9,7 @@ if [ "$is_a17" = "yes" ]; then
 else
    Fix_Killed_AtSoong="no"
    Fix_Killed_AtCompiling="no"
-   Revert_soong="yes"
+   Revert_soong="no"
 fi
 
 usingPixelSepolicy="no"
