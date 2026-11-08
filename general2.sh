@@ -1,3 +1,5 @@
+#!/bin/bash
+
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
@@ -260,7 +262,7 @@ EOF
       #mv device/qcom/common/sepolicy/aospa/private/hub_app.te device/qcom/common/sepolicy/aospa/private/hub_app.te.bak
       sed -i 's/\bconstexpr\b/is_constexpr/g' kernel/xiaomi/fog/scripts/unifdef.c
       #mv kernel/xiaomi/fog/Androidbp kernel/xiaomi/fog/Android.bp
-      sed -i 's/(a2dp\.bt_decoder_format == AUDIO_FORMAT_AAC) ||/(a2dp.bt_decoder_format == (codec_t)AUDIO_FORMAT_AAC) ||/g' vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
+      #sed -i 's/(a2dp\.bt_decoder_format == AUDIO_FORMAT_AAC) ||/(a2dp.bt_decoder_format == (codec_t)AUDIO_FORMAT_AAC) ||/g' vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
       curl -LO https://github.com/AOSPA/android_device_qcom_common/raw/62eff19733a338b4018b06381ad7c8a9edee62a4/vendor/media/include/fastcv.h
       mv fastcv.h hardware/qcom/media/mm-video-v4l2/vidc/venc/inc
       #vim vendor/qcom/opensource/audio-hal/primary-hal/hal/audio_extn/a2dp.c
