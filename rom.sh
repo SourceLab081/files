@@ -17,9 +17,9 @@ fi
 usingPixelSepolicy="no"
 
 #if [ ! -f general.sh ]; then
-   curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
+   #curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
 #fi
-
+wget https://github.com/SourceLab081/files/raw/refs/heads/main/general.sh
 . general.sh
 
 job_start
@@ -34,7 +34,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
       echo "first=yes so the out folder not found"
    fi
    
-   rm -rf device/xiaomi/fog 
+   #rm -rf device/xiaomi/fog 
    #rm -rf hardware/qcom/display hardware/qcom/media kernel/xiaomi/fog vendor/xiaomi/fog vendor/qcom/opensource/audio-hal/primary-hal
       
    source_repo
