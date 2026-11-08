@@ -10,7 +10,7 @@ usingPixelSepolicy="no"
    #curl -LO https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh
 #fi
 #curl -fL --retry 5 -o general2.sh "https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh"
-wget -O https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh
+wget -O general2.sh https://github.com/SourceLab081/files/raw/refs/heads/main/general2.sh
 . general2.sh
 
 job_start
