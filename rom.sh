@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #ROM="ASCP"
 DEV="fog"
 VARIANT="user"
