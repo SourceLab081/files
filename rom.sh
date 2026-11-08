@@ -1,7 +1,7 @@
 #ROM="ASCP"
 DEV="fog"
 VARIANT="user"
-is_a17="no"
+is_a17="yes"
 
 if [ "$is_a17" = "yes" ]; then
    Fix_Killed_AtSoong="yes"
@@ -77,9 +77,9 @@ fi
 if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS2" || "$ROM" = "AOSPA" ]]; then
    #If you want to view the rom-build.sh file ,  according to https://github.com/Project-PenguinOS/manifest ,
    #go to https://github.com/Project-PenguinOS/android_vendor_aospa/blob/celerity/build.sh
-   export TARGET_DISABLES_GMS=true
-   export TARGET_USES_NQ_NFC=false
-   export TARGET_USES_ST_NFC=false
+   #export TARGET_DISABLES_GMS=true
+   #export TARGET_USES_NQ_NFC=false
+   #export TARGET_USES_ST_NFC=false
    ./rom-build.sh $DEV   
 else
    build_start
