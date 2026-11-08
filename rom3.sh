@@ -1,3 +1,4 @@
+#!/bin/bash
 #ROM="ASCP"
 DEV="fog"
 VARIANT="user"
@@ -24,6 +25,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    
    repo_sync_crave 
 
+   cmd_before_envsetup 
+
    for_PenguinOS2
    for_PenguinOS    
    for_HertzifyOS
@@ -42,14 +45,13 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/config.go" "config.go" "build/soong/java/config/"
        curl_cp "https://github.com/SourceLab081/uploadz/releases/download/v0.1.8/kotlin.go" "kotlin.go" "build/soong/java/config/"
    fi
-   
-   cmd_before_envsetup  
+    
 fi
 
 if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]; then
    #If you want to view the rom-build.sh file ,  according to https://github.com/Project-PenguinOS/manifest ,
    #go to https://github.com/Project-PenguinOS/android_vendor_aospa/blob/celerity/build.sh
-   export TARGET_DISABLES_GMS=true
+   #export TARGET_DISABLES_GMS=true
    #export TARGET_USES_NQ_NFC=false
    #export TARGET_USES_ST_NFC=false
    ./rom-build.sh $DEV   
