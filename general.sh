@@ -1,3 +1,4 @@
+#!/bin/bash
 export TZ=Asia/Jakarta
 export BUILD_USERNAME=sourceslab062
 export BUILD_HOSTNAME=foss
