@@ -21,7 +21,29 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
 
    #rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
-      
+   if [ "$cirleci" = "yes" ]; then
+      df -h
+      # 1. Tentukan direktori kerja utama AOSP dan direktori target di /var/lib/docker
+AOSP_ROOT="$(pwd)"
+DOCKER_STORAGE="/var/lib/docker/aosp_offload"
+
+echo "=== Mengalokasikan folder ke /var/lib/docker ==="
+mkdir -p "$DOCKER_STORAGE/out"
+mkdir -p "$DOCKER_STORAGE/prebuilts"
+mkdir -p "$DOCKER_STORAGE/vendor"
+
+# 2. Set variabel lingkungan AOSP native untuk memindahkan folder out/
+export OUT_DIR="$DOCKER_STORAGE/out"
+
+# 3. Buat symlink untuk folder prebuilts dan vendor sebelum repo sync
+ln -sfn "$DOCKER_STORAGE/prebuilts" "$AOSP_ROOT/prebuilts"
+ln -sfn "$DOCKER_STORAGE/vendor" "$AOSP_ROOT/vendor"
+
+echo "=== Verifikasi Symlink ==="
+ls -la "$AOSP_ROOT/prebuilts" "$AOSP_ROOT/vendor"
+df -h / /var/lib/docker
+   fi
+   
    source_repo
    
    repo_sync_crave 
