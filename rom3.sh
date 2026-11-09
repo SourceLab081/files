@@ -23,6 +23,8 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
    if [ "$cirleci" = "yes" ]; then
       df -h
+      Fix_Killed_AtSoong="yes"
+      Fix_Killed_AtCompiling="yes"
       # 1. Tentukan direktori kerja utama AOSP dan direktori target di /var/lib/docker
 AOSP_ROOT="$(pwd)"
 DOCKER_STORAGE="/var/lib/docker/aosp_offload"
