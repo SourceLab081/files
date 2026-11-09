@@ -36,12 +36,13 @@ AOSP_ROOT="$(pwd)"
 DOCKER_STORAGE="/var/lib/docker/aosp_offload"
 
 echo "=== Mengalokasikan folder ke /var/lib/docker ==="
-mkdir -p "$DOCKER_STORAGE/out"
-mkdir -p "$DOCKER_STORAGE/prebuilts"
-mkdir -p "$DOCKER_STORAGE/vendor"
+sudo mkdir -p "$DOCKER_STORAGE/out"
+sudo mkdir -p "$DOCKER_STORAGE/prebuilts"
+sudo mkdir -p "$DOCKER_STORAGE/vendor"
 
-#sudo chown circleci:circleci "$DOCKER_STORAGE/prebuilts"
-#sudo chown circleci:circleci "$DOCKER_STORAGE/vendor"
+sudo chown circleci:circleci "$DOCKER_STORAGE/prebuilts"
+sudo chown circleci:circleci "$DOCKER_STORAGE/vendor"
+sudo chown circleci:circleci "$DOCKER_STORAGE/out"
 # 2. Set variabel lingkungan AOSP native untuk memindahkan folder out/
 export OUT_DIR="$DOCKER_STORAGE/out"
 mkdir -p "$AOSP_ROOT/prebuilts"
