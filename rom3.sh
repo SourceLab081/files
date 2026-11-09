@@ -1,5 +1,11 @@
 #!/bin/bash
 #ROM="ASCP"
+if [[ -z "$ROM" ]]; then
+   update=$1
+   ROM=$2
+   circleci=$3
+fi
+
 DEV="fog"
 VARIANT="user"
 Fix_Killed_AtSoong="no"
