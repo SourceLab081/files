@@ -27,7 +27,7 @@ if [[ "$first" = "yes" || "$update" = "yes" ]]; then
 
    #rm -rf kernel/xiaomi/fog
    #rm -rf device/xiaomi/fog vendor/xiaomi/fog
-   if [ "$cirleci" = "yes" ]; then
+   if [ "$circleci" = "yes" ]; then
       df -h
       Fix_Killed_AtSoong="yes"
       Fix_Killed_AtCompiling="yes"
@@ -85,7 +85,7 @@ if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]; 
    #export TARGET_DISABLES_GMS=true
    #export TARGET_USES_NQ_NFC=false
    #export TARGET_USES_ST_NFC=false
-   if [ "$cirleci" = "yes" ]; then
+   if [ "$circleci" = "yes" ]; then
       df -h 
       VARIANT=userdebug
       source build/envsetup.sh
