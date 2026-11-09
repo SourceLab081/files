@@ -56,6 +56,7 @@ if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]; 
    #export TARGET_USES_NQ_NFC=false
    #export TARGET_USES_ST_NFC=false
    if [ "$cirleci" = "yes" ]; then
+      df -h 
       VARIANT=userdebug
       source build/envsetup.sh
       # Set batas memori Go (Soong) ke 4GB agar aman di RAM 8GB
@@ -63,8 +64,8 @@ if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]; 
       export GOGC=20
 
       # Batasi thread Soong & Linker ke 2 job saja
-      export SOONG_UI_NUM_JOBS=2
-      export SOONG_MAX_LINK_JOBS=1
+      #export SOONG_UI_NUM_JOBS=2
+      #export SOONG_MAX_LINK_JOBS=1
 
       # Batasi Java / Metalava
        export _JAVA_OPTIONS="-Xmx3g"
@@ -72,6 +73,7 @@ if [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]; 
        #export SOONG_MAX_LINK_JOBS=1
        
        lunch aospa_$DEV-cp2a-$VARIANT
+       df -h /var/lib/docker
        m -j4 bacon
    else
       ./rom-build.sh $DEV
