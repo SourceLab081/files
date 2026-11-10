@@ -37,19 +37,19 @@ DOCKER_STORAGE="/var/lib/docker/aosp_offload"
 
 echo "=== Mengalokasikan folder ke /var/lib/docker ==="
 sudo mkdir -p "$DOCKER_STORAGE/out"
-sudo mkdir -p "$DOCKER_STORAGE/prebuilts"
-#sudo mkdir -p "$DOCKER_STORAGE/vendor"
+#sudo mkdir -p "$DOCKER_STORAGE/prebuilts"
+sudo mkdir -p "$DOCKER_STORAGE/vendor"
 
-sudo chown circleci:circleci "$DOCKER_STORAGE/prebuilts"
-#sudo chown circleci:circleci "$DOCKER_STORAGE/vendor"
+#sudo chown circleci:circleci "$DOCKER_STORAGE/prebuilts"
+sudo chown circleci:circleci "$DOCKER_STORAGE/vendor"
 sudo chown circleci:circleci "$DOCKER_STORAGE/out"
 # 2. Set variabel lingkungan AOSP native untuk memindahkan folder out/
 export OUT_DIR="$DOCKER_STORAGE/out"
 mkdir -p "$AOSP_ROOT/prebuilts"
 #mkdir -p "$AOSP_ROOT/vendor"
 # 3. Buat symlink untuk folder prebuilts dan vendor sebelum repo sync
-sudo mount --bind "$DOCKER_STORAGE/prebuilts" "$AOSP_ROOT/prebuilts"
-#sudo mount --bind "$DOCKER_STORAGE/vendor" "$AOSP_ROOT/vendor"
+#sudo mount --bind "$DOCKER_STORAGE/prebuilts" "$AOSP_ROOT/prebuilts"
+sudo mount --bind "$DOCKER_STORAGE/vendor" "$AOSP_ROOT/vendor"
 
 echo "=== Verifikasi Symlink ==="
 ls -la "$AOSP_ROOT/prebuilts" "$AOSP_ROOT/vendor"
