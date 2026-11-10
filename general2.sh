@@ -37,7 +37,8 @@ curl_cp() {
     #echo "Url address        : $1"
     #echo "File               : $2"
     #echo "Destination folder : $3"
-    curl -fLO "$1" && cp "$2" "$3" 
+    #curl -fLO "$1" && cp "$2" "$3" 
+    wget -O "$2" "$1" && cp "$2" "$3"  
     rm "$2"
 }
 
