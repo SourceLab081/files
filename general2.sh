@@ -73,6 +73,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  LumineDroid)
+    echo "LumineDroid"
+    repo_url="https://github.com/LumineDroid/platform_manifest"
+    repo_branch="camellia"
+    manifest_branch="17-LumineDroid"
+    l_cmd="lunch $DEV-cp2a-$VARIANT"
+    BUILD_CMD="mka bacon"
+    ;;
+  
   AOSPA)
     echo "Paranoid Android AOSPA"
     kernel_aospa="yes"
@@ -81,6 +90,15 @@ case $ROM in
     manifest_branch="17-AOSPA"
     l_cmd=""
     BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+
+  AICP)
+    echo "AICP A16"
+    repo_url="https://github.com/AICP/platform_manifest.git"
+    repo_branch="w16.2"
+    manifest_branch="16-aicp"
+    l_cmd=""
+    BUILD_CMD="brunch fog user"
     ;;
     
   MistOS)
