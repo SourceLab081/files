@@ -73,6 +73,24 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  CharaROM)
+    echo "CharaROM"
+    repo_url="https://git.chararom.xyz/CharaROMAndroid/android.git"
+    repo_branch="truffles"
+    manifest_branch="17-CharaROM"
+    l_cmd="breakfast $DEV $VARIANT"
+    BUILD_CMD="m chaos"
+    ;;
+  
+  Clover)
+    echo "The-Clover-Project"
+    repo_url="https://github.com/The-Clover-Project"
+    repo_branch="17"
+    manifest_branch="17-Clover"
+    l_cmd="lunch  clover_$DEV-cp2a-$VARIANT"
+    BUILD_CMD="mka clover -j$(nproc --all)"
+    ;;
+
   LumineDroid)
     echo "LumineDroid"
     repo_url="https://github.com/LumineDroid/platform_manifest"
