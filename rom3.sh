@@ -44,7 +44,7 @@ sudo mkdir -p "$DOCKER_STORAGE/.repo"
 #sudo chown circleci:circleci "$DOCKER_STORAGE/prebuilts"
 #sudo chown circleci:circleci "$DOCKER_STORAGE/vendor"
 #sudo chown circleci:circleci "$DOCKER_STORAGE/out"
-sudo chown circleci:circleci -R "$DOCKER_STORAGE/
+sudo chown circleci:circleci -R "$DOCKER_STORAGE/"
 
 # 2. Set variabel lingkungan AOSP native untuk memindahkan folder out/
 export OUT_DIR="$DOCKER_STORAGE/out"
