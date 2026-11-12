@@ -73,6 +73,16 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  LumineDroid)
+    echo "LumineDroid"
+    repo_url="https://github.com/LumineDroid/platform_manifest"
+    repo_branch="camellia"
+    manifest_branch="17-LumineDroid"
+    l_cmd="lunch $DEV-cp2a-$VARIANT"
+    #l_cmd="lunch $DEV-bp4a-$VARIANT"
+    BUILD_CMD="mka bacon"
+    ;;
+    
   MiraCLO)
     echo "MIRACLO Project"
     kernel_aospa="yes"
@@ -110,7 +120,7 @@ case $ROM in
     BUILD_CMD="mka clover -j$(nproc --all)"
     ;;
 
-  LumineDroid)
+  LumineDroid-16)
     echo "LumineDroid"
     repo_url="https://github.com/LumineDroid/platform_manifest"
     #repo_branch="camellia"
