@@ -94,9 +94,11 @@ case $ROM in
   LumineDroid)
     echo "LumineDroid"
     repo_url="https://github.com/LumineDroid/platform_manifest"
-    repo_branch="camellia"
-    manifest_branch="17-LumineDroid"
-    l_cmd="lunch $DEV-cp2a-$VARIANT"
+    #repo_branch="camellia"
+    repo_branch="bellflower"
+    manifest_branch="16-LumineDroid"
+    #l_cmd="lunch $DEV-cp2a-$VARIANT"
+    l_cmd="lunch $DEV-bp4a-$VARIANT"
     BUILD_CMD="mka bacon"
     ;;
   
