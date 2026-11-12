@@ -73,6 +73,16 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  MiraCLO)
+    echo "MIRACLO Project"
+    kernel_aospa="yes"
+    repo_url="https://github.com/MIRACLO-Project/manifest"
+    repo_branch="aurora"
+    manifest_branch="17_Project-PenguinOS"
+    l_cmd=""
+    BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
+    ;;
+    
   EvoX)
     echo "Evolution-X"
     repo_url="https://github.com/Evolution-X/manifest"
