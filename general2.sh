@@ -73,6 +73,15 @@ job_start() {
 local_manifest="https://github.com/SourceLab081/local_manifests"
 
 case $ROM in
+  EvoX)
+    echo "Evolution-X"
+    repo_url="https://github.com/Evolution-X/manifest"
+    repo_branch="cnb"
+    manifest_branch="17-EvoX"
+    l_cmd="lunch lineage_$DEV-cp2a-$VARIANT"
+    BUILD_CMD="m evolution"
+    ;;
+
   CharaROM)
     echo "CharaROM"
     repo_url="https://git.chararom.xyz/CharaROMAndroid/android.git"
