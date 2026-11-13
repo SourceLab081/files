@@ -104,7 +104,7 @@ case $ROM in
 
   CharaROM)
     echo "CharaROM"
-    repo_url="https://git.chararom.xyz/CharaROMAndroid/android.git"
+    repo_url="https://github.com/CharaROMAndroid/android"
     repo_branch="truffles"
     manifest_branch="17-CharaROM"
     l_cmd="breakfast $DEV $VARIANT"
