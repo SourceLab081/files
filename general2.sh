@@ -343,8 +343,10 @@ EOF
       sed -i '76,76 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts
       sed -i '5,5 { /^#/! s/^/# / }' device/qcom/sepolicy/generic/product/private/isolated_compute_app.te
       sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te 
-      wget https://github.com/SourceLab081/uploadz/releases/download/v0.2.7/sepolicy.zip 
-      rm -rf device/xiaomi/fog/sepolicy/* && unzip sepolicy.zip -d device/xiaomi/fog/sepolicy/
+      wget https://github.com/SourceLab081/uploadz/releases/download/v0.2.7/sepolicy_new.tar.xz 
+      rm -rf device/xiaomi/fog/sepolicy/* && tar xJf sepolicy_new.tar.xz -C device/xiaomi/fog/sepolicy/
+      rm hardware/qcom/wlan/qcwcn/wpa_supplicant_8_lib/Andorid.mk
+      rm -rf vendor/qcom/opensource/commonsys/nfc
    fi
 }
 
