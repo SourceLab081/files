@@ -343,7 +343,9 @@ EOF
       sed -i '76,76 { /^#/! s/^/# / }' device/qcom/sepolicy_vndr/qva/vendor/common/service_contexts
       sed -i '5,5 { /^#/! s/^/# / }' device/qcom/sepolicy/generic/product/private/isolated_compute_app.te
       sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te 
- fi
+      wget https://github.com/SourceLab081/uploadz/releases/download/v0.2.7/sepolicy.zip 
+      rm -rf device/xiaomi/fog/sepolicy/* && unzip sepolicy.zip -d device/xiaomi/fog/sepolicy/
+   fi
 }
 
 for_PenguinOS2() {
