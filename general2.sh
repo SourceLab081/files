@@ -274,7 +274,7 @@ for_RisingOS() {
 }
 
 for_PenguinOS() {
-   if [ "$ROM" = "PenguinOS" ]; then
+   if [ "$ROM" = "PenguinOS" || "$ROM" = "AOSPA" ]; then
       #1. Fix for error: device/qcom/sepolicy_vndr/SEPolicy.mk: No such file or directory
       TARGET_FILE="device/qcom/sepolicy_vndr/SEPolicy.mk"
       TARGET_DIR="device/qcom/sepolicy_vndr"
