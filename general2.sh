@@ -113,7 +113,7 @@ case $ROM in
   
   Clover)
     echo "The-Clover-Project"
-    repo_url="https://github.com/The-Clover-Project"
+    repo_url="https://github.com/The-Clover-Project/manifest"
     repo_branch="17"
     manifest_branch="17-Clover"
     l_cmd="lunch  clover_$DEV-cp2a-$VARIANT"
