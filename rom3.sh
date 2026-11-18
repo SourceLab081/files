@@ -119,7 +119,7 @@ elif [[ "$ROM" = "PenguinOS" || "$ROM" = "PenguinOS_Next" || "$ROM" = "AOSPA" ]]
        df -h /var/lib/docker
        m -j4 bacon
    else
-      ./rom-build.sh $DEV -l
+      ./rom-build.sh $DEV
    fi
 else
    build_start
