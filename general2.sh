@@ -347,8 +347,9 @@ EOF
       sed -i 's/type vendor_qms_service, service_manager_type;/type vendor_qms_service, vndservice_manager_type;/g' device/qcom/sepolicy_vndr/generic/vendor/common/service.te 
       wget https://github.com/SourceLab081/uploadz/releases/download/v0.2.7/sepolicy_new.tar.xz 
       rm -rf device/xiaomi/fog/sepolicy/* && tar xJf sepolicy_new.tar.xz -C device/xiaomi/fog/sepolicy/
-      rm hardware/qcom/wlan/qcwcn/wpa_supplicant_8_lib/Andorid.mk
+      rm hardware/qcom/wlan/qcwcn/wpa_supplicant_8_lib/Android.mk
       rm -rf vendor/qcom/opensource/commonsys/nfc
+      rm raw.githubusercontent.com-AloozChips-crave-refs-heads-main-evoxp
    fi
 }
 
