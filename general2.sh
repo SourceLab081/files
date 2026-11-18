@@ -349,7 +349,17 @@ EOF
       rm -rf device/xiaomi/fog/sepolicy/* && tar xJf sepolicy_new.tar.xz -C device/xiaomi/fog/sepolicy/
       rm hardware/qcom/wlan/qcwcn/wpa_supplicant_8_lib/Android.mk
       rm -rf vendor/qcom/opensource/commonsys/nfc
-      rm raw.githubusercontent.com-AloozChips-crave-refs-heads-main-evoxp
+      file_bp=hardware/qcom/media/mm-video-v4l2/vidc/venc/Android.bp
+      if ! grep -q 'name: "fastcv_headers"' $file_bp; then
+cat >> $file_bp <<'EOF'
+
+cc_library_headers {
+    name: "fastcv_headers",
+    export_include_dirs: ["inc"],
+    vendor: true,
+}
+EOF
+fi
    fi
 }
 
