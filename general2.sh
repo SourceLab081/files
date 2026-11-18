@@ -49,8 +49,8 @@ job_start() {
     free -h
     ok "cores:"
     nproc --all
-    ok "cpu:" 
-    cat /proc/cpuinfo
+    #ok "cpu:" 
+    #cat /proc/cpuinfo
     
     echo "update=$update"
     first="yes"
