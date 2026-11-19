@@ -135,10 +135,10 @@ case $ROM in
     echo "Paranoid Android AOSPA"
     kernel_aospa="yes"
     repo_url="https://github.com/AOSPA/manifest"
-    repo_branch="vauxite"
+    repo_branch="calcite"
     #repo_url="https://github.com/ArcvelleOS/manifest"
     #repo_branch="vertex"
-    manifest_branch="15-AOSPA"
+    manifest_branch="17-AOSPA"
     l_cmd=""
     BUILD_CMD="brunch penguin_$DEV-cp2a-$VARIANT"
     ;;
