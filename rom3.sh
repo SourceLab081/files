@@ -7,7 +7,7 @@ if [[ -z "$ROM" ]]; then
 fi
 
 DEV="fog"
-VARIANT="user"
+VARIANT="userdebug"
 Fix_Killed_AtSoong="no"
 Fix_Killed_AtCompiling="no"
 usingPixelSepolicy="no"
